@@ -1,0 +1,64 @@
+unit TBGConnection.View.Principal;
+
+interface
+
+uses
+  TBGConnection.View.Interfaces, TBGConnection.Model.Interfaces,
+  System.Classes;
+
+Type
+  TBGConnection = class(TComponent, iTBGConnection)
+    private
+    FQuery: iQuery;
+    FConexao: iConexao;
+    FDriver: iDriver;
+    procedure SetDriver(const Value: iDriver);
+    function GetDriver: iDriver;
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New : iTBGConnection;
+    published
+      property Driver : iDriver read GetDriver write SetDriver;
+  end;
+
+procedure Register;
+
+implementation
+
+{ TBGConnection }
+
+constructor TBGConnection.Create;
+begin
+
+end;
+
+destructor TBGConnection.Destroy;
+begin
+
+  inherited;
+end;
+
+
+function TBGConnection.GetDriver: iDriver;
+begin
+  Result := FDriver;
+end;
+
+class function TBGConnection.New: iTBGConnection;
+begin
+  Result := Self.Create;
+end;
+
+
+procedure TBGConnection.SetDriver(const Value: iDriver);
+begin
+  FDriver := Value;
+end;
+
+procedure Register;
+begin
+  RegisterComponents('TBGConnection', [TBGConnection]);
+end;
+
+end.

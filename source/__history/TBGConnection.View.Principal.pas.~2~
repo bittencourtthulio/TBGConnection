@@ -1,0 +1,41 @@
+unit TBGConnection.View.Principal;
+
+interface
+
+uses
+  TBGConnection.View.Interfaces, TBGConnection.Model.Interfaces;
+
+Type
+  TTBGConnection = class(TInterfacedObject, iTBGConnection)
+    private
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New : iTBGConnection;
+      function GetConexao : iConexao;
+      function GetQuery : iQuery;
+    published
+      property Conexao : iConexao;
+  end;
+
+implementation
+
+{ TTBGConnection }
+
+constructor TTBGConnection.Create;
+begin
+
+end;
+
+destructor TTBGConnection.Destroy;
+begin
+
+  inherited;
+end;
+
+class function TTBGConnection.New: iTBGConnection;
+begin
+  Result := Self.Create;
+end;
+
+end.

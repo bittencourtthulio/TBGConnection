@@ -1,0 +1,103 @@
+unit TBGFiredacDriver.Model.Conexao;
+
+interface
+
+uses
+  TBGConnection.Model.Interfaces, System.Classes, TBGConnection.Model.Conexao.Parametros,
+  FireDAC.Comp.Client;
+
+Type
+  TBGFiredacDriverConexao = class(TComponent, iDriver)
+  private
+    FFConnection: TFDConnection;
+    FFQuery: TFDQuery;
+    procedure SetFConnection(const Value: TFDConnection);
+    procedure SetFQuery(const Value: TFDQuery);
+    procedure SetQuery(const Value: TFDQuery);
+    protected
+      FParametros : iConexaoParametros;
+      function Conexao : iConexao;
+      function Query : iQuery;
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New : iDriver;
+      function Conectar : iConexao;
+      function &End: TComponent;
+      function Parametros: iConexaoParametros;
+
+    published
+      property FConnection : TFDConnection read FFConnection write SetFConnection;
+      property FQuery : TFDQuery read FFQuery write SetFQuery;
+  end;
+
+procedure Register;
+
+implementation
+
+{ TBGFiredacDriverConexao }
+
+function TBGFiredacDriverConexao.Conectar: iConexao;
+begin
+
+end;
+
+function TBGFiredacDriverConexao.&End: TComponent;
+begin
+
+end;
+
+function TBGFiredacDriverConexao.Conexao: iConexao;
+begin
+
+end;
+
+constructor TBGFiredacDriverConexao.Create;
+begin
+  //FParametros := TModelConexaoParametros.New(Self);
+end;
+
+destructor TBGFiredacDriverConexao.Destroy;
+begin
+
+  inherited;
+end;
+
+class function TBGFiredacDriverConexao.New: iDriver;
+begin
+  Result := Self.Create;
+end;
+
+function TBGFiredacDriverConexao.Parametros: iConexaoParametros;
+begin
+  Result := FParametros;
+end;
+
+
+function TBGFiredacDriverConexao.Query: iQuery;
+begin
+
+end;
+
+procedure TBGFiredacDriverConexao.SetFConnection(const Value: TFDConnection);
+begin
+  FFConnection := Value;
+end;
+
+procedure TBGFiredacDriverConexao.SetFQuery(const Value: TFDQuery);
+begin
+  FFQuery := Value;
+end;
+
+procedure TBGFiredacDriverConexao.SetQuery(const Value: TFDQuery);
+begin
+  FQuery := Value;
+end;
+
+procedure Register;
+begin
+  RegisterComponents('TBGConnection', [TBGFiredacDriverConexao]);
+end;
+
+
+end.

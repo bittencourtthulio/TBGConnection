@@ -1,0 +1,17 @@
+unit TBGConnection.View.Interfaces;
+
+interface
+
+uses
+  TBGConnection.Model.Interfaces;
+
+type
+  iTBGConnection = interface
+    function GetConexao : iConexao;
+    function GetQuery : iQuery;
+  end;
+
+implementation
+
+
+end.
