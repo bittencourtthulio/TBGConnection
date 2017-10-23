@@ -23,6 +23,7 @@ type
     ['{FF14FC96-C57C-4BD0-9AFB-5F7AAD5D5138}']
     function Conectar : iConexao;
     function &End: TComponent;
+    function Connection : TCustomConnection;
     //function Parametros: iConexaoParametros;
   end;
 
@@ -36,6 +37,7 @@ type
     function Fields : TFields;
     function &End: TComponent;
   end;
+
 
   iConexaoParametros = interface
     ['{26A78068-9C26-4381-BA90-B7313F9ACAB7}']

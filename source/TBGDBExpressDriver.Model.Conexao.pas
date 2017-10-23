@@ -4,7 +4,7 @@ interface
 
 uses
   TBGConnection.Model.Interfaces, System.Classes,
-  Data.SqlExpr;
+  Data.SqlExpr, Data.DB;
 
 Type
   TDBExpressDriverModelConexao = class(TInterfacedObject, iConexao)
@@ -17,6 +17,7 @@ Type
       //iConexao
       function Conectar : iConexao;
       function &End: TComponent;
+      function Connection : TCustomConnection;
   end;
 
 implementation
@@ -30,6 +31,11 @@ begin
 end;
 
 function TDBExpressDriverModelConexao.&End: TComponent;
+begin
+  Result := FConnection;
+end;
+
+function TDBExpressDriverModelConexao.Connection: TCustomConnection;
 begin
   Result := FConnection;
 end;

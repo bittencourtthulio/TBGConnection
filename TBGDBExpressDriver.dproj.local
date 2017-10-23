@@ -13,6 +13,6 @@
     <Transaction>2017/10/22 13:03:42.000.855,=DbxCommonDriver.dcp</Transaction>
     <Transaction>2017/10/22 13:03:42.000.872,=TBGConnection.dcp</Transaction>
     <Transaction>2017/10/22 13:03:42.000.846,=dbrtl.dcp</Transaction>
-    <Transaction>2017/10/22 13:22:05.076,=dsnap.dcp</Transaction>
+    <Transaction>2017/10/22 13:22:05.000.076,=dsnap.dcp</Transaction>
   </Transactions>
 </BorlandProject>

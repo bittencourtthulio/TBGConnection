@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
-  <Transactions>
-    <Transaction>2017/10/22 13:46:05.740,=rtl.dcp</Transaction>
-    <Transaction>2017/10/22 13:46:26.958,D:\Projetos\Componentes\TBGConnection\TBGZeosDriver.dproj=C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Package1.dproj</Transaction>
-    <Transaction>2017/10/22 13:46:33.799,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
-    <Transaction>2017/10/22 13:46:45.170,D:\Projetos\Componentes\TBGConnection\source\TBGZeosDriver.Model.Conexao.pas=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
-    <Transaction>2017/10/22 13:46:48.540,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
-    <Transaction>2017/10/22 13:47:00.607,D:\Projetos\Componentes\TBGConnection\source\TBGZeosDriver.Model.Query.pas=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
-    <Transaction>2017/10/22 13:47:04.560,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
-    <Transaction>2017/10/22 13:47:14.547,D:\Projetos\Componentes\TBGConnection\source\TBGZeosDriver.View.Driver.pas=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
-    <Transaction>2017/10/22 13:52:50.167,=dbrtl.dcp</Transaction>
-    <Transaction>2017/10/22 13:52:50.175,=ZComponent.dcp</Transaction>
-    <Transaction>2017/10/22 13:52:50.184,=ZDbc.dcp</Transaction>
-    <Transaction>2017/10/22 13:52:50.191,=ZPlain.dcp</Transaction>
-    <Transaction>2017/10/22 13:52:50.199,=ZCore.dcp</Transaction>
-    <Transaction>2017/10/22 13:52:50.207,=ZParseSql.dcp</Transaction>
-    <Transaction>2017/10/22 13:52:50.217,=TBGConnection.dcp</Transaction>
+	<Transactions>
+    <Transaction>2017/10/22 13:46:05.000.740,=rtl.dcp</Transaction>
+    <Transaction>2017/10/22 13:46:26.000.958,D:\Projetos\Componentes\TBGConnection\TBGZeosDriver.dproj=C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Package1.dproj</Transaction>
+    <Transaction>2017/10/22 13:46:33.000.799,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/10/22 13:46:45.000.170,D:\Projetos\Componentes\TBGConnection\source\TBGZeosDriver.Model.Conexao.pas=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/10/22 13:46:48.000.540,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/10/22 13:47:00.000.607,D:\Projetos\Componentes\TBGConnection\source\TBGZeosDriver.Model.Query.pas=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/10/22 13:47:04.000.560,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/10/22 13:47:14.000.547,D:\Projetos\Componentes\TBGConnection\source\TBGZeosDriver.View.Driver.pas=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/10/22 13:52:50.000.167,=dbrtl.dcp</Transaction>
+    <Transaction>2017/10/22 13:52:50.000.217,=TBGConnection.dcp</Transaction>
+    <Transaction>2017/10/22 13:52:50.000.191,=ZPlain.dcp</Transaction>
+    <Transaction>2017/10/22 13:52:50.000.207,=ZParseSql.dcp</Transaction>
+    <Transaction>2017/10/22 13:52:50.000.175,=ZComponent.dcp</Transaction>
+    <Transaction>2017/10/22 13:52:50.000.199,=ZCore.dcp</Transaction>
+    <Transaction>2017/10/22 13:52:50.000.184,=ZDbc.dcp</Transaction>
   </Transactions>
 </BorlandProject>

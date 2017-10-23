@@ -26,6 +26,8 @@ procedure Register;
 
 implementation
 
+{$R Icones.res}
+
 { TTBGConnection }
 
 constructor TTBGConnection.Create;

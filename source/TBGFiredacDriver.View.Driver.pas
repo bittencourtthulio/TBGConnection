@@ -4,7 +4,7 @@ interface
 
 uses
   TBGConnection.Model.Interfaces, System.Classes, TBGConnection.Model.Conexao.Parametros,
-  FireDAC.Comp.Client, System.Generics.Collections;
+  FireDAC.Comp.Client, System.Generics.Collections, FireDAC.DApt;
 
 Type
   TBGFiredacDriverConexao = class(TComponent, iDriver)
@@ -34,6 +34,8 @@ Type
 procedure Register;
 
 implementation
+
+{$R Icones.res}
 
 uses
   TBGFiredacDriver.Model.Conexao, TBGFiredacDriver.Model.Query,

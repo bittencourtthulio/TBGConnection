@@ -3,7 +3,7 @@ unit TBGFiredacDriver.Model.Conexao;
 interface
 
 uses
-  TBGConnection.Model.Interfaces, FireDAC.Comp.Client, System.Classes;
+  TBGConnection.Model.Interfaces, FireDAC.Comp.Client, System.Classes, Data.DB;
 
 Type
   TFiredacDriverModelConexao = class(TInterfacedObject, iConexao)
@@ -16,6 +16,7 @@ Type
       //iConexao
       function Conectar : iConexao;
       function &End: TComponent;
+      function Connection : TCustomConnection;
   end;
 
 implementation
@@ -29,6 +30,11 @@ begin
 end;
 
 function TFiredacDriverModelConexao.&End: TComponent;
+begin
+  Result := FConnection;
+end;
+
+function TFiredacDriverModelConexao.Connection: TCustomConnection;
 begin
   Result := FConnection;
 end;

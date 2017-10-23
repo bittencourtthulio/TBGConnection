@@ -16,6 +16,8 @@ Type
       FChangeDataSet : TChangeDataSet;
       DataSetProvider1: TDataSetProvider;
       ClientDataSet1: TClientDataSet;
+    procedure InstaciarComponentes;
+    procedure AtribuirDataSet;
     public
       constructor Create(Conexao : TSQLConnection);
       destructor Destroy; override;
@@ -28,6 +30,7 @@ Type
       function DataSource(Value : TDataSource) : iQuery;
       function Fields : TFields;
       function &End: TComponent;
+      procedure ApplyUpdates(DataSet : TDataSet);
   end;
 
 implementation
@@ -51,26 +54,44 @@ begin
   Result := ClientDataSet1.Fields;
 end;
 
-constructor TDBExpressModelQuery.Create(Conexao : TSQLConnection);
+procedure TDBExpressModelQuery.ApplyUpdates(DataSet: TDataSet);
 begin
-  FConexao := Conexao;
+  ClientDataSet1.ApplyUpdates(0);
+end;
+
+procedure TDBExpressModelQuery.AtribuirDataSet;
+begin
+  if not (Assigned(FDataSource) or Assigned(FDataSet)) then
+    raise Exception.Create('Não Foi Instanciado um Container DataSet/DataSource');
+  if Assigned(FDataSource) then
+    FDataSource.DataSet := ClientDataSet1;
+  if Assigned(FDataSet) then
+    FDataSet := ClientDataSet1;
+end;
+
+procedure TDBExpressModelQuery.InstaciarComponentes;
+begin
   FQuery := TSQLQuery.Create(Self);
   FQuery.SQLConnection := FConexao;
-
   DataSetProvider1 := TDataSetProvider.Create(Self);
   ClientDataSet1 := TClientDataSet.Create(Self);
-
   DataSetProvider1.DataSet := FQuery;
   DataSetProvider1.Options := [poAllowCommandText];
   DataSetProvider1.Name := 'DataSetProvider1';
   ClientDataSet1.ProviderName := DataSetProvider1.Name;
   ClientDataSet1.FetchOnDemand := true;
+  ClientDataSet1.AfterPost := ApplyUpdates;
+end;
 
+constructor TDBExpressModelQuery.Create(Conexao : TSQLConnection);
+begin
+  FConexao := Conexao;
+  InstaciarComponentes;
 end;
 
 function TDBExpressModelQuery.DataSet: TDataSet;
 begin
-  Result := TDataSet(FQuery);
+  Result := TDataSet(ClientDataSet1);
 end;
 
 function TDBExpressModelQuery.DataSet(Value: TDataSet): iQuery;
@@ -101,16 +122,7 @@ end;
 function TDBExpressModelQuery.Open(aSQL: String): iQuery;
 begin
   Result := Self;
-
-  if not (Assigned(FDataSource) or Assigned(FDataSet))then
-    raise Exception.Create('Não Foi Instanciado um Container DataSet/DataSource');
-
-  if Assigned(FDataSource) then
-    FDataSource.DataSet := ClientDataSet1;
-
-  if Assigned(FDataSet) then
-    FDataSet := ClientDataSet1;
-
+  AtribuirDataSet;
   ClientDataSet1.CommandText := '';
   ClientDataSet1.CommandText := aSQL;
   ClientDataSet1.Open;

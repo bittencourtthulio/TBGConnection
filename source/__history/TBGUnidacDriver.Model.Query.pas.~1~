@@ -1,0 +1,7 @@
+unit TBGUnidacDriver.Model.Query;
+
+interface
+
+implementation
+
+end.

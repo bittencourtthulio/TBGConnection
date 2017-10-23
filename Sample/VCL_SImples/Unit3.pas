@@ -5,47 +5,65 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  TBGConnection.View.Principal, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait,
-  Data.DB, FireDAC.Comp.Client, TBGFiredacDriver.Model.Conexao,
-  FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
-  FireDAC.Comp.DataSet, TBGFiredacDriver.View.Driver, FireDAC.Phys.FB,
+  Data.DB, FireDAC.Comp.Client, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
+  FireDAC.Comp.DataSet, FireDAC.Phys.FB,
   FireDAC.Phys.FBDef, Vcl.Grids, Vcl.DBGrids, Datasnap.DBClient, Vcl.ExtCtrls,
-  Vcl.DBCtrls,  TBGConnection.Model.Interfaces, Vcl.Mask, Data.FMTBcd,
-  Data.SqlExpr, Data.DBXFirebird, TBGDBExpressDriver.View.Driver,
-  Datasnap.Provider, ZAbstractRODataset, ZAbstractDataset, ZDataset,
-  ZAbstractConnection, ZConnection, TBGZeosDriver.View.Driver;
+  Vcl.DBCtrls,  Vcl.Mask, Data.FMTBcd,
+  Data.SqlExpr, Data.DBXFirebird, Datasnap.Provider, ZAbstractRODataset, ZAbstractDataset, ZDataset,
+  ZAbstractConnection, ZConnection,  Vcl.Imaging.jpeg,
+  TBGFiredacDriver.View.Driver, TBGDBExpressDriver.View.Driver,
+  TBGConnection.View.Principal, TBGZeosDriver.View.Driver, TBGConnection.Model.Interfaces,
+  MemDS, DBAccess, Uni, TBGUnidacDriver.View.Driver, UniProvider,
+  InterBaseUniProvider;
 
 type
   TForm3 = class(TForm)
     Button1: TButton;
     FDConnection1: TFDConnection;
-    BGFiredacDriverConexao1: TBGFiredacDriverConexao;
     DataSource1: TDataSource;
     DBNavigator1: TDBNavigator;
     Button3: TButton;
     Button2: TButton;
-    Edit1: TEdit;
-    Edit2: TEdit;
-    Edit3: TEdit;
-    Edit4: TEdit;
-    TesteConnection: TSQLConnection;
-    BGDBExpressDriverConexao1: TBGDBExpressDriverConexao;
-    TBGConnection1: TTBGConnection;
     DBGrid1: TDBGrid;
     ZConnection1: TZConnection;
+    Button4: TButton;
+    Button5: TButton;
+    Button6: TButton;
+    Button7: TButton;
+    GroupBox1: TGroupBox;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    Image1: TImage;
+    ComboBox1: TComboBox;
+    Label3: TLabel;
+    SQLConnection1: TSQLConnection;
     BGZeosDriverConexao1: TBGZeosDriverConexao;
+    TBGConnection1: TTBGConnection;
+    BGDBExpressDriverConexao1: TBGDBExpressDriverConexao;
+    BGFiredacDriverConexao1: TBGFiredacDriverConexao;
+    UniConnection1: TUniConnection;
+    BGUnidacDriverConexao1: TBGUnidacDriverConexao;
+    InterBaseUniProvider1: TInterBaseUniProvider;
     procedure Button1Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure DataSource1DataChange(Sender: TObject; Field: TField);
+    procedure Button4Click(Sender: TObject);
+    procedure Button7Click(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
+    procedure Button6Click(Sender: TObject);
   private
     { Private declarations }
     FQuery : iQuery;
   public
     { Public declarations }
+    procedure preencherDados;
+    procedure SelecionaDriver;
   end;
 
 var
@@ -57,9 +75,14 @@ implementation
 
 procedure TForm3.Button1Click(Sender: TObject);
 begin
+  SelecionaDriver;
+  FQuery := TBGConnection1.Driver.Query;
+
   FQuery
     .DataSource(DataSource1)
-    .Open('SELECT * FROM NF');
+    .Open('SELECT * FROM CLIENTE');
+
+  FQuery.Fields.FieldByName('NOME').DisplayWidth := 105;
 end;
 
 procedure TForm3.Button2Click(Sender: TObject);
@@ -71,23 +94,58 @@ procedure TForm3.Button3Click(Sender: TObject);
 begin
   ShowMessage(
       FQuery
-      .Fields
-      .FieldByName('DATA_EMISSAO')
+      .DataSet
+      .FieldByName('NOME')
       .AsString
   );
 end;
 
-procedure TForm3.DataSource1DataChange(Sender: TObject; Field: TField);
+procedure TForm3.Button4Click(Sender: TObject);
+var
+ i : Integer;
 begin
-  Edit1.Text := FQuery.Fields.FieldByName('DATA_EMISSAO').AsString;
-  Edit2.Text := FQuery.Fields.FieldByName('USUARIO_INCLUSAO_DES').AsString;
-  Edit3.Text := FQuery.Fields.FieldByName('HORA_EMISSAO').AsString;
-  Edit4.Text := FQuery.Fields.FieldByName('HORA_SAIDA').AsString;
+  FQuery.DataSet.Insert;
 end;
 
-procedure TForm3.FormCreate(Sender: TObject);
+procedure TForm3.Button5Click(Sender: TObject);
 begin
-  FQuery := TBGConnection1.Driver.Query;
+  FQuery.DataSet.Edit;
+end;
+
+procedure TForm3.Button6Click(Sender: TObject);
+begin
+  FQuery.DataSet.Delete;
+end;
+
+procedure TForm3.Button7Click(Sender: TObject);
+begin
+  preencherDados;
+  FQuery.DataSet.Post;
+end;
+
+procedure TForm3.DataSource1DataChange(Sender: TObject; Field: TField);
+begin
+  if DataSource1.State = dsBrowse then
+  begin
+    Edit1.Text := FQuery.Fields.FieldByName('ID').AsString;
+    Edit2.Text := FQuery.Fields.FieldByName('NOME').AsString;
+  end;
+end;
+
+procedure TForm3.preencherDados;
+begin
+  FQuery.DataSet.FieldByName('ID').Value := StrToInt(Edit1.Text);
+  FQuery.DataSet.FieldByName('NOME').Value := Edit2.Text;
+end;
+
+procedure TForm3.SelecionaDriver;
+begin
+  case ComboBox1.ItemIndex of
+    0 : TBGConnection1.Driver := BGDBExpressDriverConexao1;
+    1 : TBGConnection1.Driver := BGFiredacDriverConexao1;
+    2 : TBGConnection1.Driver := BGZeosDriverConexao1;
+    3 : TBGConnection1.Driver := BGUnidacDriverConexao1;
+  end;
 end;
 
 end.

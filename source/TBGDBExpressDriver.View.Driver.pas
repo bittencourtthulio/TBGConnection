@@ -35,6 +35,8 @@ procedure Register;
 
 implementation
 
+{$R Icones.res}
+
 uses
   System.SysUtils, TBGDBExpressDriver.Model.Query,
   TBGDBExpressDriver.Model.Conexao;

@@ -35,6 +35,8 @@ procedure Register;
 
 implementation
 
+{$R Icones.res}
+
 uses
   System.SysUtils, TBGZeosDriver.Model.Conexao, TBGZeosDriver.Model.Query;
 

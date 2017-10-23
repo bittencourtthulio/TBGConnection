@@ -4,7 +4,7 @@ interface
 
 uses
   TBGConnection.Model.Interfaces, System.Classes,
-  ZConnection;
+  ZConnection, Data.DB;
 
 Type
   TZeosDriverModelConexao = class(TInterfacedObject, iConexao)
@@ -17,9 +17,13 @@ Type
       //iConexao
       function Conectar : iConexao;
       function &End: TComponent;
+      function Connection : TCustomConnection;
   end;
 
 implementation
+
+uses
+  System.SysUtils;
 
 { TZeosDriverModelConexao }
 
@@ -32,6 +36,11 @@ end;
 function TZeosDriverModelConexao.&End: TComponent;
 begin
   Result := FConnection;
+end;
+
+function TZeosDriverModelConexao.Connection: TCustomConnection;
+begin
+  raise Exception.Create('Função não suportada para este driver');
 end;
 
 constructor TZeosDriverModelConexao.Create(Connection : TZConnection);
