@@ -76,13 +76,14 @@ implementation
 procedure TForm3.Button1Click(Sender: TObject);
 begin
   SelecionaDriver;
+
   FQuery := TBGConnection1.Driver.Query;
 
   FQuery
     .DataSource(DataSource1)
-    .Open('SELECT * FROM CLIENTE');
+    .Open('SELECT * FROM CLIENTE ORDER BY ID');
 
-  FQuery.Fields.FieldByName('NOME').DisplayWidth := 105;
+  FQuery.Fields.FieldByName('NOME').DisplayWidth := 102;
 end;
 
 procedure TForm3.Button2Click(Sender: TObject);

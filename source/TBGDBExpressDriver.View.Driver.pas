@@ -102,7 +102,7 @@ end;
 
 procedure Register;
 begin
-  RegisterComponents('TBGConnection', [TBGDBExpressDriverConexao]);
+  RegisterComponents('TBGAbstractConnection', [TBGDBExpressDriverConexao]);
 end;
 
 

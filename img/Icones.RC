@@ -1,4 +1,4 @@
-TTBGCONNECTION BITMAP TBGCONNECTION.BMP
+TTBGAbstractConnection BITMAP TTBGAbstractConnection.BMP
 TBGFiredacDriverConexao BITMAP TBGFiredacDriverConexao.BMP
 TBGDBExpressDriverConexao BITMAP TBGDBExpressDriverConexao.BMP
 TBGZeosDriverConexao BITMAP TBGZeosDriverConexao.BMP

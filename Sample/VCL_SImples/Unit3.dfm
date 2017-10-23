@@ -1,9 +1,9 @@
 object Form3: TForm3
   Left = 0
   Top = 0
-  Caption = 'Form3'
-  ClientHeight = 613
-  ClientWidth = 751
+  Caption = 'DEMO - TBGAbstractConnection'
+  ClientHeight = 584
+  ClientWidth = 731
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,10 +15,11 @@ object Form3: TForm3
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
-    Left = 8
-    Top = 8
-    Width = 730
-    Height = 58
+    Left = 0
+    Top = 0
+    Width = 731
+    Height = 66
+    Align = alTop
     Picture.Data = {
       0A544A504547496D6167657C940000FFD8FFE000104A46494600010101004800
       480000FFE13222687474703A2F2F6E732E61646F62652E636F6D2F7861702F31
@@ -1209,18 +1210,20 @@ object Form3: TForm3
       2450BDAF6FC30DDC85F3EAFE1845CBA5E57A8A6BD7A7AFDD80EE5C2C5C901EBE
       51EDF661B3972B04F2AEBDF09705C95E3EAEBEB8457A1362F5C22E4244BB2E1A
       1426B844A126B8F10BFFD9}
+    ExplicitLeft = 5
+    ExplicitWidth = 738
   end
   object Label3: TLabel
-    Left = 440
-    Top = 83
+    Left = 424
+    Top = 88
     Width = 85
     Height = 13
     Caption = 'Driver de Acesso:'
   end
   object Button1: TButton
-    Left = 5
-    Top = 568
-    Width = 100
+    Left = 10
+    Top = 535
+    Width = 95
     Height = 35
     Caption = 'Open'
     TabOrder = 0
@@ -1229,24 +1232,24 @@ object Form3: TForm3
   object DBNavigator1: TDBNavigator
     Left = 8
     Top = 407
-    Width = 730
+    Width = 710
     Height = 26
     DataSource = DataSource1
     TabOrder = 1
   end
   object Button3: TButton
-    Left = 641
-    Top = 568
-    Width = 100
+    Left = 616
+    Top = 535
+    Width = 95
     Height = 35
     Caption = 'FieldByName'
     TabOrder = 2
     OnClick = Button3Click
   end
   object Button2: TButton
-    Left = 535
-    Top = 568
-    Width = 100
+    Left = 515
+    Top = 535
+    Width = 95
     Height = 35
     Caption = 'ExecSQL'
     TabOrder = 3
@@ -1255,7 +1258,7 @@ object Form3: TForm3
   object DBGrid1: TDBGrid
     Left = 8
     Top = 120
-    Width = 733
+    Width = 714
     Height = 281
     DataSource = DataSource1
     TabOrder = 4
@@ -1267,35 +1270,35 @@ object Form3: TForm3
   end
   object Button4: TButton
     Left = 111
-    Top = 568
-    Width = 100
+    Top = 535
+    Width = 95
     Height = 35
     Caption = 'Insert'
     TabOrder = 5
     OnClick = Button4Click
   end
   object Button5: TButton
-    Left = 217
-    Top = 568
-    Width = 100
+    Left = 212
+    Top = 535
+    Width = 95
     Height = 35
     Caption = 'Update'
     TabOrder = 6
     OnClick = Button5Click
   end
   object Button6: TButton
-    Left = 323
-    Top = 568
-    Width = 100
+    Left = 313
+    Top = 535
+    Width = 95
     Height = 35
     Caption = 'Delete'
     TabOrder = 7
     OnClick = Button6Click
   end
   object Button7: TButton
-    Left = 429
-    Top = 568
-    Width = 100
+    Left = 414
+    Top = 535
+    Width = 95
     Height = 35
     Caption = 'Post'
     TabOrder = 8
@@ -1304,8 +1307,8 @@ object Form3: TForm3
   object GroupBox1: TGroupBox
     Left = 5
     Top = 439
-    Width = 736
-    Height = 123
+    Width = 717
+    Height = 90
     Caption = ' Cadastro '
     TabOrder = 9
     object Label1: TLabel
@@ -1316,8 +1319,8 @@ object Form3: TForm3
       Caption = 'ID: '
     end
     object Label2: TLabel
-      Left = 27
-      Top = 68
+      Left = 119
+      Top = 22
       Width = 36
       Height = 13
       Caption = 'NOME: '
@@ -1328,20 +1331,18 @@ object Form3: TForm3
       Width = 86
       Height = 21
       TabOrder = 0
-      Text = 'Edit1'
     end
     object Edit2: TEdit
-      Left = 27
-      Top = 87
+      Left = 119
+      Top = 41
       Width = 409
       Height = 21
       TabOrder = 1
-      Text = 'Edit2'
     end
   end
   object ComboBox1: TComboBox
-    Left = 531
-    Top = 80
+    Left = 515
+    Top = 85
     Width = 207
     Height = 21
     TabOrder = 10
@@ -1429,7 +1430,8 @@ object Form3: TForm3
     Top = 272
   end
   object TBGConnection1: TTBGConnection
-    Left = 264
+    Driver = BGDBExpressDriverConexao1
+    Left = 240
     Top = 224
   end
   object BGDBExpressDriverConexao1: TBGDBExpressDriverConexao
@@ -1461,6 +1463,6 @@ object Form3: TForm3
   end
   object InterBaseUniProvider1: TInterBaseUniProvider
     Left = 648
-    Top = 336
+    Top = 344
   end
 end
