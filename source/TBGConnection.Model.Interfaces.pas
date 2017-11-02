@@ -24,6 +24,9 @@ type
     function Conectar : iConexao;
     function &End: TComponent;
     function Connection : TCustomConnection;
+    function Commit : iConexao;
+    function StartTransaction : iConexao;
+    function RollbackTransaction : iConexao;
     //function Parametros: iConexaoParametros;
   end;
 

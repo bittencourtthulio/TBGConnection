@@ -17,11 +17,20 @@ Type
       function Conectar : iConexao;
       function &End: TComponent;
       function Connection : TCustomConnection;
+      function StartTransaction : iConexao;
+      function RollbackTransaction : iConexao;
+      function Commit : iConexao;
   end;
 
 implementation
 
 { TUnidacDriverModelConexao }
+
+function TUnidacDriverModelConexao.Commit: iConexao;
+begin
+  Result := Self;
+  FConnection.Commit;
+end;
 
 function TUnidacDriverModelConexao.Conectar: iConexao;
 begin
@@ -53,6 +62,18 @@ end;
 class function TUnidacDriverModelConexao.New(Connection : TUniConnection) : iConexao;
 begin
   Result := Self.Create(Connection);
+end;
+
+function TUnidacDriverModelConexao.RollbackTransaction: iConexao;
+begin
+  Result := Self;
+  FConnection.Rollback;
+end;
+
+function TUnidacDriverModelConexao.StartTransaction: iConexao;
+begin
+  Result := Self;
+  FConnection.StartTransaction;
 end;
 
 end.

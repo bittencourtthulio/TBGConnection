@@ -16,8 +16,8 @@ uses
   ZAbstractConnection, ZConnection,  Vcl.Imaging.jpeg,
   TBGFiredacDriver.View.Driver, TBGDBExpressDriver.View.Driver,
   TBGConnection.View.Principal, TBGZeosDriver.View.Driver, TBGConnection.Model.Interfaces,
-  MemDS, DBAccess, Uni, TBGUnidacDriver.View.Driver, UniProvider,
-  InterBaseUniProvider;
+  TBGQuery.View.Principal, TBGUnidacDriver.View.Driver, UniProvider,
+  InterBaseUniProvider, DBAccess, Uni;
 
 type
   TForm3 = class(TForm)
@@ -46,9 +46,10 @@ type
     TBGConnection1: TTBGConnection;
     BGDBExpressDriverConexao1: TBGDBExpressDriverConexao;
     BGFiredacDriverConexao1: TBGFiredacDriverConexao;
+    TBGQuery1: TTBGQuery;
     UniConnection1: TUniConnection;
-    BGUnidacDriverConexao1: TBGUnidacDriverConexao;
     InterBaseUniProvider1: TInterBaseUniProvider;
+    BGUnidacDriverConexao1: TBGUnidacDriverConexao;
     procedure Button1Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -59,7 +60,6 @@ type
     procedure Button6Click(Sender: TObject);
   private
     { Private declarations }
-    FQuery : iQuery;
   public
     { Public declarations }
     procedure preencherDados;
@@ -76,25 +76,27 @@ implementation
 procedure TForm3.Button1Click(Sender: TObject);
 begin
   SelecionaDriver;
-
-  FQuery := TBGConnection1.Driver.Query;
-
-  FQuery
-    .DataSource(DataSource1)
-    .Open('SELECT * FROM CLIENTE ORDER BY ID');
-
-  FQuery.Fields.FieldByName('NOME').DisplayWidth := 102;
+  TBGQuery1.Query.Open('SELECT * FROM CLIENTE ORDER BY ID');
+  TBGQuery1.Query.Fields.FieldByName('NOME').DisplayWidth := 102;
 end;
 
 procedure TForm3.Button2Click(Sender: TObject);
 begin
-  FQuery.ExecSQL('INSERT INTO TESTE (ID) VALUES (1)');
+  TBGConnection1.Driver.Conexao.StartTransaction;
+  try
+    TBGQuery1.Query.ExecSQL('INSERT INTO CLIENTE (ID, NOME) VALUES ((SELECT MAX(ID) +1 FROM CLIENTE), ' + QuotedStr('Registro Inserido via ExecSQL') + ')');
+    TBGConnection1.Driver.Conexao.Commit;
+  except
+    TBGConnection1.Driver.Conexao.RollbackTransaction;
+  end;
+
 end;
 
 procedure TForm3.Button3Click(Sender: TObject);
 begin
   ShowMessage(
-      FQuery
+      TBGQuery1
+      .Query
       .DataSet
       .FieldByName('NOME')
       .AsString
@@ -105,38 +107,38 @@ procedure TForm3.Button4Click(Sender: TObject);
 var
  i : Integer;
 begin
-  FQuery.DataSet.Insert;
+  TBGQuery1.Query.DataSet.Insert;
 end;
 
 procedure TForm3.Button5Click(Sender: TObject);
 begin
-  FQuery.DataSet.Edit;
+  TBGQuery1.Query.DataSet.Edit;
 end;
 
 procedure TForm3.Button6Click(Sender: TObject);
 begin
-  FQuery.DataSet.Delete;
+  TBGQuery1.Query.DataSet.Delete;
 end;
 
 procedure TForm3.Button7Click(Sender: TObject);
 begin
   preencherDados;
-  FQuery.DataSet.Post;
+  TBGQuery1.Query.DataSet.Post;
 end;
 
 procedure TForm3.DataSource1DataChange(Sender: TObject; Field: TField);
 begin
   if DataSource1.State = dsBrowse then
   begin
-    Edit1.Text := FQuery.Fields.FieldByName('ID').AsString;
-    Edit2.Text := FQuery.Fields.FieldByName('NOME').AsString;
+    Edit1.Text := TBGQuery1.Query.Fields.FieldByName('ID').AsString;
+    Edit2.Text := TBGQuery1.Query.Fields.FieldByName('NOME').AsString;
   end;
 end;
 
 procedure TForm3.preencherDados;
 begin
-  FQuery.DataSet.FieldByName('ID').Value := StrToInt(Edit1.Text);
-  FQuery.DataSet.FieldByName('NOME').Value := Edit2.Text;
+  TBGQuery1.Query.DataSet.FieldByName('ID').Value := StrToInt(Edit1.Text);
+  TBGQuery1.Query.DataSet.FieldByName('NOME').Value := Edit2.Text;
 end;
 
 procedure TForm3.SelecionaDriver;
@@ -145,7 +147,7 @@ begin
     0 : TBGConnection1.Driver := BGDBExpressDriverConexao1;
     1 : TBGConnection1.Driver := BGFiredacDriverConexao1;
     2 : TBGConnection1.Driver := BGZeosDriverConexao1;
-    3 : TBGConnection1.Driver := BGUnidacDriverConexao1;
+   // 3 : TBGConnection1.Driver := BGUnidacDriverConexao1;
   end;
 end;
 

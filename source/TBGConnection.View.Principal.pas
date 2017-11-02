@@ -26,7 +26,7 @@ procedure Register;
 
 implementation
 
-{$R Icones.res}
+{$R Icones.dcr}
 
 { TTBGConnection }
 

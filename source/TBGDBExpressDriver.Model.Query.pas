@@ -81,6 +81,7 @@ begin
   ClientDataSet1.ProviderName := DataSetProvider1.Name;
   ClientDataSet1.FetchOnDemand := true;
   ClientDataSet1.AfterPost := ApplyUpdates;
+  ClientDataSet1.AfterDelete := ApplyUpdates;
 end;
 
 constructor TDBExpressModelQuery.Create(Conexao : TSQLConnection);

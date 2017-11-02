@@ -18,6 +18,9 @@ Type
       function Conectar : iConexao;
       function &End: TComponent;
       function Connection : TCustomConnection;
+      function StartTransaction : iConexao;
+      function RollbackTransaction : iConexao;
+      function Commit : iConexao;
   end;
 
 implementation
@@ -26,6 +29,12 @@ uses
   System.SysUtils;
 
 { TZeosDriverModelConexao }
+
+function TZeosDriverModelConexao.Commit: iConexao;
+begin
+  Result := Self;
+  FConnection.Commit;
+end;
 
 function TZeosDriverModelConexao.Conectar: iConexao;
 begin
@@ -57,6 +66,18 @@ end;
 class function TZeosDriverModelConexao.New(Connection : TZConnection) : iConexao;
 begin
   Result := Self.Create(Connection);
+end;
+
+function TZeosDriverModelConexao.RollbackTransaction: iConexao;
+begin
+  Result := Self;
+  FConnection.Rollback;
+end;
+
+function TZeosDriverModelConexao.StartTransaction: iConexao;
+begin
+  Result := Self;
+  FConnection.StartTransaction;
 end;
 
 end.

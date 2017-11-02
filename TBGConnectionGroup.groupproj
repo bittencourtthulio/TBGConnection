@@ -21,6 +21,9 @@
         <Projects Include="TBGUniDacDriver.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="TBGQuery.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -83,14 +86,23 @@
     <Target Name="TBGUniDacDriver:Make">
         <MSBuild Projects="TBGUniDacDriver.dproj" Targets="Make"/>
     </Target>
+    <Target Name="TBGQuery">
+        <MSBuild Projects="TBGQuery.dproj"/>
+    </Target>
+    <Target Name="TBGQuery:Clean">
+        <MSBuild Projects="TBGQuery.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TBGQuery:Make">
+        <MSBuild Projects="TBGQuery.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="TBGConnection;VCLSimples;TBGFiredacDriver;TBGDBExpressDriver;TBGZeosDriver;TBGUniDacDriver"/>
+        <CallTarget Targets="TBGConnection;VCLSimples;TBGFiredacDriver;TBGDBExpressDriver;TBGZeosDriver;TBGUniDacDriver;TBGQuery"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="TBGConnection:Clean;VCLSimples:Clean;TBGFiredacDriver:Clean;TBGDBExpressDriver:Clean;TBGZeosDriver:Clean;TBGUniDacDriver:Clean"/>
+        <CallTarget Targets="TBGConnection:Clean;VCLSimples:Clean;TBGFiredacDriver:Clean;TBGDBExpressDriver:Clean;TBGZeosDriver:Clean;TBGUniDacDriver:Clean;TBGQuery:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="TBGConnection:Make;VCLSimples:Make;TBGFiredacDriver:Make;TBGDBExpressDriver:Make;TBGZeosDriver:Make;TBGUniDacDriver:Make"/>
+        <CallTarget Targets="TBGConnection:Make;VCLSimples:Make;TBGFiredacDriver:Make;TBGDBExpressDriver:Make;TBGZeosDriver:Make;TBGUniDacDriver:Make;TBGQuery:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

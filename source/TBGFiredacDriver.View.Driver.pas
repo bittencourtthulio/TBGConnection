@@ -35,7 +35,6 @@ procedure Register;
 
 implementation
 
-{$R Icones.res}
 
 uses
   TBGFiredacDriver.Model.Conexao, TBGFiredacDriver.Model.Query,

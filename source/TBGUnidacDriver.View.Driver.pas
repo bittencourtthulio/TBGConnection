@@ -35,7 +35,6 @@ procedure Register;
 
 implementation
 
-{$R Icones.res}
 
 uses
   System.SysUtils, TBGUnidacDriver.Model.Conexao, TBGUnidacDriver.Model.Query;

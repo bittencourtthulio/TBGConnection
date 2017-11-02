@@ -4,12 +4,13 @@ interface
 
 uses
   TBGConnection.Model.Interfaces, System.Classes,
-  Data.SqlExpr, Data.DB;
+  Data.SqlExpr, Data.DB, Data.DBXCommon;
 
 Type
   TDBExpressDriverModelConexao = class(TInterfacedObject, iConexao)
     private
       FConnection : TSQLConnection;
+      FTrans: TDBXTransaction;
     public
       constructor Create(Connection : TSQLConnection);
       destructor Destroy; override;
@@ -18,11 +19,23 @@ Type
       function Conectar : iConexao;
       function &End: TComponent;
       function Connection : TCustomConnection;
+      function StartTransaction : iConexao;
+      function RollbackTransaction : iConexao;
+      function Commit : iConexao;
   end;
 
 implementation
 
+uses
+  System.SysUtils;
+
 { TDBExpressDriverModelConexao }
+
+function TDBExpressDriverModelConexao.Commit: iConexao;
+begin
+  Result := Self;
+  FConnection.CommitFreeAndNil(FTrans);
+end;
 
 function TDBExpressDriverModelConexao.Conectar: iConexao;
 begin
@@ -54,6 +67,18 @@ end;
 class function TDBExpressDriverModelConexao.New(Connection : TSQLConnection) : iConexao;
 begin
   Result := Self.Create(Connection);
+end;
+
+function TDBExpressDriverModelConexao.RollbackTransaction: iConexao;
+begin
+  Result := Self;
+  FTrans := FConnection.BeginTransaction;
+end;
+
+function TDBExpressDriverModelConexao.StartTransaction: iConexao;
+begin
+  Result := Self;
+  FConnection.RollbackFreeAndNil(FTrans);
 end;
 
 end.
