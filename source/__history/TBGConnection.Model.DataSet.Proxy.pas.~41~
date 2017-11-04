@@ -1,0 +1,80 @@
+unit TBGConnection.Model.DataSet.Proxy;
+
+interface
+
+uses
+  Classes, TBGConnection.Model.Interfaces, System.Generics.Collections, Data.DB,
+  TBGConnection.Model.DataSet.Interfaces;
+
+Type
+  TTBGConnectionModelProxy = class(TInterfacedObject, iDriverProxy)
+    private
+      FCacheDataSet : TDictionary<string, iDataSet>;
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New : iDriverProxy;
+      function CacheDataSet(Key : String; var Value : iDataSet) : boolean;
+      function AddCacheDataSet(Key : String; Value : iDataSet) : iDriverProxy;
+  end;
+
+var
+  FDataSetProxy : TTBGConnectionModelProxy;
+
+implementation
+
+uses
+  System.SysUtils, TBGConnection.Model.DataSet.Factory;
+
+{ TTBGConnectionModelProxy }
+
+function TTBGConnectionModelProxy.AddCacheDataSet(Key: String;
+  Value: iDataSet): iDriverProxy;
+begin
+  FCacheDataSet.Add(Key, Value);
+end;
+
+function TTBGConnectionModelProxy.CacheDataSet(Key: String;
+  var Value: iDataSet): boolean;
+var
+  Chave : String;
+  DataSet : iDataSet;
+begin
+  Result := false;
+  for Chave in FCacheDataSet.Keys do
+    if FCacheDataSet.Items[Chave].SQL = Key then
+    begin
+      Value := FCacheDataSet.Items[Chave];
+      Result := true;
+    end;
+
+  if not Assigned(@Value) then
+  begin
+    DataSet := TConnectionModelDataSetFactory.New.DataSet;
+  end;
+    Value := iDataSet(@DataSet);
+end;
+
+constructor TTBGConnectionModelProxy.Create;
+begin
+  FCacheDataSet := TDictionary<string, iDataSet>.Create;
+end;
+
+destructor TTBGConnectionModelProxy.Destroy;
+begin
+  FreeAndNil(FCacheDataSet);
+  inherited;
+end;
+
+class function TTBGConnectionModelProxy.New: iDriverProxy;
+begin
+  Result := Self.Create;
+end;
+
+initialization
+  FDataSetProxy := TTBGConnectionModelProxy.Create;
+
+finalization
+  //FDataSetProxy.DisposeOf;
+
+end.

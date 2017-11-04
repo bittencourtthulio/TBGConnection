@@ -8,25 +8,27 @@ uses
 
 Type
   TUnidacModelQuery = class(TInterfacedObject, iQuery)
-    private
-      FConexao : TUniConnection;
-      FQuery : TUniQuery;
-      FDataSource : TDataSource;
-      FDataSet : TDataSet;
-      FChangeDataSet : TChangeDataSet;
-    public
-      constructor Create(Conexao : TUniConnection);
-      destructor Destroy; override;
-      class function New(Conexao : TUniConnection) : iQuery;
-      //iQuery
-      function Open(aSQL: String): iQuery;
-      function ExecSQL(aSQL : String) : iQuery;
-      function DataSet : TDataSet; overload;
-      function DataSet(Value : TDataSet) : iQuery; overload;
-      function DataSource(Value : TDataSource) : iQuery;
-      function Fields : TFields;
-      function ChangeDataSet(Value : TChangeDataSet) : iQuery;
-      function &End: TComponent;
+  private
+    FConexao: TUniConnection;
+    FQuery: TUniQuery;
+    FDataSource: TDataSource;
+    FDataSet: TDataSet;
+    FChangeDataSet: TChangeDataSet;
+  public
+    constructor Create(Conexao: TUniConnection);
+    destructor Destroy; override;
+    class function New(Conexao: TUniConnection): iQuery;
+    // iQuery
+    function Open(aSQL: String): iQuery;
+    function ExecSQL(aSQL: String): iQuery;
+    function DataSet: TDataSet; overload;
+    function DataSet(Value: TDataSet): iQuery; overload;
+    function DataSource(Value: TDataSource): iQuery;
+    function Fields: TFields;
+    function ChangeDataSet(Value: TChangeDataSet): iQuery;
+    function &End: TComponent;
+    function Tag(Value: Integer): iQuery;
+    function LocalSQL(Value: TComponent): iQuery;
   end;
 
 implementation
@@ -50,13 +52,19 @@ begin
   Result := FQuery.Fields;
 end;
 
+function TUnidacModelQuery.LocalSQL(Value: TComponent): iQuery;
+begin
+  Result := Self;
+  raise Exception.Create('Função não suportada por este driver');
+end;
+
 function TUnidacModelQuery.ChangeDataSet(Value: TChangeDataSet): iQuery;
 begin
   Result := Self;
   FChangeDataSet := Value;
 end;
 
-constructor TUnidacModelQuery.Create(Conexao : TUniConnection);
+constructor TUnidacModelQuery.Create(Conexao: TUniConnection);
 begin
   FConexao := Conexao;
   FQuery := TUniQuery.Create(nil);
@@ -74,7 +82,7 @@ begin
   FDataSet := Value;
 end;
 
-function TUnidacModelQuery.DataSource(Value : TDataSource) : iQuery;
+function TUnidacModelQuery.DataSource(Value: TDataSource): iQuery;
 begin
   Result := Self;
   FDataSource := Value;
@@ -86,7 +94,7 @@ begin
   inherited;
 end;
 
-class function TUnidacModelQuery.New(Conexao : TUniConnection) : iQuery;
+class function TUnidacModelQuery.New(Conexao: TUniConnection): iQuery;
 begin
   Result := Self.Create(Conexao);
 end;
@@ -94,8 +102,9 @@ end;
 function TUnidacModelQuery.Open(aSQL: String): iQuery;
 begin
 
-  if not (Assigned(FDataSource) or Assigned(FDataSet))then
-    raise Exception.Create('Não Foi Instanciado um Container DataSet/DataSource');
+  if not(Assigned(FDataSource) or Assigned(FDataSet)) then
+    raise Exception.Create
+      ('Não Foi Instanciado um Container DataSet/DataSource');
 
   if Assigned(FDataSource) then
     FDataSource.DataSet := FQuery;
@@ -106,10 +115,15 @@ begin
   Result := Self;
   FQuery.Close;
   FQuery.SQL.Clear;
-  FQUery.SQL.Add(aSQL);
+  FQuery.SQL.Add(aSQL);
   FQuery.Open;
 
+end;
 
+function TUnidacModelQuery.Tag(Value: Integer): iQuery;
+begin
+  Result := Self;
+  FQuery.Tag := Value;
 end;
 
 end.

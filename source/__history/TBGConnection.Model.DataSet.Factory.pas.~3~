@@ -1,0 +1,37 @@
+unit TBGConnection.Model.DataSet.Factory;
+
+interface
+
+uses
+  TBGConnection.Model.DataSet.Interfaces;
+
+Type
+  TConnectionModelDataSetFactory = class(TInterfacedObject, iDataSetFactory)
+    private
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New : iDataSetFactory;
+  end;
+
+implementation
+
+{ TConnectionModelDataSetFactory }
+
+constructor TConnectionModelDataSetFactory.Create;
+begin
+
+end;
+
+destructor TConnectionModelDataSetFactory.Destroy;
+begin
+
+  inherited;
+end;
+
+class function TConnectionModelDataSetFactory.New: iDataSetFactory;
+begin
+  Result := Self.Create;
+end;
+
+end.

@@ -16,19 +16,16 @@ uses
   ZAbstractConnection, ZConnection,  Vcl.Imaging.jpeg,
   TBGFiredacDriver.View.Driver, TBGDBExpressDriver.View.Driver,
   TBGConnection.View.Principal, TBGZeosDriver.View.Driver, TBGConnection.Model.Interfaces,
-  TBGQuery.View.Principal, TBGUnidacDriver.View.Driver, UniProvider,
-  InterBaseUniProvider, DBAccess, Uni;
+  TBGQuery.View.Principal, FireDAC.Phys.SQLiteVDataSet, DataModule, Unit1;
 
 type
   TForm3 = class(TForm)
     Button1: TButton;
-    FDConnection1: TFDConnection;
     DataSource1: TDataSource;
     DBNavigator1: TDBNavigator;
     Button3: TButton;
     Button2: TButton;
     DBGrid1: TDBGrid;
-    ZConnection1: TZConnection;
     Button4: TButton;
     Button5: TButton;
     Button6: TButton;
@@ -41,15 +38,8 @@ type
     Image1: TImage;
     ComboBox1: TComboBox;
     Label3: TLabel;
-    SQLConnection1: TSQLConnection;
-    BGZeosDriverConexao1: TBGZeosDriverConexao;
-    TBGConnection1: TTBGConnection;
-    BGDBExpressDriverConexao1: TBGDBExpressDriverConexao;
-    BGFiredacDriverConexao1: TBGFiredacDriverConexao;
     TBGQuery1: TTBGQuery;
-    UniConnection1: TUniConnection;
-    InterBaseUniProvider1: TInterBaseUniProvider;
-    BGUnidacDriverConexao1: TBGUnidacDriverConexao;
+    Button8: TButton;
     procedure Button1Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -58,6 +48,7 @@ type
     procedure Button7Click(Sender: TObject);
     procedure Button5Click(Sender: TObject);
     procedure Button6Click(Sender: TObject);
+    procedure Button8Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -82,12 +73,12 @@ end;
 
 procedure TForm3.Button2Click(Sender: TObject);
 begin
-  TBGConnection1.Driver.Conexao.StartTransaction;
+  DM.TBGConnection1.Driver.Conexao.StartTransaction;
   try
     TBGQuery1.Query.ExecSQL('INSERT INTO CLIENTE (ID, NOME) VALUES ((SELECT MAX(ID) +1 FROM CLIENTE), ' + QuotedStr('Registro Inserido via ExecSQL') + ')');
-    TBGConnection1.Driver.Conexao.Commit;
+    DM.TBGConnection1.Driver.Conexao.Commit;
   except
-    TBGConnection1.Driver.Conexao.RollbackTransaction;
+    DM.TBGConnection1.Driver.Conexao.RollbackTransaction;
   end;
 
 end;
@@ -126,6 +117,12 @@ begin
   TBGQuery1.Query.DataSet.Post;
 end;
 
+
+procedure TForm3.Button8Click(Sender: TObject);
+begin
+  Form1.Show;
+end;
+
 procedure TForm3.DataSource1DataChange(Sender: TObject; Field: TField);
 begin
   if DataSource1.State = dsBrowse then
@@ -144,9 +141,9 @@ end;
 procedure TForm3.SelecionaDriver;
 begin
   case ComboBox1.ItemIndex of
-    0 : TBGConnection1.Driver := BGDBExpressDriverConexao1;
-    1 : TBGConnection1.Driver := BGFiredacDriverConexao1;
-    2 : TBGConnection1.Driver := BGZeosDriverConexao1;
+    0 : DM.TBGConnection1.Driver := DM.BGDBExpressDriverConexao1;
+    1 : DM.TBGConnection1.Driver := DM.BGFiredacDriverConexao1;
+    2 : DM.TBGConnection1.Driver := DM.BGZeosDriverConexao1;
    // 3 : TBGConnection1.Driver := BGUnidacDriverConexao1;
   end;
 end;

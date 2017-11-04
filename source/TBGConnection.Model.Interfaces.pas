@@ -3,7 +3,7 @@ unit TBGConnection.Model.Interfaces;
 interface
 
 uses
-  System.Classes, Data.DB;
+  System.Classes, Data.DB, TBGConnection.Model.DataSet.Interfaces;
 
 type
   TChangeDataSet = procedure of Object;
@@ -39,6 +39,8 @@ type
     function DataSource(Value : TDataSource) : iQuery;
     function Fields : TFields;
     function &End: TComponent;
+    function Tag(Value : Integer) : iQuery;
+    function LocalSQL(Value : TComponent) : iQuery;
   end;
 
 
@@ -57,6 +59,10 @@ type
     function GetServer(Value: String): String;
     function GetPorta(Value: Integer): Integer;
     function &End: iConexao;
+  end;
+
+  iInstanciar = interface
+     function Instanciar_Proxy(Value : String) : iDriverProxy;
   end;
 
 implementation

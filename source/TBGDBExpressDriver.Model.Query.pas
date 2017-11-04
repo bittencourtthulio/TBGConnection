@@ -31,6 +31,8 @@ Type
       function Fields : TFields;
       function &End: TComponent;
       procedure ApplyUpdates(DataSet : TDataSet);
+      function Tag(Value : Integer) : iQuery;
+      function LocalSQL(Value : TComponent) : iQuery;
   end;
 
 implementation
@@ -84,6 +86,12 @@ begin
   ClientDataSet1.AfterDelete := ApplyUpdates;
 end;
 
+function TDBExpressModelQuery.LocalSQL(Value: TComponent): iQuery;
+begin
+  Result := Self;
+  raise Exception.Create('Função não suportada por este driver');
+end;
+
 constructor TDBExpressModelQuery.Create(Conexao : TSQLConnection);
 begin
   FConexao := Conexao;
@@ -128,6 +136,12 @@ begin
   ClientDataSet1.CommandText := aSQL;
   ClientDataSet1.Open;
 
+end;
+
+function TDBExpressModelQuery.Tag(Value: Integer): iQuery;
+begin
+  Result := Self;
+  FQuery.Tag := Value;
 end;
 
 end.

@@ -25,6 +25,8 @@ Type
       function DataSource(Value : TDataSource) : iQuery;
       function Fields : TFields;
       function &End: TComponent;
+      function Tag(Value : Integer) : iQuery;
+      function LocalSQL(Value : TComponent) : iQuery;
   end;
 
 implementation
@@ -46,6 +48,12 @@ end;
 function TZeosModelQuery.Fields: TFields;
 begin
   Result := FQuery.Fields;
+end;
+
+function TZeosModelQuery.LocalSQL(Value: TComponent): iQuery;
+begin
+  Result := Self;
+  raise Exception.Create('Função não suportada por este driver');
 end;
 
 constructor TZeosModelQuery.Create(Conexao : TZConnection);
@@ -102,6 +110,12 @@ begin
   FQuery.Open;
 
 
+end;
+
+function TZeosModelQuery.Tag(Value: Integer): iQuery;
+begin
+  Result := Self;
+  FQuery.Tag := Value;
 end;
 
 end.

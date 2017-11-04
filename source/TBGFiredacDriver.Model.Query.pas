@@ -4,20 +4,25 @@ interface
 
 uses
   TBGConnection.Model.Interfaces, Data.DB, System.Classes, FireDAC.Comp.Client,
-  System.SysUtils;
+  System.SysUtils, TBGConnection.Model.DataSet.Proxy, TBGConnection.Model.Helper,
+  TBGConnection.Model.DataSet.Interfaces, TBGConnection.Model.DataSet.Factory,
+  TBGConnection.Model.DataSet.Observer;
 
 Type
   TFiredacModelQuery = class(TInterfacedObject, iQuery)
     private
+      FSQL : String;
       FConexao : TFDConnection;
       FQuery : TFDQuery;
       FDataSource : TDataSource;
-      FDataSet : TDataSet;
+      FDataSet : iDataSet;
       FChangeDataSet : TChangeDataSet;
     public
       constructor Create(Conexao : TFDConnection);
       destructor Destroy; override;
       class function New(Conexao : TFDConnection) : iQuery;
+      //iObserver
+      procedure ApplyUpdates(DataSet : TDataSet);
       //iQuery
       function Open(aSQL: String): iQuery;
       function ExecSQL(aSQL : String) : iQuery;
@@ -27,6 +32,8 @@ Type
       function Fields : TFields;
       function ChangeDataSet(Value : TChangeDataSet) : iQuery;
       function &End: TComponent;
+      function Tag(Value : Integer) : iQuery;
+      function LocalSQL(Value : TComponent) : iQuery;
   end;
 
 implementation
@@ -40,14 +47,26 @@ end;
 
 function TFiredacModelQuery.ExecSQL(aSQL: String): iQuery;
 begin
+  FSQL := aSQL;
   FQuery.SQL.Clear;
-  FQuery.SQL.Add(aSQL);
+  FQuery.SQL.Add(FSQL);
   FQuery.ExecSQL;
 end;
 
 function TFiredacModelQuery.Fields: TFields;
 begin
   Result := FQuery.Fields;
+end;
+
+function TFiredacModelQuery.LocalSQL(Value: TComponent): iQuery;
+begin
+  Result := Self;
+  FQuery.LocalSQL := TFDCustomLocalSQL(Value);
+end;
+
+procedure TFiredacModelQuery.ApplyUpdates(DataSet: TDataSet);
+begin
+  FDataSetObserver.Notify(FDataSet.GUUID);  
 end;
 
 function TFiredacModelQuery.ChangeDataSet(Value: TChangeDataSet): iQuery;
@@ -61,6 +80,8 @@ begin
   FConexao := Conexao;
   FQuery := TFDQuery.Create(nil);
   FQuery.Connection := FConexao;
+  FQuery.AfterPost := ApplyUpdates;
+  Fquery.AfterDelete := ApplyUpdates;
 end;
 
 function TFiredacModelQuery.DataSet: TDataSet;
@@ -71,7 +92,7 @@ end;
 function TFiredacModelQuery.DataSet(Value: TDataSet): iQuery;
 begin
   Result := Self;
-  FDataSet := Value;
+  FDataSet.DataSet(Value);
 end;
 
 function TFiredacModelQuery.DataSource(Value : TDataSource) : iQuery;
@@ -93,21 +114,22 @@ end;
 
 function TFiredacModelQuery.Open(aSQL: String): iQuery;
 begin
-
-  if not (Assigned(FDataSource) or Assigned(FDataSet))then
-    raise Exception.Create('Não Foi Instanciado um Container DataSet/DataSource');
-
-  if Assigned(FDataSource) then
-    FDataSource.DataSet := FQuery;
-
-  if Assigned(FDataSet) then
-    FDataSet := FQuery;
-
   Result := Self;
-  FQuery.Close;
-  FQuery.Open(aSQL);
+  FSQL := aSQL;
+  if not FDataSetProxy.CacheDataSet(FSQL, FDataSet) then
+  begin
+    FDataSet.SQL(FSQL);
+    FDataSet.DataSet(FQuery);
+    FQuery.Close;
+    FQuery.Open(FSQL);
+  end;
+  FDataSource.DataSet := FDataSet.DataSet;
+end;
 
-
+function TFiredacModelQuery.Tag(Value: Integer): iQuery;
+begin
+  Result := Self;
+  FQuery.Tag := Value;
 end;
 
 end.
