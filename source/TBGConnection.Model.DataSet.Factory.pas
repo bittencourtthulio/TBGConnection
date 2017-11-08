@@ -12,7 +12,7 @@ Type
       constructor Create;
       destructor Destroy; override;
       class function New : iDataSetFactory;
-      function DataSet : iDataSet;
+      function DataSet(Observer : ICacheDataSetSubject): iDataSet;
   end;
 
 implementation
@@ -27,10 +27,10 @@ begin
 
 end;
 
-function TConnectionModelDataSetFactory.DataSet: iDataSet;
+function TConnectionModelDataSetFactory.DataSet(Observer : ICacheDataSetSubject): iDataSet;
 begin
-  Result := TConnectionModelDataSet.New;
-  FDataSetProxy.AddCacheDataSet(Result.GUUID, Result);
+  Result := TConnectionModelDataSet.New(Observer);
+  //FDataSetProxy.AddCacheDataSet(Result.GUUID, Result);
 end;
 
 destructor TConnectionModelDataSetFactory.Destroy;

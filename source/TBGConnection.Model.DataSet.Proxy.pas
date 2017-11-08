@@ -10,21 +10,25 @@ Type
   TTBGConnectionModelProxy = class(TInterfacedObject, iDriverProxy)
     private
       FCacheDataSet : TDictionary<string, iDataSet>;
+      FObserver : ICacheDataSetSubject;
+      FLimitCacheRegister : Integer;
+    procedure LimiterCache;
     public
-      constructor Create;
+      constructor Create(LimitCacheRegister : Integer);
       destructor Destroy; override;
-      class function New : iDriverProxy;
+      class function New(LimitCacheRegister : Integer) : iDriverProxy;
       function CacheDataSet(Key : String; var Value : iDataSet) : boolean;
       function AddCacheDataSet(Key : String; Value : iDataSet) : iDriverProxy;
+      function RemoveCache(Key : String) : iDriverProxy;
+      function ClearCache : iDriverProxy;
+      function ReloadCache(Value : String) : iDriverProxy;
   end;
-
-var
-  FDataSetProxy : TTBGConnectionModelProxy;
 
 implementation
 
 uses
-  System.SysUtils, TBGConnection.Model.DataSet.Factory;
+  System.SysUtils, TBGConnection.Model.DataSet.Factory,
+  TBGConnection.Model.DataSet.Observer;
 
 { TTBGConnectionModelProxy }
 
@@ -32,6 +36,7 @@ function TTBGConnectionModelProxy.AddCacheDataSet(Key: String;
   Value: iDataSet): iDriverProxy;
 begin
   FCacheDataSet.Add(Key, Value);
+  LimiterCache;
 end;
 
 function TTBGConnectionModelProxy.CacheDataSet(Key: String;
@@ -41,23 +46,33 @@ var
   DataSet : iDataSet;
 begin
   Result := false;
-  for Chave in FCacheDataSet.Keys do
-    if FCacheDataSet.Items[Chave].SQL = Key then
-    begin
-      Value := FCacheDataSet.Items[Chave];
-      Result := true;
-    end;
+  if FCacheDataSet.Count > 0 then
+  begin
+    for Chave in FCacheDataSet.Keys do
+      if FCacheDataSet.Items[Chave].SQL = Key then
+      begin
+        Value := FCacheDataSet.Items[Chave];
+        Result := true;
+      end;
+  end;
 
   if not Assigned(Value) then
   begin
-    Value := TConnectionModelDataSetFactory.New.DataSet;
+    Value := TConnectionModelDataSetFactory.New.DataSet(FObserver);
   end;
 
 end;
 
-constructor TTBGConnectionModelProxy.Create;
+function TTBGConnectionModelProxy.ClearCache: iDriverProxy;
+begin
+  FCacheDataSet.Clear;
+end;
+
+constructor TTBGConnectionModelProxy.Create(LimitCacheRegister : Integer);
 begin
   FCacheDataSet := TDictionary<string, iDataSet>.Create;
+  FObserver := TConnectionModelDataSetObserver.New;
+  FLimitCacheRegister := LimitCacheRegister;
 end;
 
 destructor TTBGConnectionModelProxy.Destroy;
@@ -66,15 +81,36 @@ begin
   inherited;
 end;
 
-class function TTBGConnectionModelProxy.New: iDriverProxy;
+class function TTBGConnectionModelProxy.New(LimitCacheRegister : Integer) : iDriverProxy;
 begin
-  Result := Self.Create;
+  Result := Self.Create(LimitCacheRegister);
 end;
 
-initialization
-  FDataSetProxy := TTBGConnectionModelProxy.Create;
+function TTBGConnectionModelProxy.ReloadCache(Value: String): iDriverProxy;
+begin
+  Result := Self;
+  FObserver.Notify(Value);
+end;
 
-finalization
-  //FDataSetProxy.DisposeOf;
+procedure TTBGConnectionModelProxy.LimiterCache;
+var
+  Key : String;
+begin
+  while FCacheDataSet.Count > FLimitCacheRegister do
+  begin
+    for Key in FCacheDataSet.Keys do
+    begin
+      FCacheDataSet.Remove(Key);
+      FCacheDataSet.TrimExcess;
+      Break;
+    end;
+  end;
+end;
+
+function TTBGConnectionModelProxy.RemoveCache(Key: String): iDriverProxy;
+begin
+  FCacheDataSet.Remove(Key);
+  FCacheDataSet.TrimExcess;
+end;
 
 end.

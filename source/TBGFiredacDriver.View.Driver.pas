@@ -13,8 +13,11 @@ Type
     FFQuery: TFDQuery;
     FiConexao : iConexao;
     FiQuery : TList<iQuery>;
+    FLimitCacheRegister : Integer;
     procedure SetFConnection(const Value: TFDConnection);
     procedure SetFQuery(const Value: TFDQuery);
+    function GetLimitCache: Integer;
+    procedure SetLimitCache(const Value: Integer);
     protected
       FParametros : iConexaoParametros;
       function Conexao : iConexao;
@@ -26,9 +29,10 @@ Type
       function Conectar : iConexao;
       function &End: TComponent;
       function Parametros: iConexaoParametros;
-
+      function LimitCacheRegister(Value : Integer) : iDriver;
     published
       property FConnection : TFDConnection read FFConnection write SetFConnection;
+      property LimitCache : Integer read GetLimitCache write SetLimitCache;
   end;
 
 procedure Register;
@@ -52,9 +56,22 @@ begin
 
 end;
 
+function TBGFiredacDriverConexao.GetLimitCache: Integer;
+begin
+  Result := FLimitCacheRegister;
+end;
+
+function TBGFiredacDriverConexao.LimitCacheRegister(Value: Integer): iDriver;
+begin
+  Result := Self;
+  FLimitCacheRegister := Value;
+end;
+
 function TBGFiredacDriverConexao.Conexao: iConexao;
 begin
-  FiConexao := TFiredacDriverModelConexao.New(FFConnection);
+  if not Assigned(FiConexao) then
+    FiConexao := TFiredacDriverModelConexao.New(FFConnection, FLimitCacheRegister);
+
   Result := FiConexao;
 end;
 
@@ -85,7 +102,10 @@ begin
   if Not Assigned(FiQuery) then
     FiQuery := TList<iQuery>.Create;
 
-  FiQuery.Add(TFiredacModelQuery.New(FFConnection));
+  if Not Assigned(FiConexao) then
+    FiConexao := TFiredacDriverModelConexao.New(FFConnection, FLimitCacheRegister);
+
+  FiQuery.Add(TFiredacModelQuery.New(FFConnection, FiConexao));
   Result := FiQuery[FiQuery.Count-1];
 end;
 
@@ -97,6 +117,11 @@ end;
 procedure TBGFiredacDriverConexao.SetFQuery(const Value: TFDQuery);
 begin
   FFQuery := Value;
+end;
+
+procedure TBGFiredacDriverConexao.SetLimitCache(const Value: Integer);
+begin
+  FLimitCacheRegister := Value;
 end;
 
 procedure Register;

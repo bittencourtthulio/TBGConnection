@@ -9,7 +9,8 @@ uses
   FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait, Data.DBXFirebird, ZAbstractConnection,
   ZConnection, TBGZeosDriver.View.Driver, TBGDBExpressDriver.View.Driver,
   Data.SqlExpr, Data.DB, FireDAC.Comp.Client, TBGFiredacDriver.View.Driver,
-  TBGConnection.View.Principal;
+  TBGConnection.View.Principal, TBGUnidacDriver.View.Driver, UniProvider,
+  InterBaseUniProvider, DBAccess, Uni;
 
 type
   TDM = class(TDataModule)
@@ -20,6 +21,9 @@ type
     BGDBExpressDriverConexao1: TBGDBExpressDriverConexao;
     BGZeosDriverConexao1: TBGZeosDriverConexao;
     ZConnection1: TZConnection;
+    UniConnection1: TUniConnection;
+    InterBaseUniProvider1: TInterBaseUniProvider;
+    BGUnidacDriverConexao1: TBGUnidacDriverConexao;
   private
     { Private declarations }
   public

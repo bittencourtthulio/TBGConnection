@@ -20,6 +20,9 @@ type
     ['{7EA13C01-D9FA-464F-AD0D-364365168D39}']
     function CacheDataSet(Key : String; var Value : iDataSet) : boolean;
     function AddCacheDataSet(Key : String; Value : iDataSet) : iDriverProxy;
+    function RemoveCache(Key : String) : iDriverProxy;
+    function ClearCache : iDriverProxy;
+    function ReloadCache(Value : String) : iDriverProxy;
   end;
 
   ICacheDataSetObserver = interface
@@ -36,9 +39,10 @@ type
 
   iDataSetFactory = interface
     ['{E884A6C6-6C80-4953-A52C-2AD0A4D157DB}']
-    function DataSet : iDataSet;
+    function DataSet(Observer : ICacheDataSetSubject) : iDataSet;
   end;
 
 implementation
 
 end.
+

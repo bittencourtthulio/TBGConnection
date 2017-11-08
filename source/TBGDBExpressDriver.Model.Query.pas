@@ -4,35 +4,48 @@ interface
 
 uses
   TBGConnection.Model.Interfaces, Data.DB, System.Classes,
-  System.SysUtils, Data.SqlExpr, Datasnap.Provider, Datasnap.DBCLient;
+  System.SysUtils, Data.SqlExpr, Datasnap.Provider, Datasnap.DBCLient,
+  TBGConnection.Model.DataSet.Proxy, TBGConnection.Model.DataSet.Interfaces,
+  TBGConnection.Model.DataSet.Observer, System.Generics.Collections;
 
 Type
   TDBExpressModelQuery = class(TComponent, iQuery)
     private
       FConexao : TSQLConnection;
-      FQuery : TSQLQuery;
+      FiConexao : iConexao;
+      FQuery : TList<TSQLQuery>;
+      DataSetProvider1: TList<TDataSetProvider>;
+      ClientDataSet1: TList<TClientDataSet>;
+      FKey : Integer;
       FDataSource : TDataSource;
-      FDataSet : TDataSet;
+      FDataSet : TDictionary<integer, iDataSet>;
       FChangeDataSet : TChangeDataSet;
-      DataSetProvider1: TDataSetProvider;
-      ClientDataSet1: TClientDataSet;
-    procedure InstaciarComponentes;
-    procedure AtribuirDataSet;
+      FSQL : String;
+      procedure InstanciaQuery;
+      function GetDataSet : iDataSet;
+      function GetCDS : TClientDataSet;
+      function GetQuery : TSQLQuery;
     public
-      constructor Create(Conexao : TSQLConnection);
+      constructor Create(Conexao : TSQLConnection; iConexao : iConexao);
       destructor Destroy; override;
-      class function New(Conexao : TSQLConnection) : iQuery;
+      class function New(Conexao : TSQLConnection; iConexao : iConexao) : iQuery;
       //iQuery
       function Open(aSQL: String): iQuery;
-      function ExecSQL(aSQL : String) : iQuery;
+      function ExecSQL(aSQL : String) : iQuery; overload;
       function DataSet : TDataSet; overload;
       function DataSet(Value : TDataSet) : iQuery; overload;
       function DataSource(Value : TDataSource) : iQuery;
       function Fields : TFields;
       function &End: TComponent;
       procedure ApplyUpdates(DataSet : TDataSet);
+      procedure RealoadCache(DataSet : TDataSet);
       function Tag(Value : Integer) : iQuery;
       function LocalSQL(Value : TComponent) : iQuery;
+      function Close : iQuery;
+      function SQL : TStrings;
+      function Params : TParams;
+      function ParamByName(Value : String) : TParam;
+      function ExecSQL : iQuery; overload;
   end;
 
 implementation
@@ -41,49 +54,73 @@ implementation
 
 function TDBExpressModelQuery.&End: TComponent;
 begin
-  Result := FQuery;
+  Result := GetQuery;
+end;
+
+function TDBExpressModelQuery.ExecSQL: iQuery;
+begin
+  Result := Self;
+  GetQuery.ExecSQL;
+  RealoadCache(nil);
 end;
 
 function TDBExpressModelQuery.ExecSQL(aSQL: String): iQuery;
 begin
-  FQuery.SQL.Clear;
-  FQuery.SQL.Add(aSQL);
-  FQuery.ExecSQL;
+  FSQL := aSQL;
+  GetQuery.SQL.Text := FSQL;
+  GetQuery.ExecSQL;
+  RealoadCache(nil);
 end;
 
 function TDBExpressModelQuery.Fields: TFields;
 begin
-  Result := ClientDataSet1.Fields;
+  Result := GetCDS.Fields;
+end;
+
+function TDBExpressModelQuery.GetDataSet: iDataSet;
+begin
+  Result := FDataSet.Items[FKey];
+end;
+
+function TDBExpressModelQuery.GetQuery: TSQLQuery;
+begin
+  if FQuery.Count = 0 then
+    InstanciaQuery;
+
+  Result := FQuery.Items[Pred(FQuery.Count)]
+end;
+
+function TDBExpressModelQuery.GetCDS: TClientDataSet;
+begin
+  Result := ClientDataSet1.Items[Pred(ClientDataSet1.Count)];
 end;
 
 procedure TDBExpressModelQuery.ApplyUpdates(DataSet: TDataSet);
 begin
-  ClientDataSet1.ApplyUpdates(0);
+  GetCDS.ApplyUpdates(0);
+  FiConexao.Cache.ReloadCache('');
 end;
 
-procedure TDBExpressModelQuery.AtribuirDataSet;
+procedure TDBExpressModelQuery.InstanciaQuery;
+var
+  Query : TSQLQuery;
+  Provider : TDataSetProvider;
+  ClientDataSet : TClientDataSet;
 begin
-  if not (Assigned(FDataSource) or Assigned(FDataSet)) then
-    raise Exception.Create('Não Foi Instanciado um Container DataSet/DataSource');
-  if Assigned(FDataSource) then
-    FDataSource.DataSet := ClientDataSet1;
-  if Assigned(FDataSet) then
-    FDataSet := ClientDataSet1;
-end;
-
-procedure TDBExpressModelQuery.InstaciarComponentes;
-begin
-  FQuery := TSQLQuery.Create(Self);
-  FQuery.SQLConnection := FConexao;
-  DataSetProvider1 := TDataSetProvider.Create(Self);
-  ClientDataSet1 := TClientDataSet.Create(Self);
-  DataSetProvider1.DataSet := FQuery;
-  DataSetProvider1.Options := [poAllowCommandText];
-  DataSetProvider1.Name := 'DataSetProvider1';
-  ClientDataSet1.ProviderName := DataSetProvider1.Name;
-  ClientDataSet1.FetchOnDemand := true;
-  ClientDataSet1.AfterPost := ApplyUpdates;
-  ClientDataSet1.AfterDelete := ApplyUpdates;
+  Query := TSQLQuery.Create(Self);
+  Query.SQLConnection := FConexao;
+  Provider := TDataSetProvider.Create(Self);
+  ClientDataSet := TClientDataSet.Create(Self);
+  Provider.DataSet := Query;
+  Provider.Options := [poAllowCommandText];
+  Provider.Name := 'Provider' + FormatDateTime('nnss', now);
+  ClientDataSet.ProviderName := Provider.Name;
+  ClientDataSet.FetchOnDemand := true;
+  ClientDataSet.AfterPost := ApplyUpdates;
+  ClientDataSet.AfterDelete := ApplyUpdates;
+  DataSetProvider1.Add(Provider);
+  ClientDataSet1.Add(ClientDataSet);
+  FQuery.Add(Query);
 end;
 
 function TDBExpressModelQuery.LocalSQL(Value: TComponent): iQuery;
@@ -92,21 +129,32 @@ begin
   raise Exception.Create('Função não suportada por este driver');
 end;
 
-constructor TDBExpressModelQuery.Create(Conexao : TSQLConnection);
+function TDBExpressModelQuery.Close: iQuery;
 begin
+  Result := Self;
+  GetQuery.Close;
+end;
+
+constructor TDBExpressModelQuery.Create(Conexao : TSQLConnection; iConexao : iConexao);
+begin
+  FiConexao := iConexao;
   FConexao := Conexao;
-  InstaciarComponentes;
+  FQuery := TList<TSQLQuery>.Create;
+  FDataSet := TDictionary<integer, iDataSet>.Create;
+  DataSetProvider1 := TList<TDataSetProvider>.Create;
+  ClientDataSet1  := TList<TClientDataSet>.Create;
+  //InstanciaQuery;
 end;
 
 function TDBExpressModelQuery.DataSet: TDataSet;
 begin
-  Result := TDataSet(ClientDataSet1);
+  Result := TDataSet(GetCDS);
 end;
 
 function TDBExpressModelQuery.DataSet(Value: TDataSet): iQuery;
 begin
   Result := Self;
-  FDataSet := Value;
+  GetDataSet.DataSet(Value);
 end;
 
 function TDBExpressModelQuery.DataSource(Value : TDataSource) : iQuery;
@@ -117,31 +165,66 @@ end;
 
 destructor TDBExpressModelQuery.Destroy;
 begin
+  FreeAndNil(DataSetProvider1);
+  FreeAndNil(ClientDataSet1);
   FreeAndNil(FQuery);
+  FreeAndNil(FDataSet);
   FreeAndNil(DataSetProvider1);
   FreeAndNil(ClientDataSet1);
   inherited;
 end;
 
-class function TDBExpressModelQuery.New(Conexao : TSQLConnection) : iQuery;
+class function TDBExpressModelQuery.New(Conexao : TSQLConnection; iConexao : iConexao) : iQuery;
 begin
-  Result := Self.Create(Conexao);
+  Result := Self.Create(Conexao, iConexao);
 end;
 
 function TDBExpressModelQuery.Open(aSQL: String): iQuery;
+var
+  Query : TSQLQuery;
+  DataSet : iDataSet;
 begin
   Result := Self;
-  AtribuirDataSet;
-  ClientDataSet1.CommandText := '';
-  ClientDataSet1.CommandText := aSQL;
-  ClientDataSet1.Open;
+  FSQL := aSQL;
+  if not FiConexao.Cache.CacheDataSet(FSQL, DataSet) then
+  begin
+    InstanciaQuery;
+    DataSet.SQL(FSQL);
+    DataSet.DataSet(GetCDS);
+    GetCDS.Close;
+    GetCDS.CommandText := FSQL;
+    GetCDS.Open;
+    FiConexao.Cache.AddCacheDataSet(DataSet.GUUID, DataSet);
+  end;
+  FDataSource.DataSet := DataSet.DataSet;
+  Inc(FKey);
+  FDataSet.Add(FKey, DataSet);
+end;
 
+function TDBExpressModelQuery.ParamByName(Value: String): TParam;
+begin
+  Result := GetQuery.ParamByName(Value);
+end;
+
+function TDBExpressModelQuery.Params: TParams;
+begin
+  Result := GetQuery.Params;
+end;
+
+procedure TDBExpressModelQuery.RealoadCache(DataSet : TDataSet);
+begin
+   FiConexao.Cache.ReloadCache('');
+end;
+
+function TDBExpressModelQuery.SQL: TStrings;
+begin
+  Result := GetQuery.SQL;
 end;
 
 function TDBExpressModelQuery.Tag(Value: Integer): iQuery;
 begin
   Result := Self;
-  FQuery.Tag := Value;
+  GetQuery.Tag := Value;
 end;
 
 end.

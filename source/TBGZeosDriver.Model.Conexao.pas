@@ -4,17 +4,19 @@ interface
 
 uses
   TBGConnection.Model.Interfaces, System.Classes,
-  ZConnection, Data.DB;
+  ZConnection, Data.DB, TBGConnection.Model.DataSet.Interfaces;
 
 Type
   TZeosDriverModelConexao = class(TInterfacedObject, iConexao)
     private
       FConnection : TZConnection;
+      FCache : iDriverProxy;
     public
-      constructor Create(Connection : TZConnection);
+      constructor Create(Connection : TZConnection; LimitCacheRegister : Integer);
       destructor Destroy; override;
-      class function New(Connection : TZConnection) : iConexao;
+      class function New(Connection : TZConnection; LimitCacheRegister : Integer) : iConexao;
       //iConexao
+      function Cache : iDriverProxy;
       function Conectar : iConexao;
       function &End: TComponent;
       function Connection : TCustomConnection;
@@ -26,9 +28,14 @@ Type
 implementation
 
 uses
-  System.SysUtils;
+  System.SysUtils, TBGConnection.Model.DataSet.Proxy;
 
 { TZeosDriverModelConexao }
+
+function TZeosDriverModelConexao.Cache: iDriverProxy;
+begin
+  Result := FCache;
+end;
 
 function TZeosDriverModelConexao.Commit: iConexao;
 begin
@@ -52,9 +59,10 @@ begin
   raise Exception.Create('Função não suportada para este driver');
 end;
 
-constructor TZeosDriverModelConexao.Create(Connection : TZConnection);
+constructor TZeosDriverModelConexao.Create(Connection : TZConnection; LimitCacheRegister : Integer);
 begin
   FConnection := Connection;
+  FCache := TTBGConnectionModelProxy.New(LimitCacheRegister);
 end;
 
 destructor TZeosDriverModelConexao.Destroy;
@@ -63,9 +71,9 @@ begin
   inherited;
 end;
 
-class function TZeosDriverModelConexao.New(Connection : TZConnection) : iConexao;
+class function TZeosDriverModelConexao.New(Connection : TZConnection; LimitCacheRegister : Integer) : iConexao;
 begin
-  Result := Self.Create(Connection);
+  Result := Self.Create(Connection, LimitCacheRegister);
 end;
 
 function TZeosDriverModelConexao.RollbackTransaction: iConexao;
@@ -81,3 +89,4 @@ begin
 end;
 
 end.
+

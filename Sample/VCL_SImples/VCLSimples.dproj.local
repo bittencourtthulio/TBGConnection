@@ -27,13 +27,13 @@
     <Transaction>2017/10/13 11:16:31.000.148,=C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
     <Transaction>2017/10/17 11:32:11.000.674,=C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
     <Transaction>2017/10/21 15:55:45.000.445,=C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
-    <Transaction>2017/10/21 16:07:14.000.229,D:\Projetos\Componentes\TBGConnection\Sample\VCL_SImples\Unit3.pas=C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
-    <Transaction>2017/10/21 16:07:14.000.229,D:\Projetos\Componentes\TBGConnection\Sample\VCL_SImples\Unit3.dfm=C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Unit3.dfm</Transaction>
-    <Transaction>2017/10/21 16:07:19.000.441,D:\Projetos\Componentes\TBGConnection\Sample\VCL_SImples\VCLSimples.dproj=C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2017/10/21 16:07:14.000.229,C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Unit3.pas=D:\Projetos\Componentes\TBGConnection\Sample\VCL_SImples\Unit3.pas</Transaction>
+    <Transaction>2017/10/21 16:07:14.000.229,C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Unit3.dfm=D:\Projetos\Componentes\TBGConnection\Sample\VCL_SImples\Unit3.dfm</Transaction>
+    <Transaction>2017/10/21 16:07:19.000.441,C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Project1.dproj=D:\Projetos\Componentes\TBGConnection\Sample\VCL_SImples\VCLSimples.dproj</Transaction>
     <Transaction>2017/11/04 16:51:57.000.604,=D:\Projetos\Componentes\TBGConnection\Sample\VCL_SImples\Unit1.pas</Transaction>
     <Transaction>2017/11/04 16:52:06.000.886,=D:\Projetos\Componentes\TBGConnection\Sample\VCL_SImples\Unit1.pas</Transaction>
-    <Transaction>2017/11/04 16:52:11.000.975,D:\Projetos\Componentes\TBGConnection\Sample\VCL_SImples\Unit1.pas=D:\Projetos\Componentes\TBGConnection\Sample\VCL_SImples\DataModule.pas</Transaction>
-    <Transaction>2017/11/04 16:52:11.000.975,D:\Projetos\Componentes\TBGConnection\Sample\VCL_SImples\Unit1.dfm=D:\Projetos\Componentes\TBGConnection\Sample\VCL_SImples\DataModule.dfm</Transaction>
-    <Transaction>2017/11/04 16:55:48.363,=D:\Projetos\Componentes\TBGConnection\Sample\VCL_SImples\Unit1.pas</Transaction>
+    <Transaction>2017/11/04 16:52:11.000.975,D:\Projetos\Componentes\TBGConnection\Sample\VCL_SImples\DataModule.dfm=D:\Projetos\Componentes\TBGConnection\Sample\VCL_SImples\Unit1.dfm</Transaction>
+    <Transaction>2017/11/04 16:52:11.000.975,D:\Projetos\Componentes\TBGConnection\Sample\VCL_SImples\DataModule.pas=D:\Projetos\Componentes\TBGConnection\Sample\VCL_SImples\Unit1.pas</Transaction>
+    <Transaction>2017/11/04 16:55:48.000.363,=D:\Projetos\Componentes\TBGConnection\Sample\VCL_SImples\Unit1.pas</Transaction>
   </Transactions>
 </BorlandProject>

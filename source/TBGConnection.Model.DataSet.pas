@@ -9,12 +9,13 @@ Type
   TConnectionModelDataSet = class(TInterfacedObject, iDataSet, ICacheDataSetObserver)
     private
       FDataSet : TDataSet;
+      FObserver : ICacheDataSetSubject;
       FGUUID : String;
       FSQL : String;
     public
-      constructor Create;
+      constructor Create(Observer : ICacheDataSetSubject);
       destructor Destroy; override;
-      class function New : iDataSet;
+      class function New(Observer : ICacheDataSetSubject) : iDataSet;
       function DataSet : TDataSet; overload;
       function DataSet (Value : TDataSet) : iDataSet; overload;
       function GUUID : String;
@@ -30,11 +31,12 @@ uses
 
 { TConnectionModelDataSet }
 
-constructor TConnectionModelDataSet.Create;
+constructor TConnectionModelDataSet.Create(Observer : ICacheDataSetSubject);
 begin
   FDataSet := TDataSet.Create(nil);
   FGUUID :=  TGUID.NewGuid.ToString;
-  FDataSetObserver.AddObserver(Self);
+  FObserver := Observer;
+  FObserver.AddObserver(Self);
 end;
 
 function TConnectionModelDataSet.DataSet: TDataSet;
@@ -52,7 +54,7 @@ end;
 
 destructor TConnectionModelDataSet.Destroy;
 begin
-  FDataSetObserver.RemoveObserver(Self);
+  FObserver.RemoveObserver(Self);
   FreeAndNil(FDataSet);
   inherited;
 end;
@@ -62,9 +64,9 @@ begin
   Result := FGUUID;
 end;
 
-class function TConnectionModelDataSet.New: iDataSet;
+class function TConnectionModelDataSet.New(Observer : ICacheDataSetSubject) : iDataSet;
 begin
-  Result := Self.Create;
+  Result := Self.Create(Observer);
 end;
 
 function TConnectionModelDataSet.SQL: String;
@@ -82,7 +84,8 @@ function TConnectionModelDataSet.Update(Value: String): ICacheDataSetObserver;
 begin
   Result := Self;
   if FGUUID <> Value then
-    FDataSet.Refresh;
+    if FDataSet.State in [dsBrowse] then
+      FDataSet.Refresh;
 end;
 
 end.

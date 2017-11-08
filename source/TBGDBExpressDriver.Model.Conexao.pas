@@ -4,18 +4,21 @@ interface
 
 uses
   TBGConnection.Model.Interfaces, System.Classes,
-  Data.SqlExpr, Data.DB, Data.DBXCommon;
+  Data.SqlExpr, Data.DB, Data.DBXCommon,
+  TBGConnection.Model.DataSet.Interfaces;
 
 Type
   TDBExpressDriverModelConexao = class(TInterfacedObject, iConexao)
     private
       FConnection : TSQLConnection;
       FTrans: TDBXTransaction;
+      FCache : iDriverProxy;
     public
-      constructor Create(Connection : TSQLConnection);
+      constructor Create(Connection : TSQLConnection; LimitCacheRegister : Integer);
       destructor Destroy; override;
-      class function New(Connection : TSQLConnection) : iConexao;
+      class function New(Connection : TSQLConnection; LimitCacheRegister : Integer) : iConexao;
       //iConexao
+      function Cache : iDriverProxy;
       function Conectar : iConexao;
       function &End: TComponent;
       function Connection : TCustomConnection;
@@ -27,9 +30,14 @@ Type
 implementation
 
 uses
-  System.SysUtils;
+  System.SysUtils, TBGConnection.Model.DataSet.Proxy;
 
 { TDBExpressDriverModelConexao }
+
+function TDBExpressDriverModelConexao.Cache: iDriverProxy;
+begin
+  Result := FCache;
+end;
 
 function TDBExpressDriverModelConexao.Commit: iConexao;
 begin
@@ -53,9 +61,10 @@ begin
   Result := FConnection;
 end;
 
-constructor TDBExpressDriverModelConexao.Create(Connection : TSQLConnection);
+constructor TDBExpressDriverModelConexao.Create(Connection : TSQLConnection; LimitCacheRegister : Integer);
 begin
   FConnection := Connection;
+  FCache := TTBGConnectionModelProxy.New(LimitCacheRegister);
 end;
 
 destructor TDBExpressDriverModelConexao.Destroy;
@@ -64,21 +73,21 @@ begin
   inherited;
 end;
 
-class function TDBExpressDriverModelConexao.New(Connection : TSQLConnection) : iConexao;
+class function TDBExpressDriverModelConexao.New(Connection : TSQLConnection; LimitCacheRegister : Integer) : iConexao;
 begin
-  Result := Self.Create(Connection);
+  Result := Self.Create(Connection, LimitCacheRegister);
 end;
 
 function TDBExpressDriverModelConexao.RollbackTransaction: iConexao;
 begin
   Result := Self;
-  FTrans := FConnection.BeginTransaction;
+  FConnection.RollbackFreeAndNil(FTrans);
 end;
 
 function TDBExpressDriverModelConexao.StartTransaction: iConexao;
 begin
   Result := Self;
-  FConnection.RollbackFreeAndNil(FTrans);
+  FTrans := FConnection.BeginTransaction;
 end;
 
 end.

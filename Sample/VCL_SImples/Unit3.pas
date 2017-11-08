@@ -49,6 +49,7 @@ type
     procedure Button5Click(Sender: TObject);
     procedure Button6Click(Sender: TObject);
     procedure Button8Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -66,7 +67,8 @@ implementation
 
 procedure TForm3.Button1Click(Sender: TObject);
 begin
-  SelecionaDriver;
+  //SelecionaDriver;
+  TBGQuery1.Query.Close;
   TBGQuery1.Query.Open('SELECT * FROM CLIENTE ORDER BY ID');
   TBGQuery1.Query.Fields.FieldByName('NOME').DisplayWidth := 102;
 end;
@@ -75,7 +77,12 @@ procedure TForm3.Button2Click(Sender: TObject);
 begin
   DM.TBGConnection1.Driver.Conexao.StartTransaction;
   try
-    TBGQuery1.Query.ExecSQL('INSERT INTO CLIENTE (ID, NOME) VALUES ((SELECT MAX(ID) +1 FROM CLIENTE), ' + QuotedStr('Registro Inserido via ExecSQL') + ')');
+    TBGQuery1.Query.Close;
+    TBGQuery1.Query.SQL.Clear;
+    TBGQuery1.Query.SQL.Add('INSERT INTO CLIENTE (ID, NOME) VALUES (:ID, :NOME)');
+    TBGQuery1.Query.Params[0].AsInteger := StrToInt(Edit1.Text);
+    TBGQuery1.Query.Params[1].AsString := Edit2.Text;
+    TBGQuery1.Query.ExecSQL;
     DM.TBGConnection1.Driver.Conexao.Commit;
   except
     DM.TBGConnection1.Driver.Conexao.RollbackTransaction;
@@ -132,6 +139,11 @@ begin
   end;
 end;
 
+procedure TForm3.FormCreate(Sender: TObject);
+begin
+  TBGQuery1.Connection := DM.TBGConnection1;
+end;
+
 procedure TForm3.preencherDados;
 begin
   TBGQuery1.Query.DataSet.FieldByName('ID').Value := StrToInt(Edit1.Text);
@@ -144,7 +156,7 @@ begin
     0 : DM.TBGConnection1.Driver := DM.BGDBExpressDriverConexao1;
     1 : DM.TBGConnection1.Driver := DM.BGFiredacDriverConexao1;
     2 : DM.TBGConnection1.Driver := DM.BGZeosDriverConexao1;
-   // 3 : TBGConnection1.Driver := BGUnidacDriverConexao1;
+    3 : DM.TBGConnection1.Driver := DM.BGUnidacDriverConexao1;
   end;
 end;
 

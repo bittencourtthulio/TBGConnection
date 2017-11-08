@@ -3,17 +3,20 @@ unit TBGFiredacDriver.Model.Conexao;
 interface
 
 uses
-  TBGConnection.Model.Interfaces, FireDAC.Comp.Client, System.Classes, Data.DB;
+  TBGConnection.Model.Interfaces, FireDAC.Comp.Client, System.Classes, Data.DB,
+  TBGConnection.Model.DataSet.Interfaces;
 
 Type
   TFiredacDriverModelConexao = class(TInterfacedObject, iConexao)
     private
       FConnection : TFDConnection;
+      FCache : iDriverProxy;
     public
-      constructor Create(Connection : TFDConnection);
+      constructor Create(Connection : TFDConnection; LimitCacheRegister : Integer);
       destructor Destroy; override;
-      class function New(Connection : TFDConnection) : iConexao;
+      class function New(Connection : TFDConnection; LimitCacheRegister : Integer) : iConexao;
       //iConexao
+      function Cache : iDriverProxy;
       function Conectar : iConexao;
       function &End: TComponent;
       function Connection : TCustomConnection;
@@ -24,7 +27,15 @@ Type
 
 implementation
 
+uses
+  TBGConnection.Model.DataSet.Proxy;
+
 { TFiredacDriverModelConexao }
+
+function TFiredacDriverModelConexao.Cache: iDriverProxy;
+begin
+  Result := FCache;
+end;
 
 function TFiredacDriverModelConexao.Commit: iConexao;
 begin
@@ -48,9 +59,10 @@ begin
   Result := FConnection;
 end;
 
-constructor TFiredacDriverModelConexao.Create(Connection : TFDConnection);
+constructor TFiredacDriverModelConexao.Create(Connection : TFDConnection; LimitCacheRegister : Integer);
 begin
   FConnection := Connection;
+  FCache := TTBGConnectionModelProxy.New(LimitCacheRegister);
 end;
 
 destructor TFiredacDriverModelConexao.Destroy;
@@ -59,9 +71,9 @@ begin
   inherited;
 end;
 
-class function TFiredacDriverModelConexao.New(Connection : TFDConnection) : iConexao;
+class function TFiredacDriverModelConexao.New(Connection : TFDConnection; LimitCacheRegister : Integer) : iConexao;
 begin
-  Result := Self.Create(Connection);
+  Result := Self.Create(Connection, LimitCacheRegister);
 end;
 
 function TFiredacDriverModelConexao.RollbackTransaction: iConexao;

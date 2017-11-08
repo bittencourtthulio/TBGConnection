@@ -3,7 +3,7 @@ unit TBGConnection.View.Interfaces;
 interface
 
 uses
-  TBGConnection.Model.Interfaces;
+  TBGConnection.Model.Interfaces, TBGConnection.Model.DataSet.Interfaces;
 
 type
   iTBGConnection = interface

@@ -13,8 +13,11 @@ Type
     FFQuery: TSQLQuery;
     FiConexao : iConexao;
     FiQuery : TList<iQuery>;
+    FLimitCacheRegister : Integer;
     procedure SetFConnection(const Value: TSQLConnection);
     procedure SetFQuery(const Value: TSQLQuery);
+    function GetLimitCache: Integer;
+    procedure SetLimitCache(const Value: Integer);
     protected
       FParametros : iConexaoParametros;
       function Conexao : iConexao;
@@ -26,9 +29,10 @@ Type
       function Conectar : iConexao;
       function &End: TComponent;
       function Parametros: iConexaoParametros;
-
+      function LimitCacheRegister(Value : Integer) : iDriver;
     published
       property FConnection : TSQLConnection read FFConnection write SetFConnection;
+      property LimitCache : Integer read GetLimitCache write SetLimitCache;
   end;
 
 procedure Register;
@@ -51,9 +55,22 @@ begin
 
 end;
 
+function TBGDBExpressDriverConexao.GetLimitCache: Integer;
+begin
+  Result := FLimitCacheRegister;
+end;
+
+function TBGDBExpressDriverConexao.LimitCacheRegister(Value: Integer): iDriver;
+begin
+  Result := Self;
+  FLimitCacheRegister := Value;
+end;
+
 function TBGDBExpressDriverConexao.Conexao: iConexao;
 begin
-  FiConexao := TDBExpressDriverModelConexao.New(FFConnection);
+  if not Assigned(FiConexao) then
+    FiConexao := TDBExpressDriverModelConexao.New(FFConnection, FLimitCacheRegister);
+
   Result := FiConexao;
 end;
 
@@ -84,7 +101,10 @@ begin
   if Not Assigned(FiQuery) then
     FiQuery := TList<iQuery>.Create;
 
-  FiQuery.Add(TDBExpressModelQuery.New(FFConnection));
+  if Not Assigned(FiConexao) then
+    FiConexao := TDBExpressDriverModelConexao.New(FFConnection, FLimitCacheRegister);
+
+  FiQuery.Add(TDBExpressModelQuery.New(FFConnection, FiConexao));
   Result := FiQuery[FiQuery.Count-1];
 end;
 
@@ -96,6 +116,11 @@ end;
 procedure TBGDBExpressDriverConexao.SetFQuery(const Value: TSQLQuery);
 begin
   FFQuery := Value;
+end;
+
+procedure TBGDBExpressDriverConexao.SetLimitCache(const Value: Integer);
+begin
+  FLimitCacheRegister := Value;
 end;
 
 procedure Register;

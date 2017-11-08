@@ -17,10 +17,12 @@ type
     ['{F8F3E0E2-4333-40CD-8A4E-7B7790F2FA73}']
     function Conexao : iConexao;
     function Query : iQuery;
+    function LimitCacheRegister(Value : Integer) : iDriver;
   end;
 
   iConexao = interface
     ['{FF14FC96-C57C-4BD0-9AFB-5F7AAD5D5138}']
+    function Cache : iDriverProxy;
     function Conectar : iConexao;
     function &End: TComponent;
     function Connection : TCustomConnection;
@@ -33,7 +35,12 @@ type
   iQuery = interface
     ['{BA7F4622-7AA4-413D-B9CD-CADAB16DF714}']
     function Open(aSQL: String): iQuery;
-    function ExecSQL(aSQL : String) : iQuery;
+    function Close : iQuery;
+    function SQL : TStrings;
+    function Params : TParams;
+    function ParamByName(Value : String) : TParam;
+    function ExecSQL : iQuery; overload;
+    function ExecSQL(aSQL : String) : iQuery; overload;
     function DataSet : TDataSet; overload;
     function DataSet(Value : TDataSet) : iQuery; overload;
     function DataSource(Value : TDataSource) : iQuery;

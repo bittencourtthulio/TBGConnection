@@ -4,13 +4,13 @@ interface
 
 uses
   TBGConnection.View.Interfaces, TBGConnection.Model.Interfaces,
-  System.Classes;
+  System.Classes, TBGConnection.Model.DataSet.Interfaces,
+  TBGConnection.Model.DataSet.Observer;
 
 Type
   TTBGConnection = class(TComponent, iTBGConnection)
     private
-    FQuery: iQuery;
-    FConexao: iConexao;
+    FObserver : TConnectionModelDataSetObserver;
     FDriver: iDriver;
     procedure SetDriver(const Value: iDriver);
     function GetDriver: iDriver;
@@ -25,6 +25,9 @@ Type
 procedure Register;
 
 implementation
+
+uses
+  TBGConnection.Model.DataSet.Proxy, System.SysUtils;
 
 {$R Icones.dcr}
 
@@ -62,5 +65,8 @@ procedure Register;
 begin
   RegisterComponents('TBGAbstractConnection', [TTBGConnection]);
 end;
+
+initialization
+  TTBGConnection.Create;
 
 end.

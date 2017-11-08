@@ -13,8 +13,12 @@ Type
     FFQuery: TZQuery;
     FiConexao : iConexao;
     FiQuery : TList<iQuery>;
+    FLimitCacheRegister : Integer;
+    FLimitCache: Integer;
     procedure SetFConnection(const Value: TZConnection);
     procedure SetFQuery(const Value: TZQuery);
+    procedure SetLimitCache(const Value: Integer);
+    function GetLimitCache: Integer;
     protected
       FParametros : iConexaoParametros;
       function Conexao : iConexao;
@@ -26,9 +30,10 @@ Type
       function Conectar : iConexao;
       function &End: TComponent;
       function Parametros: iConexaoParametros;
-
+      function LimitCacheRegister(Value : Integer) : iDriver;
     published
       property FConnection : TZConnection read FFConnection write SetFConnection;
+      property LimitCache : Integer read GetLimitCache write SetLimitCache;
   end;
 
 procedure Register;
@@ -50,15 +55,29 @@ begin
 
 end;
 
+function TBGZeosDriverConexao.GetLimitCache: Integer;
+begin
+  Result := FLimitCacheRegister;
+end;
+
+function TBGZeosDriverConexao.LimitCacheRegister(Value: Integer): iDriver;
+begin
+  Result := Self;
+  FLimitCacheRegister := Value;
+end;
+
 function TBGZeosDriverConexao.Conexao: iConexao;
 begin
-  FiConexao := TZeosDriverModelConexao.New(FFConnection);
+  if not Assigned(FiConexao) then
+    FiConexao := TZeosDriverModelConexao.New(FFConnection, FLimitCacheRegister);
+
   Result := FiConexao;
 end;
 
 constructor TBGZeosDriverConexao.Create;
 begin
   FiQuery := TList<iQuery>.Create;
+  LimitCache := 10;
 end;
 
 destructor TBGZeosDriverConexao.Destroy;
@@ -83,7 +102,10 @@ begin
   if Not Assigned(FiQuery) then
     FiQuery := TList<iQuery>.Create;
 
-  FiQuery.Add(TZeosModelQuery.New(FFConnection));
+  if Not Assigned(FiConexao) then
+    FiConexao := TZeosDriverModelConexao.New(FFConnection, FLimitCacheRegister);
+
+  FiQuery.Add(TZeosModelQuery.New(FFConnection, FiConexao));
   Result := FiQuery[FiQuery.Count-1];
 end;
 
@@ -97,10 +119,14 @@ begin
   FFQuery := Value;
 end;
 
+procedure TBGZeosDriverConexao.SetLimitCache(const Value: Integer);
+begin
+  FLimitCacheRegister := Value;
+end;
+
 procedure Register;
 begin
   RegisterComponents('TBGAbstractConnection', [TBGZeosDriverConexao]);
 end;
-
 
 end.

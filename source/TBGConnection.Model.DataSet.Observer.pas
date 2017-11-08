@@ -6,25 +6,23 @@ uses SysUtils, TBGConnection.Model.Interfaces, System.Generics.Collections, Data
   TBGConnection.Model.DataSet.Interfaces;
 
 Type
-  TConnectionModelDataSetObserver = class
+  TConnectionModelDataSetObserver = class(TInterfacedObject, ICacheDataSetSubject)
   private
     FLista : TList<ICacheDataSetObserver>;
   public
     constructor Create;
     destructor Destroy; override;
-    function AddObserver(Value : ICacheDataSetObserver) : TConnectionModelDataSetObserver;
-    function RemoveObserver(Value : ICacheDataSetObserver) : TConnectionModelDataSetObserver;
-    function Notify(Value : String) : TConnectionModelDataSetObserver;
+    class function New :ICacheDataSetSubject;
+    function AddObserver(Value : ICacheDataSetObserver) : ICacheDataSetSubject;
+    function RemoveObserver(Value : ICacheDataSetObserver) : ICacheDataSetSubject;
+    function Notify(Value : String) : ICacheDataSetSubject;
   end;
-
-var
-  FDataSetObserver : TConnectionModelDataSetObserver;
 
 implementation
 
 { TConnectionModelDataSetObserver }
 
-function TConnectionModelDataSetObserver.AddObserver(Value : ICacheDataSetObserver) : TConnectionModelDataSetObserver;
+function TConnectionModelDataSetObserver.AddObserver(Value : ICacheDataSetObserver) : ICacheDataSetSubject;
 begin
   Result := Self;
   FLista.Add(Value);
@@ -41,7 +39,12 @@ begin
   inherited;
 end;
 
-function TConnectionModelDataSetObserver.Notify(Value : String) : TConnectionModelDataSetObserver;
+class function TConnectionModelDataSetObserver.New: ICacheDataSetSubject;
+begin
+  Result := Self.Create;
+end;
+
+function TConnectionModelDataSetObserver.Notify(Value : String) : ICacheDataSetSubject;
 var
   I: Integer;
 begin
@@ -50,16 +53,10 @@ begin
     FLista.Items[I].Update(Value)
 end;
 
-function TConnectionModelDataSetObserver.RemoveObserver(Value : ICacheDataSetObserver) : TConnectionModelDataSetObserver;
+function TConnectionModelDataSetObserver.RemoveObserver(Value : ICacheDataSetObserver) : ICacheDataSetSubject;
 begin
   Result := Self;
   FLista.Remove(Value);
 end;
-
-initialization
-  FDataSetObserver := TConnectionModelDataSetObserver.Create;
-
-finalization
-  //FDataSetObserver.Free;
 
 end.

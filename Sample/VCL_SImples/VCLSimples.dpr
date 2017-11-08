@@ -15,8 +15,8 @@ begin
   //ReportMemoryLeaksOnShutdown := true;
   Application.MainFormOnTaskbar := True;
   TStyleManager.TrySetStyle('Silver');
-  Application.CreateForm(TForm3, Form3);
   Application.CreateForm(TDM, DM);
+  Application.CreateForm(TForm3, Form3);
   Application.CreateForm(TForm1, Form1);
   Application.Run;
 end.
