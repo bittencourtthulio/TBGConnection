@@ -66,4 +66,3 @@ __recovery/
 *.stat
 *.ppu
 *.compiled
-/source/__history

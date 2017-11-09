@@ -1,7 +1,0 @@
-unit TBGConnection.Model.Conexao.Parametros;
-
-interface
-
-implementation
-
-end.
