@@ -105,9 +105,9 @@
         </DelphiCompile>
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="dbrtl.dcp"/>
-        <DCCReference Include="TBGConnection.dcp"/>
         <DCCReference Include="unidac250.dcp"/>
         <DCCReference Include="dac250.dcp"/>
+        <DCCReference Include="TBGConnection.dcp"/>
         <DCCReference Include="source\TBGUnidacDriver.Model.Conexao.pas"/>
         <DCCReference Include="source\TBGUnidacDriver.Model.Query.pas"/>
         <DCCReference Include="source\TBGUnidacDriver.View.Driver.pas"/>
