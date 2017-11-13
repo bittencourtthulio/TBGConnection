@@ -13,6 +13,7 @@ Type
     private
       FConexao : TSQLConnection;
       FiConexao : iConexao;
+      FDriver : iDriver;
       FQuery : TList<TSQLQuery>;
       DataSetProvider1: TList<TDataSetProvider>;
       ClientDataSet1: TList<TClientDataSet>;
@@ -26,9 +27,9 @@ Type
       function GetCDS : TClientDataSet;
       function GetQuery : TSQLQuery;
     public
-      constructor Create(Conexao : TSQLConnection; iConexao : iConexao);
+      constructor Create(Conexao : TSQLConnection; Driver : iDriver);
       destructor Destroy; override;
-      class function New(Conexao : TSQLConnection; iConexao : iConexao) : iQuery;
+      class function New(Conexao : TSQLConnection; Driver : iDriver) : iQuery;
       //iQuery
       function Open(aSQL: String): iQuery;
       function ExecSQL(aSQL : String) : iQuery; overload;
@@ -46,6 +47,7 @@ Type
       function Params : TParams;
       function ParamByName(Value : String) : TParam;
       function ExecSQL : iQuery; overload;
+      function UpdateTableName(Tabela : String) : iQuery;
   end;
 
 implementation
@@ -98,7 +100,7 @@ end;
 procedure TDBExpressModelQuery.ApplyUpdates(DataSet: TDataSet);
 begin
   GetCDS.ApplyUpdates(0);
-  FiConexao.Cache.ReloadCache('');
+  FDriver.Cache.ReloadCache('');
 end;
 
 procedure TDBExpressModelQuery.InstanciaQuery;
@@ -135,9 +137,9 @@ begin
   GetQuery.Close;
 end;
 
-constructor TDBExpressModelQuery.Create(Conexao : TSQLConnection; iConexao : iConexao);
+constructor TDBExpressModelQuery.Create(Conexao : TSQLConnection; Driver : iDriver);
 begin
-  FiConexao := iConexao;
+  FDriver := Driver;
   FConexao := Conexao;
   FQuery := TList<TSQLQuery>.Create;
   FDataSet := TDictionary<integer, iDataSet>.Create;
@@ -174,9 +176,9 @@ begin
   inherited;
 end;
 
-class function TDBExpressModelQuery.New(Conexao : TSQLConnection; iConexao : iConexao) : iQuery;
+class function TDBExpressModelQuery.New(Conexao : TSQLConnection; Driver : iDriver) : iQuery;
 begin
-  Result := Self.Create(Conexao, iConexao);
+  Result := Self.Create(Conexao, Driver);
 end;
 
 function TDBExpressModelQuery.Open(aSQL: String): iQuery;
@@ -186,7 +188,7 @@ var
 begin
   Result := Self;
   FSQL := aSQL;
-  if not FiConexao.Cache.CacheDataSet(FSQL, DataSet) then
+  if not FDriver.Cache.CacheDataSet(FSQL, DataSet) then
   begin
     InstanciaQuery;
     DataSet.SQL(FSQL);
@@ -194,7 +196,7 @@ begin
     GetCDS.Close;
     GetCDS.CommandText := FSQL;
     GetCDS.Open;
-    FiConexao.Cache.AddCacheDataSet(DataSet.GUUID, DataSet);
+    FDriver.Cache.AddCacheDataSet(DataSet.GUUID, DataSet);
   end;
   FDataSource.DataSet := DataSet.DataSet;
   Inc(FKey);
@@ -213,7 +215,7 @@ end;
 
 procedure TDBExpressModelQuery.RealoadCache(DataSet : TDataSet);
 begin
-   FiConexao.Cache.ReloadCache('');
+   FDriver.Cache.ReloadCache('');
 end;
 
 function TDBExpressModelQuery.SQL: TStrings;
@@ -225,6 +227,11 @@ function TDBExpressModelQuery.Tag(Value: Integer): iQuery;
 begin
   Result := Self;
   GetQuery.Tag := Value;
+end;
+
+function TDBExpressModelQuery.UpdateTableName(Tabela: String): iQuery;
+begin
+  Result := Self;
 end;
 
 end.

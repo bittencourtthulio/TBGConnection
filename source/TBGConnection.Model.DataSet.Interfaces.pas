@@ -6,6 +6,7 @@ uses
   Data.DB;
 
 type
+  ICacheDataSetSubject = interface;
 
   iDataSet = interface
     ['{E90FC360-74B8-4D5C-9418-F517DFF564A4}']
@@ -23,6 +24,7 @@ type
     function RemoveCache(Key : String) : iDriverProxy;
     function ClearCache : iDriverProxy;
     function ReloadCache(Value : String) : iDriverProxy;
+    function ObserverList : ICacheDataSetSubject;
   end;
 
   ICacheDataSetObserver = interface

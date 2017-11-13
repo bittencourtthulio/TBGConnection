@@ -21,7 +21,6 @@ type
     DBGrid2: TDBGrid;
     DataSource1: TDataSource;
     DataSource2: TDataSource;
-    TBGConnection1: TTBGConnection;
     TBGQuery1: TTBGQuery;
     TBGQuery2: TTBGQuery;
     Button1: TButton;
@@ -63,6 +62,7 @@ type
     Button15: TButton;
     BGFiredacDriverConexao1: TBGFiredacDriverConexao;
     FDConnection1: TFDConnection;
+    TBGConnection1: TTBGConnection;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
@@ -120,7 +120,7 @@ end;
 
 procedure TForm3.Button13Click(Sender: TObject);
 begin
-  TBGConnection1.Driver.Conexao.Cache.ClearCache;
+  TBGConnection1.Driver.Cache.ClearCache;
 end;
 
 procedure TForm3.Button14Click(Sender: TObject);
@@ -131,6 +131,7 @@ end;
 procedure TForm3.Button15Click(Sender: TObject);
 begin
   ShowMessage(TBGQuery1.Query.Fields.FieldByName('NOME').AsString);
+  ShowMessage(TBGQuery2.Query.Fields.FieldByName('ID').AsString);
 end;
 
 procedure TForm3.Button1Click(Sender: TObject);

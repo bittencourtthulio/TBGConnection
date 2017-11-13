@@ -15,6 +15,7 @@ Type
     FConexao: TUniConnection;
     FKey : Integer;
     FiConexao : iConexao;
+    FDriver : iDriver;
     FQuery: TList<TUniQuery>;
     FDataSource: TDataSource;
     FDataSet: TDictionary<integer, iDataSet>;
@@ -26,9 +27,9 @@ Type
     function GetDataSet : iDataSet;
     function GetQuery : TUniQuery;
   public
-    constructor Create(Conexao: TUniConnection; iConexao : iConexao);
+    constructor Create(Conexao: TUniConnection; Driver : iDriver);
     destructor Destroy; override;
-    class function New(Conexao: TUniConnection; iConexao : iConexao): iQuery;
+    class function New(Conexao: TUniConnection; Driver : iDriver): iQuery;
     //iObserver
     procedure ApplyUpdates(DataSet : TDataSet);
     // iQuery
@@ -47,6 +48,7 @@ Type
     function Params : TParams;
     function ExecSQL : iQuery; overload;
     function ParamByName(Value : String) : TParam;
+    function UpdateTableName(Tabela : String) : iQuery;
   end;
 
 implementation
@@ -107,7 +109,7 @@ end;
 
 procedure TUnidacModelQuery.ApplyUpdates(DataSet: TDataSet);
 begin
-  FiConexao.Cache.ReloadCache('');
+  FDriver.Cache.ReloadCache('');
 end;
 
 function TUnidacModelQuery.ChangeDataSet(Value: TChangeDataSet): iQuery;
@@ -122,9 +124,9 @@ begin
   GetQuery.Close;
 end;
 
-constructor TUnidacModelQuery.Create(Conexao: TUniConnection; iConexao : iConexao);
+constructor TUnidacModelQuery.Create(Conexao: TUniConnection; Driver : iDriver);
 begin
-  FiConexao := iConexao;
+  FDriver := Driver;
   FConexao := Conexao;
   FQuery := TList<TUniQuery>.Create;
   FDataSet := TDictionary<integer, iDataSet>.Create;
@@ -155,9 +157,9 @@ begin
   inherited;
 end;
 
-class function TUnidacModelQuery.New(Conexao: TUniConnection; iConexao : iConexao): iQuery;
+class function TUnidacModelQuery.New(Conexao: TUniConnection; Driver : iDriver): iQuery;
 begin
-  Result := Self.Create(Conexao, iConexao);
+  Result := Self.Create(Conexao, Driver);
 end;
 
 function TUnidacModelQuery.Open(aSQL: String): iQuery;
@@ -167,7 +169,7 @@ var
 begin
   Result := Self;
   FSQL := aSQL;
-  if not FiConexao.Cache.CacheDataSet(FSQL, DataSet) then
+  if not FDriver.Cache.CacheDataSet(FSQL, DataSet) then
   begin
     InstanciaQuery;
     DataSet.SQL(FSQL);
@@ -175,7 +177,7 @@ begin
     GetQuery.Close;
     GetQuery.SQL.Text := FSQL;
     GetQuery.Open;
-    FiConexao.Cache.AddCacheDataSet(DataSet.GUUID, DataSet);
+    FDriver.Cache.AddCacheDataSet(DataSet.GUUID, DataSet);
   end;
   FDataSource.DataSet := DataSet.DataSet;
   Inc(FKey);
@@ -201,6 +203,11 @@ function TUnidacModelQuery.Tag(Value: Integer): iQuery;
 begin
   Result := Self;
   GetQuery.Tag := Value;
+end;
+
+function TUnidacModelQuery.UpdateTableName(Tabela: String): iQuery;
+begin
+  Result := Self;
 end;
 
 end.

@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{ADEFE806-F1F1-475A-91C2-3542350C9880}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Client\TBGAbstract_RestDW_VCL.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Server\RestDWServerProject.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="TBGAbstract_RestDW_VCL">
+        <MSBuild Projects="Client\TBGAbstract_RestDW_VCL.dproj"/>
+    </Target>
+    <Target Name="TBGAbstract_RestDW_VCL:Clean">
+        <MSBuild Projects="Client\TBGAbstract_RestDW_VCL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TBGAbstract_RestDW_VCL:Make">
+        <MSBuild Projects="Client\TBGAbstract_RestDW_VCL.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="RestDWServerProject">
+        <MSBuild Projects="Server\RestDWServerProject.dproj"/>
+    </Target>
+    <Target Name="RestDWServerProject:Clean">
+        <MSBuild Projects="Server\RestDWServerProject.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="RestDWServerProject:Make">
+        <MSBuild Projects="Server\RestDWServerProject.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="TBGAbstract_RestDW_VCL;RestDWServerProject"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="TBGAbstract_RestDW_VCL:Clean;RestDWServerProject:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="TBGAbstract_RestDW_VCL:Make;RestDWServerProject:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

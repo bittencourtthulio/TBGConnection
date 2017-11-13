@@ -4,3 +4,4 @@ TBGDBExpressDriverConexao BITMAP TBGDBExpressDriverConexao.BMP
 TBGZeosDriverConexao BITMAP TBGZeosDriverConexao.BMP
 TBGUnidacDriverConexao BITMAP TBGUnidacDriverConexao.bmp
 TTBGQuery BITMAP TTBGQuery.bmp
+TBGRestDWDriverConexao BITMAP TBGRestDWDriverConexao.bmp

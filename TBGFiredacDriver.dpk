@@ -38,6 +38,7 @@ requires
 contains
   TBGFiredacDriver.View.Driver in 'source\TBGFiredacDriver.View.Driver.pas',
   TBGFiredacDriver.Model.Conexao in 'source\TBGFiredacDriver.Model.Conexao.pas',
-  TBGFiredacDriver.Model.Query in 'source\TBGFiredacDriver.Model.Query.pas';
+  TBGFiredacDriver.Model.Query in 'source\TBGFiredacDriver.Model.Query.pas',
+  TBGFiredacDriver.Model.DataSet in 'source\TBGFiredacDriver.Model.DataSet.pas';
 
 end.

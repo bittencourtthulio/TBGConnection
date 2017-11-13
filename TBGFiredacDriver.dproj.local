@@ -22,10 +22,13 @@
     <Transaction>2017/10/22 11:07:39.000.813,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGFiredacDriver.Model.Conexao.pas</Transaction>
     <Transaction>2017/10/22 11:22:22.000.613,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
     <Transaction>2017/10/22 11:22:31.000.706,D:\Projetos\Componentes\TBGConnection\source\TBGFiredacDriver.Model.Query.pas=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/11/11 16:35:59.000.987,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/11/11 16:36:17.000.303,D:\Projetos\Componentes\TBGConnection\source\TBGFiredacDriver.Model.DataSet.pas=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="source"/>
     <File Path="source\TBGFiredacDriver.Model.Conexao.pas"/>
+    <File Path="source\TBGFiredacDriver.Model.DataSet.pas"/>
     <File Path="source\TBGFiredacDriver.Model.Query.pas"/>
     <File Path="source\TBGFiredacDriver.View.Driver.pas"/>
     <File Path="dbrtl.dcp"/>

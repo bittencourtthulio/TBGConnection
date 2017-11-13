@@ -40,7 +40,6 @@ contains
   TBGConnection.Model.DataSet.Observer in 'source\TBGConnection.Model.DataSet.Observer.pas',
   TBGConnection.Model.DataSet.Factory in 'source\TBGConnection.Model.DataSet.Factory.pas',
   TBGConnection.Model.DataSet.Interfaces in 'source\TBGConnection.Model.DataSet.Interfaces.pas',
-  TBGConnection.Model.DataSet in 'source\TBGConnection.Model.DataSet.pas',
   TBGConnection.Model.Helper in 'source\TBGConnection.Model.Helper.pas';
 
 end.

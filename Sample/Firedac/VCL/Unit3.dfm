@@ -1537,11 +1537,6 @@ object Form3: TForm3
     Left = 642
     Top = 168
   end
-  object TBGConnection1: TTBGConnection
-    Driver = BGFiredacDriverConexao1
-    Left = 48
-    Top = 280
-  end
   object TBGQuery1: TTBGQuery
     Connection = TBGConnection1
     DataSource = DataSource1
@@ -1577,6 +1572,11 @@ object Form3: TForm3
       'Password=masterkey'
       'DriverID=FB')
     Left = 272
+    Top = 280
+  end
+  object TBGConnection1: TTBGConnection
+    Driver = BGFiredacDriverConexao1
+    Left = 56
     Top = 280
   end
 end

@@ -112,6 +112,7 @@
         <DCCReference Include="source\TBGDBExpressDriver.Model.Conexao.pas"/>
         <DCCReference Include="source\TBGDBExpressDriver.Model.Query.pas"/>
         <DCCReference Include="source\TBGDBExpressDriver.View.Driver.pas"/>
+        <DCCReference Include="source\TBGDBExpressDriver.Model.DataSet.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

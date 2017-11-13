@@ -17,12 +17,13 @@ type
     ['{F8F3E0E2-4333-40CD-8A4E-7B7790F2FA73}']
     function Conexao : iConexao;
     function Query : iQuery;
+    function DataSet : iDataSet;
+    function Cache : iDriverProxy;
     function LimitCacheRegister(Value : Integer) : iDriver;
   end;
 
   iConexao = interface
     ['{FF14FC96-C57C-4BD0-9AFB-5F7AAD5D5138}']
-    function Cache : iDriverProxy;
     function Conectar : iConexao;
     function &End: TComponent;
     function Connection : TCustomConnection;
@@ -48,6 +49,7 @@ type
     function &End: TComponent;
     function Tag(Value : Integer) : iQuery;
     function LocalSQL(Value : TComponent) : iQuery;
+    function UpdateTableName(Tabela : String) : iQuery;
   end;
 
 

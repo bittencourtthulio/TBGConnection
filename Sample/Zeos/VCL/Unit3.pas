@@ -106,8 +106,8 @@ begin
   TBGConnection1.Driver.Conexao.StartTransaction;
   try
     TBGQuery4.Query.SQL.Text := 'INSERT INTO CLIENTE (ID, NOME) VALUES (:ID, :NOME)';
-    TBGQuery4.Query.Params.ParamByName('ID').AsInteger := StrToInt(Edit2.Text);
-    TBGQuery4.Query.Params.ParamByName('NOME').AsString := Edit3.Text;
+    TBGQuery4.Query.Params.ParamByName('ID').AsInteger := StrToInt(Edit4.Text);
+    TBGQuery4.Query.Params.ParamByName('NOME').AsString := Edit5.Text;
     TBGQuery4.Query.ExecSQL;
     TBGConnection1.Driver.Conexao.Commit;
   except
@@ -117,7 +117,7 @@ end;
 
 procedure TForm3.Button13Click(Sender: TObject);
 begin
-  TBGConnection1.Driver.Conexao.Cache.ClearCache;
+  TBGConnection1.Driver.Cache.ClearCache;
 end;
 
 procedure TForm3.Button14Click(Sender: TObject);

@@ -30,16 +30,14 @@ package TBGUniDacDriver;
 requires
   rtl,
   dbrtl,
-  {$IFDEF VER270} // Delphi XE6
-  unidac200, dac200,
-  {$ELSE}
-   unidac250, dac250,
-  {$ENDIF}
+  unidac250,
+  dac250,
   TBGConnection;
 
 contains
   TBGUnidacDriver.Model.Conexao in 'source\TBGUnidacDriver.Model.Conexao.pas',
   TBGUnidacDriver.Model.Query in 'source\TBGUnidacDriver.Model.Query.pas',
-  TBGUnidacDriver.View.Driver in 'source\TBGUnidacDriver.View.Driver.pas';
+  TBGUnidacDriver.View.Driver in 'source\TBGUnidacDriver.View.Driver.pas',
+  TBGUnidacDriver.Model.DataSet in 'source\TBGUnidacDriver.Model.DataSet.pas';
 
 end.

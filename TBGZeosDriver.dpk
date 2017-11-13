@@ -40,6 +40,7 @@ requires
 contains
   TBGZeosDriver.Model.Conexao in 'source\TBGZeosDriver.Model.Conexao.pas',
   TBGZeosDriver.Model.Query in 'source\TBGZeosDriver.Model.Query.pas',
-  TBGZeosDriver.View.Driver in 'source\TBGZeosDriver.View.Driver.pas';
+  TBGZeosDriver.View.Driver in 'source\TBGZeosDriver.View.Driver.pas',
+  TBGZeosDriver.Model.DataSet in 'source\TBGZeosDriver.Model.DataSet.pas';
 
 end.

@@ -12,16 +12,18 @@ Type
       FCacheDataSet : TDictionary<string, iDataSet>;
       FObserver : ICacheDataSetSubject;
       FLimitCacheRegister : Integer;
+      FDriver : iDriver;
     procedure LimiterCache;
     public
-      constructor Create(LimitCacheRegister : Integer);
+      constructor Create(LimitCacheRegister : Integer; Driver : iDriver);
       destructor Destroy; override;
-      class function New(LimitCacheRegister : Integer) : iDriverProxy;
+      class function New(LimitCacheRegister : Integer; Driver : iDriver) : iDriverProxy;
       function CacheDataSet(Key : String; var Value : iDataSet) : boolean;
       function AddCacheDataSet(Key : String; Value : iDataSet) : iDriverProxy;
       function RemoveCache(Key : String) : iDriverProxy;
       function ClearCache : iDriverProxy;
       function ReloadCache(Value : String) : iDriverProxy;
+      function ObserverList : ICacheDataSetSubject;
   end;
 
 implementation
@@ -58,7 +60,7 @@ begin
 
   if not Assigned(Value) then
   begin
-    Value := TConnectionModelDataSetFactory.New.DataSet(FObserver);
+    Value := FDriver.DataSet;// TConnectionModelDataSetFactory.New.DataSet(FObserver);
   end;
 
 end;
@@ -68,11 +70,12 @@ begin
   FCacheDataSet.Clear;
 end;
 
-constructor TTBGConnectionModelProxy.Create(LimitCacheRegister : Integer);
+constructor TTBGConnectionModelProxy.Create(LimitCacheRegister : Integer; Driver : iDriver);
 begin
   FCacheDataSet := TDictionary<string, iDataSet>.Create;
   FObserver := TConnectionModelDataSetObserver.New;
   FLimitCacheRegister := LimitCacheRegister;
+  FDriver := Driver;
 end;
 
 destructor TTBGConnectionModelProxy.Destroy;
@@ -81,9 +84,14 @@ begin
   inherited;
 end;
 
-class function TTBGConnectionModelProxy.New(LimitCacheRegister : Integer) : iDriverProxy;
+class function TTBGConnectionModelProxy.New(LimitCacheRegister : Integer; Driver : iDriver) : iDriverProxy;
 begin
-  Result := Self.Create(LimitCacheRegister);
+  Result := Self.Create(LimitCacheRegister, Driver);
+end;
+
+function TTBGConnectionModelProxy.ObserverList: ICacheDataSetSubject;
+begin
+  Result := FObserver;
 end;
 
 function TTBGConnectionModelProxy.ReloadCache(Value: String): iDriverProxy;
