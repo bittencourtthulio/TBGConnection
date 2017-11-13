@@ -1,7 +1,0 @@
-unit TBGZeosDriver.Model.Query;
-
-interface
-
-implementation
-
-end.

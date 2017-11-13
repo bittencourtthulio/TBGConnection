@@ -1,7 +1,0 @@
-unit TBGConnection.Model.DataSet.Factory;
-
-interface
-
-implementation
-
-end.
