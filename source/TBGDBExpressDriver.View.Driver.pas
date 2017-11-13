@@ -4,7 +4,8 @@ interface
 
 uses
   TBGConnection.Model.Interfaces, System.Classes, TBGConnection.Model.Conexao.Parametros,
-  System.Generics.Collections, Data.SQLExpr;
+  System.Generics.Collections, Data.SQLExpr,
+  TBGConnection.Model.DataSet.Interfaces;
 
 Type
   TBGDBExpressDriverConexao = class(TComponent, iDriver)
@@ -14,6 +15,7 @@ Type
     FiConexao : iConexao;
     FiQuery : TList<iQuery>;
     FLimitCacheRegister : Integer;
+    FProxy : iDriverProxy;
     procedure SetFConnection(const Value: TSQLConnection);
     procedure SetFQuery(const Value: TSQLQuery);
     function GetLimitCache: Integer;
@@ -22,6 +24,8 @@ Type
       FParametros : iConexaoParametros;
       function Conexao : iConexao;
       function Query : iQuery;
+      function Cache : iDriverProxy;
+      function DataSet : iDataSet;
     public
       constructor Create;
       destructor Destroy; override;
@@ -41,9 +45,18 @@ implementation
 
 uses
   System.SysUtils, TBGDBExpressDriver.Model.Query,
-  TBGDBExpressDriver.Model.Conexao;
+  TBGDBExpressDriver.Model.Conexao, TBGConnection.Model.DataSet.Proxy,
+  TBGDBExpressDriver.Model.DataSet;
 
 { TBGDBExpressDriverConexao }
+
+function TBGDBExpressDriverConexao.Cache: iDriverProxy;
+begin
+   if not Assigned(FProxy) then
+    FProxy := TTBGConnectionModelProxy.New(FLimitCacheRegister, Self);
+
+  Result := FProxy;
+end;
 
 function TBGDBExpressDriverConexao.Conectar: iConexao;
 begin
@@ -69,7 +82,7 @@ end;
 function TBGDBExpressDriverConexao.Conexao: iConexao;
 begin
   if not Assigned(FiConexao) then
-    FiConexao := TDBExpressDriverModelConexao.New(FFConnection, FLimitCacheRegister);
+    FiConexao := TDBExpressDriverModelConexao.New(FFConnection, FLimitCacheRegister, Self);
 
   Result := FiConexao;
 end;
@@ -77,6 +90,14 @@ end;
 constructor TBGDBExpressDriverConexao.Create;
 begin
   FiQuery := TList<iQuery>.Create;
+end;
+
+function TBGDBExpressDriverConexao.DataSet: iDataSet;
+begin
+  if not Assigned(FProxy) then
+    FProxy := TTBGConnectionModelProxy.New(FLimitCacheRegister, Self);
+
+  Result := TConnectionModelDBExpressDataSet.New(FProxy.ObserverList);
 end;
 
 destructor TBGDBExpressDriverConexao.Destroy;
@@ -102,9 +123,9 @@ begin
     FiQuery := TList<iQuery>.Create;
 
   if Not Assigned(FiConexao) then
-    FiConexao := TDBExpressDriverModelConexao.New(FFConnection, FLimitCacheRegister);
+    FiConexao := TDBExpressDriverModelConexao.New(FFConnection, FLimitCacheRegister, Self);
 
-  FiQuery.Add(TDBExpressModelQuery.New(FFConnection, FiConexao));
+  FiQuery.Add(TDBExpressModelQuery.New(FFConnection, Self));
   Result := FiQuery[FiQuery.Count-1];
 end;
 

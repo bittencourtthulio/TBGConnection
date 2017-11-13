@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2017/11/09 19:41:26.000.226,=rtl.dcp</Transaction>
+    <Transaction>2017/11/09 19:43:27.000.009,=rtl.dcp</Transaction>
+    <Transaction>2017/11/09 19:44:20.000.453,C:\Users\Gilson\Documents\Embarcadero\Studio\Projects\Package1.dproj=C:\Users\Gilson\Documents\Embarcadero\Studio\Projects\TBGRestDWDriver.dproj</Transaction>
+    <Transaction>2017/11/09 19:46:05.000.836,=C:\Componentes\Berlin\TBGConnection-Dev\source\TBGRestDWDriver.Model.Query.pas</Transaction>
+    <Transaction>2017/11/09 19:46:05.000.856,=C:\Componentes\Berlin\TBGConnection-Dev\source\TBGRestDWDriver.View.Driver.pas</Transaction>
+    <Transaction>2017/11/09 19:46:05.000.818,=C:\Componentes\Berlin\TBGConnection-Dev\source\TBGRestDWDriver.Model.Conexao.pas</Transaction>
+    <Transaction>2017/11/09 19:46:24.000.361,C:\Componentes\Berlin\TBGConnection-Dev\source\TBGRestDWDriver.Model.Conexao.pas=</Transaction>
+    <Transaction>2017/11/09 19:46:24.000.438,C:\Componentes\Berlin\TBGConnection-Dev\source\TBGRestDWDriver.View.Driver.pas=</Transaction>
+    <Transaction>2017/11/09 19:46:24.000.401,C:\Componentes\Berlin\TBGConnection-Dev\source\TBGRestDWDriver.Model.Query.pas=</Transaction>
+    <Transaction>2017/11/09 19:46:46.000.413,C:\Users\Gilson\Documents\Embarcadero\Studio\Projects\TBGRestDWDriver.dproj=C:\Componentes\Berlin\TBGConnection-Dev\TBGRestDWDriver.dproj</Transaction>
+    <Transaction>2017/11/09 19:47:05.000.408,=C:\Componentes\Berlin\TBGConnection-Dev\source\TBGRestDWDriver.Model.Conexao.pas</Transaction>
+    <Transaction>2017/11/09 19:47:05.000.449,=C:\Componentes\Berlin\TBGConnection-Dev\source\TBGRestDWDriver.View.Driver.pas</Transaction>
+    <Transaction>2017/11/09 19:47:05.000.427,=C:\Componentes\Berlin\TBGConnection-Dev\source\TBGRestDWDriver.Model.Query.pas</Transaction>
+    <Transaction>2017/11/09 20:03:48.000.550,=IndyCore.dcp</Transaction>
+    <Transaction>2017/11/09 20:03:48.000.657,=RestDatawareCORE.dcp</Transaction>
+    <Transaction>2017/11/09 20:03:48.000.677,=TBGConnection.dcp</Transaction>
+    <Transaction>2017/11/09 20:03:48.000.588,=FireDACCommonDriver.dcp</Transaction>
+    <Transaction>2017/11/09 20:03:48.000.622,=dsnap.dcp</Transaction>
+    <Transaction>2017/11/09 20:03:48.000.478,=dbrtl.dcp</Transaction>
+    <Transaction>2017/11/09 20:03:48.000.514,=IndySystem.dcp</Transaction>
+    <Transaction>2017/11/09 20:03:48.000.497,=soaprtl.dcp</Transaction>
+    <Transaction>2017/11/09 20:03:48.000.568,=FireDAC.dcp</Transaction>
+    <Transaction>2017/11/09 20:03:48.000.532,=IndyProtocols.dcp</Transaction>
+    <Transaction>2017/11/09 20:03:48.000.605,=FireDACCommon.dcp</Transaction>
+    <Transaction>2017/11/09 20:03:48.000.640,=dac240.dcp</Transaction>
+    <Transaction>2017/11/09 21:50:05.000.543,=dac240.dcp</Transaction>
+    <Transaction>2017/11/09 21:52:04.000.997,=dac240.dcp</Transaction>
+    <Transaction>2017/11/11 17:32:10.000.495,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/11/11 17:32:28.000.779,D:\Projetos\Componentes\TBGConnection\source\TBGRestDWDriver.Model.DataSet.pas=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>

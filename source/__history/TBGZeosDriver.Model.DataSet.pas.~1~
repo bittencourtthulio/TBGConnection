@@ -1,0 +1,7 @@
+unit TBGZeosDriver.Model.DataSet;
+
+interface
+
+implementation
+
+end.

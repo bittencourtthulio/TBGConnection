@@ -10,13 +10,12 @@ Type
   TUnidacDriverModelConexao = class(TInterfacedObject, iConexao)
     private
       FConnection : TUniConnection;
-      FCache : iDriverProxy;
+      FDriver : iDriver;
     public
-      constructor Create(Connection : TUniConnection; LimitCacheRegister : Integer);
+      constructor Create(Connection : TUniConnection; LimitCacheRegister : Integer; Driver : iDriver);
       destructor Destroy; override;
-      class function New(Connection : TUniConnection; LimitCacheRegister : Integer) : iConexao;
+      class function New(Connection : TUniConnection; LimitCacheRegister : Integer; Driver : iDriver) : iConexao;
       //iConexao
-      function Cache : iDriverProxy;
       function Conectar : iConexao;
       function &End: TComponent;
       function Connection : TCustomConnection;
@@ -31,11 +30,6 @@ uses
   TBGConnection.Model.DataSet.Proxy;
 
 { TUnidacDriverModelConexao }
-
-function TUnidacDriverModelConexao.Cache: iDriverProxy;
-begin
-  Result := FCache;
-end;
 
 function TUnidacDriverModelConexao.Commit: iConexao;
 begin
@@ -59,10 +53,10 @@ begin
   Result := FConnection;
 end;
 
-constructor TUnidacDriverModelConexao.Create(Connection : TUniConnection; LimitCacheRegister : Integer);
+constructor TUnidacDriverModelConexao.Create(Connection : TUniConnection; LimitCacheRegister : Integer; Driver : iDriver);
 begin
   FConnection := Connection;
-  FCache := TTBGConnectionModelProxy.New(LimitCacheRegister);
+  FDriver := Driver;
 end;
 
 destructor TUnidacDriverModelConexao.Destroy;
@@ -71,9 +65,9 @@ begin
   inherited;
 end;
 
-class function TUnidacDriverModelConexao.New(Connection : TUniConnection; LimitCacheRegister : Integer) : iConexao;
+class function TUnidacDriverModelConexao.New(Connection : TUniConnection; LimitCacheRegister : Integer; Driver : iDriver) : iConexao;
 begin
-  Result := Self.Create(Connection, LimitCacheRegister);
+  Result := Self.Create(Connection, LimitCacheRegister, Driver);
 end;
 
 function TUnidacDriverModelConexao.RollbackTransaction: iConexao;

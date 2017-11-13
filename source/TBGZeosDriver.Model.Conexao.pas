@@ -10,13 +10,12 @@ Type
   TZeosDriverModelConexao = class(TInterfacedObject, iConexao)
     private
       FConnection : TZConnection;
-      FCache : iDriverProxy;
+      FDriver : iDriver;
     public
-      constructor Create(Connection : TZConnection; LimitCacheRegister : Integer);
+      constructor Create(Connection : TZConnection; LimitCacheRegister : Integer; Driver : iDriver);
       destructor Destroy; override;
-      class function New(Connection : TZConnection; LimitCacheRegister : Integer) : iConexao;
+      class function New(Connection : TZConnection; LimitCacheRegister : Integer; Driver : iDriver) : iConexao;
       //iConexao
-      function Cache : iDriverProxy;
       function Conectar : iConexao;
       function &End: TComponent;
       function Connection : TCustomConnection;
@@ -31,11 +30,6 @@ uses
   System.SysUtils, TBGConnection.Model.DataSet.Proxy;
 
 { TZeosDriverModelConexao }
-
-function TZeosDriverModelConexao.Cache: iDriverProxy;
-begin
-  Result := FCache;
-end;
 
 function TZeosDriverModelConexao.Commit: iConexao;
 begin
@@ -59,10 +53,10 @@ begin
   raise Exception.Create('Função não suportada para este driver');
 end;
 
-constructor TZeosDriverModelConexao.Create(Connection : TZConnection; LimitCacheRegister : Integer);
+constructor TZeosDriverModelConexao.Create(Connection : TZConnection; LimitCacheRegister : Integer; Driver : iDriver);
 begin
+  FDriver := Driver;
   FConnection := Connection;
-  FCache := TTBGConnectionModelProxy.New(LimitCacheRegister);
 end;
 
 destructor TZeosDriverModelConexao.Destroy;
@@ -71,9 +65,9 @@ begin
   inherited;
 end;
 
-class function TZeosDriverModelConexao.New(Connection : TZConnection; LimitCacheRegister : Integer) : iConexao;
+class function TZeosDriverModelConexao.New(Connection : TZConnection; LimitCacheRegister : Integer; Driver : iDriver) : iConexao;
 begin
-  Result := Self.Create(Connection, LimitCacheRegister);
+  Result := Self.Create(Connection, LimitCacheRegister, Driver);
 end;
 
 function TZeosDriverModelConexao.RollbackTransaction: iConexao;

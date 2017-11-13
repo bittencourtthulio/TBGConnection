@@ -113,6 +113,7 @@
         <DCCReference Include="source\TBGFiredacDriver.View.Driver.pas"/>
         <DCCReference Include="source\TBGFiredacDriver.Model.Conexao.pas"/>
         <DCCReference Include="source\TBGFiredacDriver.Model.Query.pas"/>
+        <DCCReference Include="source\TBGFiredacDriver.Model.DataSet.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

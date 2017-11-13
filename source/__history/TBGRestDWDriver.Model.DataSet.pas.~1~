@@ -1,0 +1,7 @@
+unit TBGRestDWDriver.Model.DataSet;
+
+interface
+
+implementation
+
+end.

@@ -117,7 +117,7 @@ end;
 
 procedure TForm3.Button13Click(Sender: TObject);
 begin
-  TBGConnection1.Driver.Conexao.Cache.ClearCache;
+  TBGConnection1.Driver.Cache.ClearCache;
 end;
 
 procedure TForm3.Button14Click(Sender: TObject);

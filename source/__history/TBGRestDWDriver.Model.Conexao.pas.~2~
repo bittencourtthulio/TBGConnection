@@ -1,0 +1,92 @@
+﻿unit TBGRestDWDriver.Model.Conexao;
+
+interface
+
+uses
+  TBGConnection.Model.Interfaces, System.Classes, Data.DB,
+  uRESTDWPoolerDB, System.SysUtils,
+  TBGConnection.Model.DataSet.Interfaces;
+
+Type
+  TRestDWDriverModelConexao = class(TInterfacedObject, iConexao)
+    private
+      FConnection : TRESTDWDataBase;
+      FCache : iDriverProxy;
+    public
+      constructor Create(Connection : TRestDWDataBase; LimitCacheRegister : Integer);
+      destructor Destroy; override;
+      class function New(Connection : TRestDWDataBase; LimitCacheRegister : Integer) : iConexao;
+      //iConexao
+      function Cache : iDriverProxy;
+      function Conectar : iConexao;
+      function &End: TComponent;
+      function Connection : TCustomConnection;
+      function StartTransaction : iConexao;
+      function RollbackTransaction : iConexao;
+      function Commit : iConexao;
+  end;
+
+implementation
+
+uses
+  TBGConnection.Model.DataSet.Proxy;
+
+{ TRestDWDriverModelConexao }
+
+function TRestDWDriverModelConexao.Cache: iDriverProxy;
+begin
+  Result := FCache;
+end;
+
+function TRestDWDriverModelConexao.Commit: iConexao;
+begin
+  Result := Self;
+  raise Exception.Create('Função não suportada por este driver');
+end;
+
+function TRestDWDriverModelConexao.Conectar: iConexao;
+begin
+  Result := Self;
+  FConnection.Connected := true;
+end;
+
+function TRestDWDriverModelConexao.&End: TComponent;
+begin
+  Result := FConnection;
+end;
+
+function TRestDWDriverModelConexao.Connection: TCustomConnection;
+begin
+  Result := TCustomConnection(FConnection);
+end;
+
+constructor TRestDWDriverModelConexao.Create(Connection : TRestDWDataBase; LimitCacheRegister : Integer);
+begin
+  FConnection := Connection;
+  FCache := TTBGConnectionModelProxy.New(LimitCacheRegister);
+end;
+
+destructor TRestDWDriverModelConexao.Destroy;
+begin
+
+  inherited;
+end;
+
+class function TRestDWDriverModelConexao.New(Connection : TRestDWDataBase; LimitCacheRegister : Integer) : iConexao;
+begin
+  Result := Self.Create(Connection, LimitCacheRegister);
+end;
+
+function TRestDWDriverModelConexao.RollbackTransaction: iConexao;
+begin
+  Result := Self;
+  raise Exception.Create('Função não suportada por este driver');
+end;
+
+function TRestDWDriverModelConexao.StartTransaction: iConexao;
+begin
+  Result := Self;
+  raise Exception.Create('Função não suportada por este driver');
+end;
+
+end.

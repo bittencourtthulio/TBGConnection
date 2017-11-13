@@ -4,7 +4,8 @@ interface
 
 uses
   TBGConnection.Model.Interfaces, System.Classes, TBGConnection.Model.Conexao.Parametros,
-  FireDAC.Comp.Client, System.Generics.Collections, FireDAC.DApt;
+  FireDAC.Comp.Client, System.Generics.Collections, FireDAC.DApt,
+  TBGConnection.Model.DataSet.Interfaces;
 
 Type
   TBGFiredacDriverConexao = class(TComponent, iDriver)
@@ -14,6 +15,7 @@ Type
     FiConexao : iConexao;
     FiQuery : TList<iQuery>;
     FLimitCacheRegister : Integer;
+    FProxy : iDriverProxy;
     procedure SetFConnection(const Value: TFDConnection);
     procedure SetFQuery(const Value: TFDQuery);
     function GetLimitCache: Integer;
@@ -22,6 +24,8 @@ Type
       FParametros : iConexaoParametros;
       function Conexao : iConexao;
       function Query : iQuery;
+      function Cache : iDriverProxy;
+      function DataSet : iDataSet;
     public
       constructor Create;
       destructor Destroy; override;
@@ -42,9 +46,18 @@ implementation
 
 uses
   TBGFiredacDriver.Model.Conexao, TBGFiredacDriver.Model.Query,
-  System.SysUtils;
+  System.SysUtils, TBGFiredacDriver.Model.DataSet,
+  TBGConnection.Model.DataSet.Proxy;
 
 { TBGFiredacDriverConexao }
+
+function TBGFiredacDriverConexao.Cache: iDriverProxy;
+begin
+  if not Assigned(FProxy) then
+    FProxy := TTBGConnectionModelProxy.New(FLimitCacheRegister, Self);
+
+  Result := FProxy;
+end;
 
 function TBGFiredacDriverConexao.Conectar: iConexao;
 begin
@@ -70,7 +83,7 @@ end;
 function TBGFiredacDriverConexao.Conexao: iConexao;
 begin
   if not Assigned(FiConexao) then
-    FiConexao := TFiredacDriverModelConexao.New(FFConnection, FLimitCacheRegister);
+    FiConexao := TFiredacDriverModelConexao.New(FFConnection, FLimitCacheRegister, Self);
 
   Result := FiConexao;
 end;
@@ -78,6 +91,14 @@ end;
 constructor TBGFiredacDriverConexao.Create;
 begin
   FiQuery := TList<iQuery>.Create;
+end;
+
+function TBGFiredacDriverConexao.DataSet: iDataSet;
+begin
+  if not Assigned(FProxy) then
+    FProxy := TTBGConnectionModelProxy.New(FLimitCacheRegister, Self);
+
+  Result := TConnectionModelFiredacDataSet.New(FProxy.ObserverList);
 end;
 
 destructor TBGFiredacDriverConexao.Destroy;
@@ -103,9 +124,9 @@ begin
     FiQuery := TList<iQuery>.Create;
 
   if Not Assigned(FiConexao) then
-    FiConexao := TFiredacDriverModelConexao.New(FFConnection, FLimitCacheRegister);
+    FiConexao := TFiredacDriverModelConexao.New(FFConnection, FLimitCacheRegister, Self);
 
-  FiQuery.Add(TFiredacModelQuery.New(FFConnection, FiConexao));
+  FiQuery.Add(TFiredacModelQuery.New(FFConnection, Self));
   Result := FiQuery[FiQuery.Count-1];
 end;
 

@@ -12,13 +12,12 @@ Type
     private
       FConnection : TSQLConnection;
       FTrans: TDBXTransaction;
-      FCache : iDriverProxy;
+      FDriver : iDriver;
     public
-      constructor Create(Connection : TSQLConnection; LimitCacheRegister : Integer);
+      constructor Create(Connection : TSQLConnection; LimitCacheRegister : Integer; Driver : iDriver);
       destructor Destroy; override;
-      class function New(Connection : TSQLConnection; LimitCacheRegister : Integer) : iConexao;
+      class function New(Connection : TSQLConnection; LimitCacheRegister : Integer; Driver : iDriver) : iConexao;
       //iConexao
-      function Cache : iDriverProxy;
       function Conectar : iConexao;
       function &End: TComponent;
       function Connection : TCustomConnection;
@@ -33,11 +32,6 @@ uses
   System.SysUtils, TBGConnection.Model.DataSet.Proxy;
 
 { TDBExpressDriverModelConexao }
-
-function TDBExpressDriverModelConexao.Cache: iDriverProxy;
-begin
-  Result := FCache;
-end;
 
 function TDBExpressDriverModelConexao.Commit: iConexao;
 begin
@@ -61,10 +55,10 @@ begin
   Result := FConnection;
 end;
 
-constructor TDBExpressDriverModelConexao.Create(Connection : TSQLConnection; LimitCacheRegister : Integer);
+constructor TDBExpressDriverModelConexao.Create(Connection : TSQLConnection; LimitCacheRegister : Integer; Driver : iDriver);
 begin
   FConnection := Connection;
-  FCache := TTBGConnectionModelProxy.New(LimitCacheRegister);
+  FDriver := Driver;
 end;
 
 destructor TDBExpressDriverModelConexao.Destroy;
@@ -73,9 +67,9 @@ begin
   inherited;
 end;
 
-class function TDBExpressDriverModelConexao.New(Connection : TSQLConnection; LimitCacheRegister : Integer) : iConexao;
+class function TDBExpressDriverModelConexao.New(Connection : TSQLConnection; LimitCacheRegister : Integer; Driver : iDriver) : iConexao;
 begin
-  Result := Self.Create(Connection, LimitCacheRegister);
+  Result := Self.Create(Connection, LimitCacheRegister, Driver);
 end;
 
 function TDBExpressDriverModelConexao.RollbackTransaction: iConexao;

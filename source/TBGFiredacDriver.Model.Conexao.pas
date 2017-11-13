@@ -10,13 +10,12 @@ Type
   TFiredacDriverModelConexao = class(TInterfacedObject, iConexao)
     private
       FConnection : TFDConnection;
-      FCache : iDriverProxy;
+      FDriver : iDriver;
     public
-      constructor Create(Connection : TFDConnection; LimitCacheRegister : Integer);
+      constructor Create(Connection : TFDConnection; LimitCacheRegister : Integer; Driver : iDriver);
       destructor Destroy; override;
-      class function New(Connection : TFDConnection; LimitCacheRegister : Integer) : iConexao;
+      class function New(Connection : TFDConnection; LimitCacheRegister : Integer; Driver : iDriver) : iConexao;
       //iConexao
-      function Cache : iDriverProxy;
       function Conectar : iConexao;
       function &End: TComponent;
       function Connection : TCustomConnection;
@@ -31,11 +30,6 @@ uses
   TBGConnection.Model.DataSet.Proxy;
 
 { TFiredacDriverModelConexao }
-
-function TFiredacDriverModelConexao.Cache: iDriverProxy;
-begin
-  Result := FCache;
-end;
 
 function TFiredacDriverModelConexao.Commit: iConexao;
 begin
@@ -59,10 +53,10 @@ begin
   Result := FConnection;
 end;
 
-constructor TFiredacDriverModelConexao.Create(Connection : TFDConnection; LimitCacheRegister : Integer);
+constructor TFiredacDriverModelConexao.Create(Connection : TFDConnection; LimitCacheRegister : Integer; Driver : iDriver);
 begin
   FConnection := Connection;
-  FCache := TTBGConnectionModelProxy.New(LimitCacheRegister);
+  FDriver := Driver;
 end;
 
 destructor TFiredacDriverModelConexao.Destroy;
@@ -71,9 +65,9 @@ begin
   inherited;
 end;
 
-class function TFiredacDriverModelConexao.New(Connection : TFDConnection; LimitCacheRegister : Integer) : iConexao;
+class function TFiredacDriverModelConexao.New(Connection : TFDConnection; LimitCacheRegister : Integer; Driver : iDriver) : iConexao;
 begin
-  Result := Self.Create(Connection, LimitCacheRegister);
+  Result := Self.Create(Connection, LimitCacheRegister, Driver);
 end;
 
 function TFiredacDriverModelConexao.RollbackTransaction: iConexao;

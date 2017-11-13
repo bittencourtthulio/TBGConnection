@@ -113,7 +113,6 @@
         <DCCReference Include="source\TBGConnection.Model.DataSet.Observer.pas"/>
         <DCCReference Include="source\TBGConnection.Model.DataSet.Factory.pas"/>
         <DCCReference Include="source\TBGConnection.Model.DataSet.Interfaces.pas"/>
-        <DCCReference Include="source\TBGConnection.Model.DataSet.pas"/>
         <DCCReference Include="source\TBGConnection.Model.Helper.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

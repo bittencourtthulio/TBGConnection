@@ -1,0 +1,7 @@
+unit TBGRemoteCache.Model.Interfaces;
+
+interface
+
+implementation
+
+end.

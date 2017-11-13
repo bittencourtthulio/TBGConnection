@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2017/11/08 22:41:13.322,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\FormUnit1.pas</Transaction>
+    <Transaction>2017/11/08 22:41:13.448,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\ServerMethodsUnit1.pas</Transaction>
+    <Transaction>2017/11/08 22:41:13.569,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\WebModuleUnit1.pas</Transaction>
+    <Transaction>2017/11/08 22:41:15.121,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\js\base64.js</Transaction>
+    <Transaction>2017/11/08 22:41:15.127,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\js\serverfunctionexecutor.js</Transaction>
+    <Transaction>2017/11/08 22:41:15.136,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\js\json2.js</Transaction>
+    <Transaction>2017/11/08 22:41:15.145,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\js\callbackframework.js</Transaction>
+    <Transaction>2017/11/08 22:41:15.158,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\js\serverfunctions.js</Transaction>
+    <Transaction>2017/11/08 22:41:15.170,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\js\base64-min.js</Transaction>
+    <Transaction>2017/11/08 22:41:15.181,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\js\json2-min.js</Transaction>
+    <Transaction>2017/11/08 22:41:15.196,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\js\serverfunctionexecutor-min.js</Transaction>
+    <Transaction>2017/11/08 22:41:15.211,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\js\callbackframework-min.js</Transaction>
+    <Transaction>2017/11/08 22:41:15.227,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\js\connection.js</Transaction>
+    <Transaction>2017/11/08 22:41:15.243,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\js\serverfunctioninvoker.js</Transaction>
+    <Transaction>2017/11/08 22:41:15.266,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\css\main.css</Transaction>
+    <Transaction>2017/11/08 22:41:15.288,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\css\serverfunctioninvoker.css</Transaction>
+    <Transaction>2017/11/08 22:41:15.310,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\templates\reversestring.html</Transaction>
+    <Transaction>2017/11/08 22:41:15.339,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\templates\serverfunctioninvoker.html</Transaction>
+    <Transaction>2017/11/08 22:41:15.428,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\images\collapse.png</Transaction>
+    <Transaction>2017/11/08 22:41:15.452,=D:\Projetos\Componentes\TBGConnection\Sample\DataSnap\REST\images\expand.png</Transaction>
+  </Transactions>
+</BorlandProject>

@@ -14,7 +14,7 @@ Type
       FSQL : String;
       FKey : Integer;
       FConexao : TFDConnection;
-      FiConexao : iConexao;
+      FDriver : iDriver;
       FQuery : TList<TFDQuery>;
       FDataSource : TDataSource;
       FDataSet : TDictionary<integer, iDataSet>;
@@ -23,10 +23,11 @@ Type
       procedure InstanciaQuery;
       function GetDataSet : iDataSet;
       function GetQuery : TFDQuery;
+      procedure SetQuery(Value : TFDQuery);
     public
-      constructor Create(Conexao : TFDConnection; iConexao : iConexao);
+      constructor Create(Conexao : TFDConnection; Driver : iDriver);
       destructor Destroy; override;
-      class function New(Conexao : TFDConnection; iConexao : iConexao) : iQuery;
+      class function New(Conexao : TFDConnection; Driver : iDriver) : iQuery;
       //iObserver
       procedure ApplyUpdates(DataSet : TDataSet);
       //iQuery
@@ -45,6 +46,7 @@ Type
       function Params : TParams;
       function ParamByName(Value : String) : TParam;
       function ExecSQL : iQuery; overload;
+      function UpdateTableName(Tabela : String) : iQuery;
   end;
 
 implementation
@@ -110,7 +112,7 @@ end;
 
 procedure TFiredacModelQuery.ApplyUpdates(DataSet: TDataSet);
 begin
-  FiConexao.Cache.ReloadCache('');
+  FDriver.Cache.ReloadCache('');
 end;
 
 function TFiredacModelQuery.ChangeDataSet(Value: TChangeDataSet): iQuery;
@@ -125,9 +127,9 @@ begin
   GetQuery.Close;
 end;
 
-constructor TFiredacModelQuery.Create(Conexao : TFDConnection;iConexao : iConexao);
+constructor TFiredacModelQuery.Create(Conexao : TFDConnection; Driver : iDriver);
 begin
-  FiConexao := iConexao;
+  FDriver := Driver;
   FConexao := Conexao;
   FKey := 0;
   FQuery := TList<TFDQuery>.Create;
@@ -159,9 +161,9 @@ begin
   inherited;
 end;
 
-class function TFiredacModelQuery.New(Conexao : TFDConnection; iConexao : iConexao) : iQuery;
+class function TFiredacModelQuery.New(Conexao : TFDConnection; Driver : iDriver) : iQuery;
 begin
-  Result := Self.Create(Conexao, iConexao);
+  Result := Self.Create(Conexao, Driver);
 end;
 
 function TFiredacModelQuery.Open(aSQL: String): iQuery;
@@ -171,15 +173,17 @@ var
 begin
   Result := Self;
   FSQL := aSQL;
-  if not FiConexao.Cache.CacheDataSet(FSQL, DataSet) then
+  if not FDriver.Cache.CacheDataSet(FSQL, DataSet) then
   begin
     InstanciaQuery;
-    DataSet.SQL(FSQL);
     DataSet.DataSet(GetQuery);
+    DataSet.SQL(FSQL);
     GetQuery.Close;
     GetQuery.Open(aSQL);
-    FiConexao.Cache.AddCacheDataSet(DataSet.GUUID, DataSet);
-  end;
+    FDriver.Cache.AddCacheDataSet(DataSet.GUUID, DataSet);
+  end
+  else
+    SetQuery(TFDQuery(DataSet.DataSet));
   FDataSource.DataSet := DataSet.DataSet;
   Inc(FKey);
   FDataSet.Add(FKey, DataSet);
@@ -199,6 +203,11 @@ begin
   Result := FParams;
 end;
 
+procedure TFiredacModelQuery.SetQuery(Value: TFDQuery);
+begin
+  FQuery.Items[Pred(FQuery.Count)] := Value;
+end;
+
 function TFiredacModelQuery.SQL: TStrings;
 begin
  Result := GetQuery.SQL;
@@ -208,6 +217,11 @@ function TFiredacModelQuery.Tag(Value: Integer): iQuery;
 begin
   Result := Self;
   GetQuery.Tag := Value;
+end;
+
+function TFiredacModelQuery.UpdateTableName(Tabela: String): iQuery;
+begin
+  Result := Self;
 end;
 
 end.

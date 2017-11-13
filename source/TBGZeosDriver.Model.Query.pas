@@ -15,6 +15,7 @@ Type
       FSQL : String;
       FKey : Integer;
       FConexao : TZConnection;
+      FDriver : iDriver;
       FiConexao : iConexao;
       FQuery : TList<TZQuery>;
       FDataSource : TDataSource;
@@ -25,9 +26,9 @@ Type
       function GetDataSet : iDataSet;
       function GetQuery : TZQuery;
     public
-      constructor Create(Conexao : TZConnection; iConexao : iConexao);
+      constructor Create(Conexao : TZConnection; Driver : iDriver);
       destructor Destroy; override;
-      class function New(Conexao : TZConnection; iConexao : iConexao) : iQuery;
+      class function New(Conexao : TZConnection; Driver : iDriver) : iQuery;
       //iObserver
       procedure ApplyUpdates(DataSet : TDataSet);
       //iQuery
@@ -46,6 +47,7 @@ Type
       function Params : TParams;
       function ParamByName(Value : String) : TParam;
       function ExecSQL : iQuery; overload;
+      function UpdateTableName(Tabela : String) : iQuery;
   end;
 
 implementation
@@ -107,7 +109,7 @@ end;
 
 procedure TZeosModelQuery.ApplyUpdates(DataSet: TDataSet);
 begin
-  FiConexao.Cache.ReloadCache('');
+  FDriver.Cache.ReloadCache('');
 end;
 
 function TZeosModelQuery.ChangeDataSet(Value: TChangeDataSet): iQuery;
@@ -122,9 +124,9 @@ begin
   GetQuery.Close;
 end;
 
-constructor TZeosModelQuery.Create(Conexao : TZConnection; iConexao : iConexao);
+constructor TZeosModelQuery.Create(Conexao : TZConnection; Driver : iDriver);
 begin
-  FiConexao := iConexao;
+  FDriver := Driver;
   FConexao := Conexao;
   FKey := 0;
   FQuery := TList<TZQuery>.Create;
@@ -156,9 +158,9 @@ begin
   inherited;
 end;
 
-class function TZeosModelQuery.New(Conexao : TZConnection; iConexao : iConexao) : iQuery;
+class function TZeosModelQuery.New(Conexao : TZConnection; Driver : iDriver) : iQuery;
 begin
-  Result := Self.Create(Conexao, iConexao);
+  Result := Self.Create(Conexao, Driver);
 end;
 
 function TZeosModelQuery.Open(aSQL: String): iQuery;
@@ -168,7 +170,7 @@ var
 begin
   Result := Self;
   FSQL := aSQL;
-  if not FiConexao.Cache.CacheDataSet(FSQL, DataSet) then
+  if not FDriver.Cache.CacheDataSet(FSQL, DataSet) then
   begin
     InstanciaQuery;
     DataSet.SQL(FSQL);
@@ -176,7 +178,7 @@ begin
     GetQuery.Close;
     GetQuery.SQL.Text := FSQL;
     GetQuery.Open;
-    FiConexao.Cache.AddCacheDataSet(DataSet.GUUID, DataSet);
+    FDriver.Cache.AddCacheDataSet(DataSet.GUUID, DataSet);
   end;
   FDataSource.DataSet := DataSet.DataSet;
   Inc(FKey);
@@ -202,6 +204,11 @@ function TZeosModelQuery.Tag(Value: Integer): iQuery;
 begin
   Result := Self;
   GetQuery.Tag := Value;
+end;
+
+function TZeosModelQuery.UpdateTableName(Tabela: String): iQuery;
+begin
+  Result := Self;
 end;
 
 end.
