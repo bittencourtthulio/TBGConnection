@@ -1,0 +1,7 @@
+unit TBGConnection.Model.Interfaces;
+
+interface
+
+implementation
+
+end.

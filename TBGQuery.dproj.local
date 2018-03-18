@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2017/10/31 11:04:45.000.133,=rtl.dcp</Transaction>
+    <Transaction>2017/10/31 11:04:55.000.540,C:\Users\thuli\Documents\Embarcadero\Studio\Projects\TBGQuery.dproj=C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Package1.dproj</Transaction>
+    <Transaction>2017/10/31 11:05:11.000.410,D:\Projetos\Componentes\TBGConnection\TBGQuery.dproj=C:\Users\thuli\Documents\Embarcadero\Studio\Projects\TBGQuery.dproj</Transaction>
+    <Transaction>2017/10/31 11:05:18.000.411,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/10/31 11:05:36.000.253,D:\Projetos\Componentes\TBGConnection\source\TBGQuery.View.Principal.pas=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/10/31 11:13:22.000.519,=TBGConnection.dcp</Transaction>
+    <Transaction>2017/10/31 11:13:22.000.511,=dbrtl.dcp</Transaction>
+  </Transactions>
+</BorlandProject>

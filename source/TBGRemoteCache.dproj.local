@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2017/11/08 22:27:37.460,=rtl.dcp</Transaction>
+    <Transaction>2017/11/08 22:28:16.655,C:\Users\thuli\Documents\Embarcadero\Studio\Projects\TBGRemoteCache.dproj=C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Package1.dproj</Transaction>
+    <Transaction>2017/11/08 22:28:23.933,=C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Unit4.pas</Transaction>
+    <Transaction>2017/11/08 22:29:00.138,D:\Projetos\Componentes\TBGConnection\source\TBGRemoteCache.View.Principal.pas=C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Unit4.pas</Transaction>
+    <Transaction>2017/11/08 22:29:06.829,D:\Projetos\Componentes\TBGConnection\source\TBGRemoteCache.dproj=C:\Users\thuli\Documents\Embarcadero\Studio\Projects\TBGRemoteCache.dproj</Transaction>
+    <Transaction>2017/11/08 22:30:23.838,=D:\Projetos\Componentes\TBGConnection\source\Unit1.pas</Transaction>
+    <Transaction>2017/11/08 22:30:39.232,D:\Projetos\Componentes\TBGConnection\source\TBGRemoteCache.Model.Interfaces.pas=D:\Projetos\Componentes\TBGConnection\source\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>

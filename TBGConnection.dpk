@@ -1,7 +1,6 @@
 package TBGConnection;
 
 {$R *.res}
-{$R *.dres}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
 {$ASSERTIONS ON}
@@ -36,6 +35,11 @@ contains
   TBGConnection.Model.Interfaces in 'source\TBGConnection.Model.Interfaces.pas',
   TBGConnection.View.Interfaces in 'source\TBGConnection.View.Interfaces.pas',
   TBGConnection.View.Principal in 'source\TBGConnection.View.Principal.pas',
-  TBGConnection.Model.Conexao.Parametros in 'source\TBGConnection.Model.Conexao.Parametros.pas';
+  TBGConnection.Model.Conexao.Parametros in 'source\TBGConnection.Model.Conexao.Parametros.pas',
+  TBGConnection.Model.DataSet.Proxy in 'source\TBGConnection.Model.DataSet.Proxy.pas',
+  TBGConnection.Model.DataSet.Observer in 'source\TBGConnection.Model.DataSet.Observer.pas',
+  TBGConnection.Model.DataSet.Factory in 'source\TBGConnection.Model.DataSet.Factory.pas',
+  TBGConnection.Model.DataSet.Interfaces in 'source\TBGConnection.Model.DataSet.Interfaces.pas',
+  TBGConnection.Model.Helper in 'source\TBGConnection.Model.Helper.pas';
 
 end.

@@ -1,0 +1,7 @@
+unit TBGFirebaseConnection.Model.Patch;
+
+interface
+
+implementation
+
+end.

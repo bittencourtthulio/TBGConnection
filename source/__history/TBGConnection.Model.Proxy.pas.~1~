@@ -1,0 +1,7 @@
+unit TBGConnection.Model.Proxy;
+
+interface
+
+implementation
+
+end.

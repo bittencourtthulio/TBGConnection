@@ -3,7 +3,7 @@ unit TBGConnection.Model.Interfaces;
 interface
 
 uses
-  System.Classes, Data.DB;
+  System.Classes, Data.DB, TBGConnection.Model.DataSet.Interfaces;
 
 type
   TChangeDataSet = procedure of Object;
@@ -17,6 +17,9 @@ type
     ['{F8F3E0E2-4333-40CD-8A4E-7B7790F2FA73}']
     function Conexao : iConexao;
     function Query : iQuery;
+    function DataSet : iDataSet;
+    function Cache : iDriverProxy;
+    function LimitCacheRegister(Value : Integer) : iDriver;
   end;
 
   iConexao = interface
@@ -24,18 +27,29 @@ type
     function Conectar : iConexao;
     function &End: TComponent;
     function Connection : TCustomConnection;
+    function Commit : iConexao;
+    function StartTransaction : iConexao;
+    function RollbackTransaction : iConexao;
     //function Parametros: iConexaoParametros;
   end;
 
   iQuery = interface
     ['{BA7F4622-7AA4-413D-B9CD-CADAB16DF714}']
     function Open(aSQL: String): iQuery;
-    function ExecSQL(aSQL : String) : iQuery;
+    function Close : iQuery;
+    function SQL : TStrings;
+    function Params : TParams;
+    function ParamByName(Value : String) : TParam;
+    function ExecSQL : iQuery; overload;
+    function ExecSQL(aSQL : String) : iQuery; overload;
     function DataSet : TDataSet; overload;
     function DataSet(Value : TDataSet) : iQuery; overload;
     function DataSource(Value : TDataSource) : iQuery;
     function Fields : TFields;
     function &End: TComponent;
+    function Tag(Value : Integer) : iQuery;
+    function LocalSQL(Value : TComponent) : iQuery;
+    function UpdateTableName(Tabela : String) : iQuery;
   end;
 
 
@@ -54,6 +68,10 @@ type
     function GetServer(Value: String): String;
     function GetPorta(Value: Integer): Integer;
     function &End: iConexao;
+  end;
+
+  iInstanciar = interface
+     function Instanciar_Proxy(Value : String) : iDriverProxy;
   end;
 
 implementation

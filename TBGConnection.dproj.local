@@ -19,5 +19,36 @@
     <Transaction>2017/10/22 11:29:47.000.043,=dbrtl.dcp</Transaction>
     <Transaction>2017/10/23 15:14:42.000.492,=D:\Projetos\Componentes\TBGConnection\img\TTBGConnection.bmp</Transaction>
     <Transaction>2017/10/23 15:18:45.000.052,=D:\Projetos\Componentes\TBGConnection\img\TBGConnection.bmp</Transaction>
+    <Transaction>2017/11/04 08:48:55.000.500,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/11/04 08:49:22.000.662,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGConnection.Model.Proxy.pas</Transaction>
+    <Transaction>2017/11/04 13:38:26.000.766,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/11/04 13:38:52.000.924,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGConnection.Model.DataSet.Observer.pas</Transaction>
+    <Transaction>2017/11/04 13:39:02.000.674,D:\Projetos\Componentes\TBGConnection\source\TBGConnection.Model.Proxy.pas=D:\Projetos\Componentes\TBGConnection\source\TBGConnection.Model.DataSet.Proxy.pas</Transaction>
+    <Transaction>2017/11/04 14:12:07.000.295,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/11/04 14:12:23.000.163,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGConnection.Model.DataSet.Factory.pas</Transaction>
+    <Transaction>2017/11/04 14:13:04.000.461,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/11/04 14:13:15.000.092,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGConnection.Model.DataSet.Interfaces.pas</Transaction>
+    <Transaction>2017/11/04 14:16:20.000.397,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/11/04 14:16:29.000.440,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGConnection.Model.DataSet.pas</Transaction>
+    <Transaction>2017/11/04 14:33:38.000.152,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/11/04 14:33:57.000.029,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGConnection.Model.Instanciar.pas</Transaction>
+    <Transaction>2017/11/04 14:47:03.000.984,D:\Projetos\Componentes\TBGConnection\source\TBGConnection.Model.Instanciar.pas=</Transaction>
+    <Transaction>2017/11/04 15:27:08.000.804,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/11/04 15:27:31.000.780,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGConnection.Model.Helper.pas</Transaction>
+    <Transaction>2017/11/11 16:37:18.000.029,D:\Projetos\Componentes\TBGConnection\source\TBGConnection.Model.DataSet.pas=</Transaction>
   </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="source"/>
+    <File Path="source\TBGConnection.Model.Conexao.Parametros.pas"/>
+    <File Path="source\TBGConnection.Model.DataSet.Factory.pas"/>
+    <File Path="source\TBGConnection.Model.DataSet.Interfaces.pas"/>
+    <File Path="source\TBGConnection.Model.DataSet.Observer.pas"/>
+    <File Path="source\TBGConnection.Model.DataSet.Proxy.pas"/>
+    <File Path="source\TBGConnection.Model.Helper.pas"/>
+    <File Path="source\TBGConnection.Model.Interfaces.pas"/>
+    <File Path="source\TBGConnection.View.Interfaces.pas"/>
+    <File Path="source\TBGConnection.View.Principal.pas"/>
+    <File Path="dbrtl.dcp"/>
+    <File Path="rtl.dcp"/>
+  </ProjectSortOrder>
 </BorlandProject>

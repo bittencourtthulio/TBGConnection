@@ -1,0 +1,243 @@
+unit TBGRestDWDriver.Model.Query;
+
+interface
+
+uses
+  TBGConnection.Model.Interfaces, Data.DB, System.Classes,
+  System.SysUtils, uRESTDWPoolerDB,
+  TBGConnection.Model.DataSet.Interfaces,
+  TBGConnection.Model.DataSet.Proxy, FireDAC.Comp.Client,
+  TBGConnection.Model.DataSet.Observer, System.Generics.Collections,
+  TBGConnection.Model.Helper;
+
+Type
+  TRestDWModelQuery = class(TInterfacedObject, iQuery)
+  private
+    FConexao: TRESTDWDataBase;
+    vUpdateTableName : String;
+    FKey : Integer;
+    FDriver : iDriver;
+    FQuery: TList<TRESTDWClientSQL>;
+    FDataSource: TDataSource;
+    FDataSet: TDictionary<integer, iDataSet>;
+    FChangeDataSet: TChangeDataSet;
+    FSQL : String;
+    FGetDataSet: iDataSet;
+    FParams : TParams;
+    procedure InstanciaQuery;
+    function GetDataSet : iDataSet;
+    function GetQuery : TRESTDWClientSQL;
+    procedure SetQuery(Value: TRESTDWClientSQL);
+  public
+    constructor Create(Conexao: TRESTDWDataBase; Driver : iDriver);
+    destructor Destroy; override;
+    class function New(Conexao: TRESTDWDataBase; Driver : iDriver): iQuery;
+    //iObserver
+    procedure ApplyUpdates(DataSet : TDataSet);
+    // iQuery
+    function Open(aSQL: String): iQuery;
+    function ExecSQL(aSQL: String): iQuery; overload;
+    function DataSet(Value: TDataset): iQuery; overload;
+    function DataSet: Tdataset; overload;
+    function DataSource(Value: TDataSource): iQuery;
+    function Fields: TFields;
+    function ChangeDataSet(Value: TChangeDataSet): iQuery;
+    function &End: TComponent;
+    function Tag(Value: Integer): iQuery;
+    function LocalSQL(Value: TComponent): iQuery;
+    function Close : iQuery;
+    function SQL : TStrings;
+    function Params : TParams;
+    function ExecSQL : iQuery; overload;
+    function ParamByName(Value : String) : TParam;
+    function UpdateTableName(Tabela : String) : iQuery;
+  end;
+
+implementation
+
+{ TRestDWModelQuery }
+
+function TRestDWModelQuery.&End: TComponent;
+begin
+  Result := GetQuery;
+end;
+
+function TRestDWModelQuery.ExecSQL: iQuery;
+var
+VError : String;
+begin
+  Result := Self;
+  if not GetQuery.ExecSQL(VError) Then
+     raise Exception.Create('Erro: ' + vError + sLineBreak +
+	 'Ao executar o comando: ' + GetQuery.SQL.Text);
+  FDriver.Cache.ReloadCache('');
+//  ApplyUpdates(nil);
+end;
+
+
+function TRestDWModelQuery.ExecSQL(aSQL: String): iQuery;
+var
+VError : String;
+begin
+  GetQuery.SQL.Clear;
+  GetQuery.SQL.Add(aSQL);
+  if not GetQuery.ExecSQL(VError) Then
+     raise Exception.Create('Erro: ' + vError + sLineBreak +
+	 'Ao executar o comando: ' + GetQuery.SQL.Text);
+   FDriver.Cache.ReloadCache('');
+
+//  ApplyUpdates(nil);
+end;
+
+function TRestDWModelQuery.Fields: TFields;
+begin
+  Result := GetQuery.Fields;
+end;
+
+function TRestDWModelQuery.GetDataSet : iDataSet;
+begin
+  Result := FDataSet.Items[FKey];
+end;
+
+function TRestDWModelQuery.GetQuery: TRESTDWClientSQL;
+begin
+  Result := FQuery.Items[Pred(FQuery.Count)];
+end;
+
+procedure TRestDWModelQuery.InstanciaQuery;
+var
+  Query : TRESTDWClientSQL;
+begin
+  Query := TRESTDWClientSQL.Create(nil);
+  Query.DataBase := FConexao;
+  Query.AfterPost := ApplyUpdates;
+  Query.AfterDelete := ApplyUpdates;
+  Query.AutoCommitData := False;
+  Query.AutoRefreshAfterCommit := True;
+  FQuery.Add(Query);
+end;
+
+function TRestDWModelQuery.LocalSQL(Value: TComponent): iQuery;
+begin
+  Result := Self;
+  GetQuery.LocalSQL := TFDCustomLocalSQL(Value);
+end;
+
+procedure TRestDWModelQuery.ApplyUpdates(DataSet: TDataSet);
+var
+vError : String;
+begin
+ if Not GetQuery.ApplyUpdates(vError) then
+    raise Exception.Create(vError);
+  FDriver.Cache.ReloadCache('');
+end;
+
+function TRestDWModelQuery.ChangeDataSet(Value: TChangeDataSet): iQuery;
+begin
+  Result := Self;
+  FChangeDataSet := Value;
+end;
+
+function TRestDWModelQuery.Close: iQuery;
+begin
+  Result := Self;
+  GetQuery.Close;
+end;
+
+constructor TRestDWModelQuery.Create(Conexao: TRESTDWDataBase; Driver : iDriver);
+begin
+  FDriver := Driver;
+  FConexao := Conexao;
+  FQuery := TList<TRESTDWClientSQL>.Create;
+  FDataSet := TDictionary<integer, iDataSet>.Create;
+  InstanciaQuery;
+end;
+
+function TRestDWModelQuery.DataSet: Tdataset;
+begin
+  Result := GetQuery;
+end;
+
+function TRestDWModelQuery.DataSet(Value: Tdataset): iQuery;
+begin
+  Result := Self;
+  GetDataSet.DataSet(TRESTDWClientSQL(Value));
+end;
+
+function TRestDWModelQuery.DataSource(Value: TDataSource): iQuery;
+begin
+  Result := Self;
+  FDataSource := Value;
+end;
+
+destructor TRestDWModelQuery.Destroy;
+begin
+  FreeAndNil(FQuery);
+  FreeAndNil(FDataSet);
+  inherited;
+end;
+
+class function TRestDWModelQuery.New(Conexao: TRESTDWDataBase; Driver : iDriver): iQuery;
+begin
+  Result := Self.Create(Conexao, Driver);
+end;
+
+function TRestDWModelQuery.Open(aSQL: String): iQuery;
+var
+  Query : TRESTDWClientSQL;
+  DataSet : iDataSet;
+begin
+  Result := Self;
+  FSQL := aSQL;
+  if not FDriver.Cache.CacheDataSet(FSQL, DataSet) then
+  begin
+    InstanciaQuery;
+    DataSet.SQL(FSQL);
+    DataSet.DataSet(GetQuery);
+    GetQuery.Close;
+    GetQuery.UpdateTableName := vUpdateTableName;
+    GetQuery.SQL.Text := FSQL;
+    GetQuery.Open;
+    FDriver.Cache.AddCacheDataSet(DataSet.GUUID, DataSet);
+  end
+  else
+    SetQuery(TRESTDWClientSQL(DataSet.DataSet));
+  FDataSource.DataSet := DataSet.DataSet;
+  Inc(FKey);
+  FDataSet.Add(FKey, DataSet);
+end;
+
+function TRestDWModelQuery.ParamByName(Value: String): TParam;
+begin
+  Result := GetQuery.ParamByName(Value);
+end;
+
+function TRestDWModelQuery.Params: TParams;
+begin
+  Result := GetQuery.Params;
+end;
+
+procedure TRestDWModelQuery.SetQuery(Value: TRESTDWClientSQL);
+begin
+  FQuery.Items[Pred(FQuery.Count)] := Value;
+end;
+
+function TRestDWModelQuery.SQL: TStrings;
+begin
+  Result := GetQuery.SQL;
+end;
+
+function TRestDWModelQuery.Tag(Value: Integer): iQuery;
+begin
+  Result := Self;
+  GetQuery.Tag := Value;
+end;
+
+
+function TRestDWModelQuery.UpdateTableName(Tabela : String) : iQuery;
+begin
+  Result := Self;
+  vUpdateTableName := Tabela;
+end;
+
+end.

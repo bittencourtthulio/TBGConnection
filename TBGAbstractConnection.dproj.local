@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2017/10/21 15:43:30.000.066,=rtl.dcp</Transaction>
+    <Transaction>2017/10/21 15:43:46.000.915,C:\Users\thuli\Documents\Embarcadero\Studio\Projects\TBGConnection.dproj=C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Package1.dproj</Transaction>
+    <Transaction>2017/10/21 15:43:53.000.027,=C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
+    <Transaction>2017/10/21 15:44:42.000.903,D:\Projetos\Componentes\TBGConnection\TBGConnection.Model.Interfaces.pas=C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
+    <Transaction>2017/10/21 15:44:45.000.778,D:\Projetos\Componentes\TBGConnection\TBGConnection.dproj=C:\Users\thuli\Documents\Embarcadero\Studio\Projects\TBGConnection.dproj</Transaction>
+    <Transaction>2017/10/21 15:45:12.000.280,D:\Projetos\Componentes\TBGConnection\source\TBGConnection.Model.Interfaces.pas=D:\Projetos\Componentes\TBGConnection\TBGConnection.Model.Interfaces.pas</Transaction>
+    <Transaction>2017/10/21 15:45:29.000.838,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/10/21 15:46:04.000.401,D:\Projetos\Componentes\TBGConnection\source\TBGConnection.View.Interfaces.pas=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/10/21 15:46:25.000.348,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/10/21 15:46:37.000.500,D:\Projetos\Componentes\TBGConnection\source\TBGConnection.View.Principal.pas=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/10/21 16:08:58.000.544,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/10/21 16:09:21.000.754,D:\Projetos\Componentes\TBGConnection\source\TBGConnection.Model.Conexao.Parametros.pas=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/10/21 16:11:52.000.790,D:\Projetos\Componentes\TBGConnection\source\TBGConnection.Model.Conexao.Parametros.pas=</Transaction>
+    <Transaction>2017/10/22 10:29:25.000.603,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/10/22 10:29:31.000.665,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGConnection.Model.Conexao.Parametros.pas</Transaction>
+    <Transaction>2017/10/22 11:29:47.000.043,=dbrtl.dcp</Transaction>
+    <Transaction>2017/10/23 15:14:42.000.492,=D:\Projetos\Componentes\TBGConnection\img\TTBGConnection.bmp</Transaction>
+    <Transaction>2017/10/23 15:18:45.000.052,=D:\Projetos\Componentes\TBGConnection\img\TBGConnection.bmp</Transaction>
+    <Transaction>2017/10/23 17:19:46.000.741,D:\Projetos\Componentes\TBGConnection\TBGConnection.dproj=D:\Projetos\Componentes\TBGConnection\TBGAbstractConnection.dproj</Transaction>
+    <Transaction>2017/10/23 17:20:07.000.463,D:\Projetos\Componentes\TBGConnection\img\TBGConnection.bmp=</Transaction>
+  </Transactions>
+</BorlandProject>

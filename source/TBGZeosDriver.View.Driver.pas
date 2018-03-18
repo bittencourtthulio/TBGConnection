@@ -4,7 +4,8 @@ interface
 
 uses
   TBGConnection.Model.Interfaces, System.Classes, TBGConnection.Model.Conexao.Parametros,
-  System.Generics.Collections, ZConnection, ZDataSet;
+  System.Generics.Collections, ZConnection, ZDataSet,
+  TBGConnection.Model.DataSet.Interfaces;
 
 Type
   TBGZeosDriverConexao = class(TComponent, iDriver)
@@ -13,12 +14,19 @@ Type
     FFQuery: TZQuery;
     FiConexao : iConexao;
     FiQuery : TList<iQuery>;
+    FLimitCacheRegister : Integer;
+    FLimitCache: Integer;
+    FProxy : iDriverProxy;
     procedure SetFConnection(const Value: TZConnection);
     procedure SetFQuery(const Value: TZQuery);
+    procedure SetLimitCache(const Value: Integer);
+    function GetLimitCache: Integer;
     protected
       FParametros : iConexaoParametros;
       function Conexao : iConexao;
       function Query : iQuery;
+      function DataSet : iDataSet;
+      function Cache : iDriverProxy;
     public
       constructor Create;
       destructor Destroy; override;
@@ -26,21 +34,29 @@ Type
       function Conectar : iConexao;
       function &End: TComponent;
       function Parametros: iConexaoParametros;
-
+      function LimitCacheRegister(Value : Integer) : iDriver;
     published
       property FConnection : TZConnection read FFConnection write SetFConnection;
+      property LimitCache : Integer read GetLimitCache write SetLimitCache;
   end;
 
 procedure Register;
 
 implementation
 
-{$R Icones.res}
-
 uses
-  System.SysUtils, TBGZeosDriver.Model.Conexao, TBGZeosDriver.Model.Query;
+  System.SysUtils, TBGZeosDriver.Model.Conexao, TBGZeosDriver.Model.Query,
+  TBGConnection.Model.DataSet.Proxy, TBGZeosDriver.Model.DataSet;
 
 { TBGZeosDriverConexao }
+
+function TBGZeosDriverConexao.Cache: iDriverProxy;
+begin
+  if not Assigned(FProxy) then
+    FProxy := TTBGConnectionModelProxy.New(FLimitCacheRegister, Self);
+
+  Result := FProxy;
+end;
 
 function TBGZeosDriverConexao.Conectar: iConexao;
 begin
@@ -52,15 +68,37 @@ begin
 
 end;
 
+function TBGZeosDriverConexao.GetLimitCache: Integer;
+begin
+  Result := FLimitCacheRegister;
+end;
+
+function TBGZeosDriverConexao.LimitCacheRegister(Value: Integer): iDriver;
+begin
+  Result := Self;
+  FLimitCacheRegister := Value;
+end;
+
 function TBGZeosDriverConexao.Conexao: iConexao;
 begin
-  FiConexao := TZeosDriverModelConexao.New(FFConnection);
+  if not Assigned(FiConexao) then
+    FiConexao := TZeosDriverModelConexao.New(FFConnection, FLimitCacheRegister, Self);
+
   Result := FiConexao;
 end;
 
 constructor TBGZeosDriverConexao.Create;
 begin
   FiQuery := TList<iQuery>.Create;
+  LimitCache := 10;
+end;
+
+function TBGZeosDriverConexao.DataSet: iDataSet;
+begin
+  if not Assigned(FProxy) then
+    FProxy := TTBGConnectionModelProxy.New(FLimitCacheRegister, Self);
+
+  Result := TConnectionModelZeosDataSet.New(FProxy.ObserverList);
 end;
 
 destructor TBGZeosDriverConexao.Destroy;
@@ -85,7 +123,10 @@ begin
   if Not Assigned(FiQuery) then
     FiQuery := TList<iQuery>.Create;
 
-  FiQuery.Add(TZeosModelQuery.New(FFConnection));
+  if Not Assigned(FiConexao) then
+    FiConexao := TZeosDriverModelConexao.New(FFConnection, FLimitCacheRegister, Self);
+
+  FiQuery.Add(TZeosModelQuery.New(FFConnection, Self));
   Result := FiQuery[FiQuery.Count-1];
 end;
 
@@ -99,10 +140,14 @@ begin
   FFQuery := Value;
 end;
 
-procedure Register;
+procedure TBGZeosDriverConexao.SetLimitCache(const Value: Integer);
 begin
-  RegisterComponents('TBGConnection', [TBGZeosDriverConexao]);
+  FLimitCacheRegister := Value;
 end;
 
+procedure Register;
+begin
+  RegisterComponents('TBGAbstractConnection', [TBGZeosDriverConexao]);
+end;
 
 end.

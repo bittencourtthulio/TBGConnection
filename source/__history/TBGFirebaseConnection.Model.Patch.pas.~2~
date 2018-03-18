@@ -1,0 +1,110 @@
+unit TBGFirebaseConnection.Model.Patch;
+
+interface
+
+uses
+  TBGFirebaseConnection.Interfaces,
+  System.JSON,
+  IdBaseComponent,
+  IdComponent,
+  IdTCPConnection,
+  IdTCPClient,
+  IdHTTP,
+  System.Net.HttpClient;
+
+Type
+  TFirebaseConnectionModelPatch = class(TInterfacedObject, iFirebasePatch)
+  private
+    FParent : iFirebaseConnection;
+    FResource : String;
+    FJson : TJsonObject;
+    FJson2 : String;
+  public
+    constructor Create(Parent : iFirebaseConnection);
+    destructor Destroy; override;
+    class function New(Parent : iFirebaseConnection): iFirebasePatch;
+    function Resource(Value: String): iFirebasePatch; overload;
+    function Resource: String; overload;
+    function Json(Value: String): iFirebasePatch; overload;
+    function Json(Value: TJsonObject): iFirebasePatch; overload;
+    function Json: String; overload;
+    function &End: iFirebaseConnection;
+  end;
+
+implementation
+
+uses
+  System.SysUtils, System.Classes;
+
+{ TFirebaseConnectionModelPatch }
+
+function TFirebaseConnectionModelPatch.&End: iFirebaseConnection;
+var
+  lJsonStream: TStringStream;
+  lIdHTTP: THTTPClient;
+  lResponse: string;
+  lUrl: string;
+  AResponseContent : TStringStream;
+begin
+  Result := FParent;
+  try
+    lJsonStream := TStringStream.Create(Utf8Encode('{ "teste" : "teste", "numero" : 60 }'));
+    lIdHTTP := THTTPClient.Create;
+    lIdHTTP.CustomHeaders['auth'] := FParent.Connect.Auth;
+    lIdHTTP.CustomHeaders['uid'] := FParent.Connect.uId;
+    lIdHTTP.ContentType := 'application/json';
+    lUrl := FParent.Connect.BaseURL + FResource;
+    AResponseContent := TStringStream.Create();
+    lIdHTTP.Patch(lUrl, lJsonStream, AResponseContent);
+  except
+    raise Exception.Create('Não foi possivel realizar o Put na Base de Dados');
+  end;
+
+end;
+
+constructor TFirebaseConnectionModelPatch.Create(Parent : iFirebaseConnection);
+begin
+  FParent := Parent;
+end;
+
+destructor TFirebaseConnectionModelPatch.Destroy;
+begin
+
+  inherited;
+end;
+
+function TFirebaseConnectionModelPatch.Json: String;
+begin
+  Result := FJson.ToString;
+end;
+
+function TFirebaseConnectionModelPatch.Json(Value: TJsonObject): iFirebasePatch;
+begin
+  Result := Self;
+  FJson := Value;
+end;
+
+function TFirebaseConnectionModelPatch.Json(Value: String): iFirebasePatch;
+begin
+  Result := Self;
+  FJson2 := Value;
+  //FJson := TJSONObject.ParseJSONValue(Value) as TJSONObject;
+end;
+
+class function TFirebaseConnectionModelPatch.New(Parent : iFirebaseConnection): iFirebasePatch;
+begin
+  Result := Self.Create(Parent);
+end;
+
+function TFirebaseConnectionModelPatch.Resource: String;
+begin
+  Result := FResource;
+end;
+
+function TFirebaseConnectionModelPatch.Resource(Value: String): iFirebasePatch;
+begin
+  Result := Self;
+  FResource := '/' + Value + '.json';
+end;
+
+end.

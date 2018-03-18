@@ -1,0 +1,84 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{02CFCE67-374B-4085-9651-93844ABE75B8}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\TBGConnection.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\TBGQuery.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\TBGFiredacDriver.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\TBGFirebaseConnection.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Project1.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="TBGConnection">
+        <MSBuild Projects="..\..\TBGConnection.dproj"/>
+    </Target>
+    <Target Name="TBGConnection:Clean">
+        <MSBuild Projects="..\..\TBGConnection.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TBGConnection:Make">
+        <MSBuild Projects="..\..\TBGConnection.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="TBGQuery">
+        <MSBuild Projects="..\..\TBGQuery.dproj"/>
+    </Target>
+    <Target Name="TBGQuery:Clean">
+        <MSBuild Projects="..\..\TBGQuery.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TBGQuery:Make">
+        <MSBuild Projects="..\..\TBGQuery.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="TBGFiredacDriver">
+        <MSBuild Projects="..\..\TBGFiredacDriver.dproj"/>
+    </Target>
+    <Target Name="TBGFiredacDriver:Clean">
+        <MSBuild Projects="..\..\TBGFiredacDriver.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TBGFiredacDriver:Make">
+        <MSBuild Projects="..\..\TBGFiredacDriver.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="TBGFirebaseConnection">
+        <MSBuild Projects="..\..\TBGFirebaseConnection.dproj"/>
+    </Target>
+    <Target Name="TBGFirebaseConnection:Clean">
+        <MSBuild Projects="..\..\TBGFirebaseConnection.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TBGFirebaseConnection:Make">
+        <MSBuild Projects="..\..\TBGFirebaseConnection.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Project1">
+        <MSBuild Projects="Project1.dproj"/>
+    </Target>
+    <Target Name="Project1:Clean">
+        <MSBuild Projects="Project1.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Project1:Make">
+        <MSBuild Projects="Project1.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="TBGConnection;TBGQuery;TBGFiredacDriver;TBGFirebaseConnection;Project1"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="TBGConnection:Clean;TBGQuery:Clean;TBGFiredacDriver:Clean;TBGFirebaseConnection:Clean;Project1:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="TBGConnection:Make;TBGQuery:Make;TBGFiredacDriver:Make;TBGFirebaseConnection:Make;Project1:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

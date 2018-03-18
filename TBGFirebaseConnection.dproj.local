@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2018/01/20 09:53:24.000.451,=rtl.dcp</Transaction>
+    <Transaction>2018/01/20 09:53:44.000.653,C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Package1.dproj=C:\Users\thuli\Documents\Embarcadero\Studio\Projects\TBGFirebaseConnection.dproj</Transaction>
+    <Transaction>2018/01/20 09:54:02.000.070,C:\Users\thuli\Documents\Embarcadero\Studio\Projects\TBGFirebaseConnection.dproj=D:\Projetos\Componentes\TBGConnection\TBGFirebaseConnection.dproj</Transaction>
+    <Transaction>2018/01/20 09:54:24.000.705,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2018/01/20 09:54:45.000.002,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGFirebaseConnection.View.Connection.pas</Transaction>
+    <Transaction>2018/01/20 09:55:32.000.182,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2018/01/20 09:55:46.000.477,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGFirebaseConnection.Interfaces.pas</Transaction>
+    <Transaction>2018/01/20 10:02:59.000.355,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2018/01/20 10:03:21.000.289,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGFirebaseConnection.Model.Connect.pas</Transaction>
+    <Transaction>2018/01/20 10:15:39.000.416,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2018/01/20 10:15:53.000.867,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGFirebaseConnection.Model.Put.pas</Transaction>
+    <Transaction>2018/01/20 10:29:20.000.078,=IndySystem.dcp</Transaction>
+    <Transaction>2018/01/20 10:29:20.000.096,=IndyProtocols.dcp</Transaction>
+    <Transaction>2018/01/20 10:29:20.000.113,=IndyCore.dcp</Transaction>
+    <Transaction>2018/01/20 10:48:34.000.244,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2018/01/20 10:48:47.000.501,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGFirebaseConnection.Model.Get.pas</Transaction>
+    <Transaction>2018/01/20 11:07:38.000.553,=CustomIPTransport.dcp</Transaction>
+    <Transaction>2018/01/20 11:07:38.000.506,=dbrtl.dcp</Transaction>
+    <Transaction>2018/01/20 11:07:38.000.531,=DbxCommonDriver.dcp</Transaction>
+    <Transaction>2018/01/20 11:07:38.000.581,=bindcomp.dcp</Transaction>
+    <Transaction>2018/01/20 11:07:38.000.594,=RESTComponents.dcp</Transaction>
+    <Transaction>2018/01/20 11:07:38.000.567,=bindengine.dcp</Transaction>
+    <Transaction>2018/01/20 11:12:12.000.947,=IndyIPCommon.dcp</Transaction>
+    <Transaction>2018/01/20 11:12:12.000.953,=IndyIPClient.dcp</Transaction>
+    <Transaction>2018/03/12 19:55:36.000.743,=D:\Projetos\Componentes\TBGConnection\Unit2.pas</Transaction>
+    <Transaction>2018/03/12 19:55:49.000.455,D:\Projetos\Componentes\TBGConnection\Unit2.pas=D:\Projetos\Componentes\TBGConnection\source\TBGFirebaseConnection.Model.Patch.pas</Transaction>
+  </Transactions>
+</BorlandProject>

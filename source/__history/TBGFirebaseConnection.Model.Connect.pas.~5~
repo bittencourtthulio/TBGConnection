@@ -1,0 +1,85 @@
+unit TBGFirebaseConnection.Model.Connect;
+
+interface
+
+uses
+  TBGFirebaseConnection.Interfaces;
+
+Type
+  TFirebaseConnectionMoldeConnect = class(TInterfacedObject, iFirebaseConnect)
+    private
+      FParent : iFirebaseConnection;
+      FBaseURL : String;
+      FAuth : String;
+      FuId : String;
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New : iFirebaseConnect;
+      function BaseURL (Value : String) : iFirebaseConnect; overload;
+      function Auth (Value : String) : iFirebaseConnect; overload;
+      function uId (Value : String) : iFirebaseConnect; overload;
+      function BaseURL : String; overload;
+      function Auth : String; overload;
+      function uId : String; overload;
+      function &End : iFirebaseConnection;
+  end;
+
+implementation
+
+{ TFirebaseConnectionMoldeConnect }
+
+function TFirebaseConnectionMoldeConnect.Auth(Value: String): iFirebaseConnect;
+begin
+  Result := Self;
+  FAuth := Value;
+end;
+
+function TFirebaseConnectionMoldeConnect.Auth: String;
+begin
+  Result := FAuth;
+end;
+
+function TFirebaseConnectionMoldeConnect.BaseURL(Value: String): iFirebaseConnect;
+begin
+  Result := Self;
+  FBaseURL := Value;
+end;
+
+function TFirebaseConnectionMoldeConnect.BaseURL: String;
+begin
+
+end;
+
+function TFirebaseConnectionMoldeConnect.&End: iFirebaseConnection;
+begin
+
+end;
+
+constructor TFirebaseConnectionMoldeConnect.Create;
+begin
+
+end;
+
+destructor TFirebaseConnectionMoldeConnect.Destroy;
+begin
+
+  inherited;
+end;
+
+class function TFirebaseConnectionMoldeConnect.New: iFirebaseConnect;
+begin
+  Result := Self.Create;
+end;
+
+function TFirebaseConnectionMoldeConnect.uId(Value: String): iFirebaseConnect;
+begin
+
+end;
+
+function TFirebaseConnectionMoldeConnect.uId: String;
+begin
+
+end;
+
+end.

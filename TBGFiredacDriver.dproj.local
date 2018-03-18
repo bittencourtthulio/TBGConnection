@@ -12,15 +12,30 @@
     <Transaction>2017/10/22 10:28:26.000.795,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGConnection.Model.Conexao.Parametros.pas</Transaction>
     <Transaction>2017/10/22 10:29:19.000.045,D:\Projetos\Componentes\TBGConnection\source\TBGConnection.Model.Conexao.Parametros.pas=</Transaction>
     <Transaction>2017/10/22 10:52:11.000.613,=TBGConnection.dcp</Transaction>
-    <Transaction>2017/10/22 10:57:45.000.515,=FireDACCommonDriver.dcp</Transaction>
     <Transaction>2017/10/22 10:57:45.000.498,=dbrtl.dcp</Transaction>
-    <Transaction>2017/10/22 10:57:45.000.523,=FireDACCommon.dcp</Transaction>
     <Transaction>2017/10/22 10:57:45.000.505,=FireDAC.dcp</Transaction>
+    <Transaction>2017/10/22 10:57:45.000.515,=FireDACCommonDriver.dcp</Transaction>
+    <Transaction>2017/10/22 10:57:45.000.523,=FireDACCommon.dcp</Transaction>
     <Transaction>2017/10/22 11:06:47.000.241,D:\Projetos\Componentes\TBGConnection\source\TBGFiredacDriver.View.Conexao.pas=D:\Projetos\Componentes\TBGConnection\source\TBGFiredacDriver.Model.Conexao.pas</Transaction>
     <Transaction>2017/10/22 11:07:06.000.096,D:\Projetos\Componentes\TBGConnection\source\TBGFiredacDriver.View.Driver.pas=D:\Projetos\Componentes\TBGConnection\source\TBGFiredacDriver.View.Conexao.pas</Transaction>
     <Transaction>2017/10/22 11:07:21.000.987,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
     <Transaction>2017/10/22 11:07:39.000.813,D:\Projetos\Componentes\TBGConnection\source\TBGFiredacDriver.Model.Conexao.pas=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
     <Transaction>2017/10/22 11:22:22.000.613,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
     <Transaction>2017/10/22 11:22:31.000.706,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGFiredacDriver.Model.Query.pas</Transaction>
+    <Transaction>2017/11/11 16:35:59.000.987,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/11/11 16:36:17.000.303,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGFiredacDriver.Model.DataSet.pas</Transaction>
   </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="source"/>
+    <File Path="source\TBGFiredacDriver.Model.Conexao.pas"/>
+    <File Path="source\TBGFiredacDriver.Model.DataSet.pas"/>
+    <File Path="source\TBGFiredacDriver.Model.Query.pas"/>
+    <File Path="source\TBGFiredacDriver.View.Driver.pas"/>
+    <File Path="dbrtl.dcp"/>
+    <File Path="FireDAC.dcp"/>
+    <File Path="FireDACCommon.dcp"/>
+    <File Path="FireDACCommonDriver.dcp"/>
+    <File Path="rtl.dcp"/>
+    <File Path="TBGConnection.dcp"/>
+  </ProjectSortOrder>
 </BorlandProject>

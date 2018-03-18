@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2017/10/22 12:57:41.000.231,=rtl.dcp</Transaction>
+    <Transaction>2017/10/22 12:58:07.000.312,C:\Users\thuli\Documents\Embarcadero\Studio\Projects\Package1.dproj=D:\Projetos\Componentes\TBGConnection\TBGDBExpressDriver.dproj</Transaction>
+    <Transaction>2017/10/22 12:58:16.000.782,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/10/22 12:58:29.000.294,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGDBExpressDriver.Model.Conexao.pas</Transaction>
+    <Transaction>2017/10/22 12:58:33.000.861,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/10/22 12:58:46.000.123,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGDBExpressDriver.Model.Query.pas</Transaction>
+    <Transaction>2017/10/22 12:58:50.000.356,=D:\Projetos\Componentes\TBGConnection\Unit1.pas</Transaction>
+    <Transaction>2017/10/22 12:59:04.000.596,D:\Projetos\Componentes\TBGConnection\Unit1.pas=D:\Projetos\Componentes\TBGConnection\source\TBGDBExpressDriver.View.Driver.pas</Transaction>
+    <Transaction>2017/10/22 13:03:42.000.863,=dbexpress.dcp</Transaction>
+    <Transaction>2017/10/22 13:03:42.000.855,=DbxCommonDriver.dcp</Transaction>
+    <Transaction>2017/10/22 13:03:42.000.872,=TBGConnection.dcp</Transaction>
+    <Transaction>2017/10/22 13:03:42.000.846,=dbrtl.dcp</Transaction>
+    <Transaction>2017/10/22 13:22:05.000.076,=dsnap.dcp</Transaction>
+  </Transactions>
+</BorlandProject>

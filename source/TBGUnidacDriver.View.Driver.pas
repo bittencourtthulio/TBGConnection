@@ -4,7 +4,8 @@ interface
 
 uses
   TBGConnection.Model.Interfaces, System.Classes, TBGConnection.Model.Conexao.Parametros,
-  System.Generics.Collections,  MemDS, DBAccess, Uni;
+  System.Generics.Collections,  MemDS, DBAccess, Uni,
+  TBGConnection.Model.DataSet.Interfaces;
 
 Type
   TBGUnidacDriverConexao = class(TComponent, iDriver)
@@ -13,12 +14,19 @@ Type
     FFQuery: TUniQuery;
     FiConexao : iConexao;
     FiQuery : TList<iQuery>;
+    FLimitCacheRegister : Integer;
+    FProxy : iDriverProxy;
     procedure SetFConnection(const Value: TUniConnection);
     procedure SetFQuery(const Value: TUniQuery);
+    function GetLimitCache: Integer;
+    procedure SetLimitCache(const Value: Integer);
     protected
       FParametros : iConexaoParametros;
       function Conexao : iConexao;
       function Query : iQuery;
+      function LimitCacheRegister(Value : Integer) : iDriver;
+      function Cache : iDriverProxy;
+      function DataSet : iDataSet;
     public
       constructor Create;
       destructor Destroy; override;
@@ -26,21 +34,29 @@ Type
       function Conectar : iConexao;
       function &End: TComponent;
       function Parametros: iConexaoParametros;
-
     published
       property FConnection : TUniConnection read FFConnection write SetFConnection;
-  end;
+      property LimitCache : Integer read GetLimitCache write SetLimitCache;
+    end;
 
 procedure Register;
 
 implementation
 
-{$R Icones.res}
 
 uses
-  System.SysUtils, TBGUnidacDriver.Model.Conexao, TBGUnidacDriver.Model.Query;
+  System.SysUtils, TBGUnidacDriver.Model.Conexao, TBGUnidacDriver.Model.Query,
+  TBGConnection.Model.DataSet.Proxy, TBGUnidacDriver.Model.DataSet;
 
 { TBGUnidacDriverConexao }
+
+function TBGUnidacDriverConexao.Cache: iDriverProxy;
+begin
+  if not Assigned(FProxy) then
+    FProxy := TTBGConnectionModelProxy.New(FLimitCacheRegister, Self);
+
+  Result := FProxy;
+end;
 
 function TBGUnidacDriverConexao.Conectar: iConexao;
 begin
@@ -52,15 +68,36 @@ begin
 
 end;
 
+function TBGUnidacDriverConexao.GetLimitCache: Integer;
+begin
+  Result := FLimitCacheRegister;
+end;
+
+function TBGUnidacDriverConexao.LimitCacheRegister(Value: Integer): iDriver;
+begin
+  Result := Self;
+  FLimitCacheRegister := Value;
+end;
+
 function TBGUnidacDriverConexao.Conexao: iConexao;
 begin
-  FiConexao := TUnidacDriverModelConexao.New(FFConnection);
+  if not Assigned(FiConexao) then
+    FiConexao := TUnidacDriverModelConexao.New(FFConnection, FLimitCacheRegister, Self);
+
   Result := FiConexao;
 end;
 
 constructor TBGUnidacDriverConexao.Create;
 begin
   FiQuery := TList<iQuery>.Create;
+end;
+
+function TBGUnidacDriverConexao.DataSet: iDataSet;
+begin
+  if not Assigned(FProxy) then
+    FProxy := TTBGConnectionModelProxy.New(FLimitCacheRegister, Self);
+
+  Result := TConnectionModelUnidacDataSet.New(FProxy.ObserverList);
 end;
 
 destructor TBGUnidacDriverConexao.Destroy;
@@ -85,7 +122,10 @@ begin
   if Not Assigned(FiQuery) then
     FiQuery := TList<iQuery>.Create;
 
-  FiQuery.Add(TUnidacModelQuery.New(FFConnection));
+  if Not Assigned(FiConexao) then
+    FiConexao := TUnidacDriverModelConexao.New(FFConnection, FLimitCacheRegister, Self);
+
+  FiQuery.Add(TUnidacModelQuery.New(FFConnection, Self));
   Result := FiQuery[FiQuery.Count-1];
 end;
 
@@ -99,9 +139,14 @@ begin
   FFQuery := Value;
 end;
 
+procedure TBGUnidacDriverConexao.SetLimitCache(const Value: Integer);
+begin
+  FLimitCacheRegister := Value;
+end;
+
 procedure Register;
 begin
-  RegisterComponents('TBGConnection', [TBGUnidacDriverConexao]);
+  RegisterComponents('TBGAbstractConnection', [TBGUnidacDriverConexao]);
 end;
 
 

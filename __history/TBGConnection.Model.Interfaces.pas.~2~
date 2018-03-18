@@ -1,0 +1,39 @@
+unit TBGConnection.Model.Interfaces;
+
+interface
+
+uses
+  System.Classes;
+
+type
+
+  iConexaoParametros = interface;
+
+  iConexao = interface
+    ['{FF14FC96-C57C-4BD0-9AFB-5F7AAD5D5138}']
+    function Conectar : iConexao;
+    function &End: TComponent;
+    function Parametros: iConexaoParametros;
+  end;
+
+  iQuery = interface
+    ['{BA7F4622-7AA4-413D-B9CD-CADAB16DF714}']
+    function Open(aSQL: String): iQuery;
+    function &End: TComponent;
+  end;
+
+  iConexaoParametros = interface
+    ['{26A78068-9C26-4381-BA90-B7313F9ACAB7}']
+    function Database(Value: String): iConexaoParametros;
+    function UserName(Value: String): iConexaoParametros;
+    function Password(Value: String): iConexaoParametros;
+    function DriverID(Value: String): iConexaoParametros;
+    function Server(Value: String): iConexaoParametros;
+    function Porta(Value: Integer): iConexaoParametros;
+    function &End: iConexao;
+  end;
+
+implementation
+
+end.
+

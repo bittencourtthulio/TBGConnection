@@ -1,0 +1,72 @@
+unit TBGFirebaseConnection.Model.Get;
+
+interface
+
+uses
+  TBGFirebaseConnection.Interfaces, Data.DB;
+
+Type
+  TFirebaseConnectionModelGet = class(TInterfacedObject, iFirebaseGet)
+  private
+    FParent : iFirebaseConnection;
+    FDataSet : TDataSet;
+    FResource : String;
+  public
+    constructor Create(Parent : iFirebaseConnection);
+    destructor Destroy; override;
+    class function New(Parent : iFirebaseConnection) : iFirebaseGet;
+    function DataSet(Value: TDataSet): iFirebaseGet; overload;
+    function DataSet: TDataSet; overload;
+    function Resource(Value: String): iFirebaseGet; overload;
+    function Resource: String; overload;
+    function &End: iFirebaseConnection;
+  end;
+
+implementation
+
+{ TFirebaseConnectionModelGet }
+
+function TFirebaseConnectionModelGet.&End: iFirebaseConnection;
+begin
+  Result := FParent;
+end;
+
+constructor TFirebaseConnectionModelGet.Create(Parent : iFirebaseConnection);
+begin
+  FParent := Parent;
+end;
+
+function TFirebaseConnectionModelGet.DataSet(Value: TDataSet): iFirebaseGet;
+begin
+  Result := Self;
+  FDataSet := Value;
+end;
+
+function TFirebaseConnectionModelGet.DataSet: TDataSet;
+begin
+  Result := FDataSet;
+end;
+
+destructor TFirebaseConnectionModelGet.Destroy;
+begin
+
+  inherited;
+end;
+
+class function TFirebaseConnectionModelGet.New(Parent : iFirebaseConnection) : iFirebaseGet;
+begin
+  Result := Self.Create(Parent);
+end;
+
+function TFirebaseConnectionModelGet.Resource(Value: String): iFirebaseGet;
+begin
+  Result := Self;
+  FResource := Value;
+end;
+
+function TFirebaseConnectionModelGet.Resource: String;
+begin
+  Result := FResource;
+end;
+
+end.

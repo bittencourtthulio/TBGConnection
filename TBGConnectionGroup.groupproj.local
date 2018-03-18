@@ -4,6 +4,6 @@
     <Transaction>2017/10/21 16:07:35.000.826,C:\Users\thuli\Documents\Embarcadero\Studio\Projects\ProjectGroup1.groupproj=D:\Projetos\Componentes\TBGConnection\TBGConnectionGroup.groupproj</Transaction>
   </Transactions>
 	<Default.Personality>
-		<Projects ActiveProject="D:\Projetos\Componentes\TBGConnection\TBGUniDacDriver.dproj"/>
+		<Projects ActiveProject="D:\Projetos\Componentes\TBGConnection\TBGFirebaseConnection.dproj"/>
 	</Default.Personality>
 </BorlandProject>

@@ -1,0 +1,153 @@
+unit TBGRestDWDriver.View.Driver;
+
+interface
+
+uses
+  TBGConnection.Model.Interfaces, System.Classes, TBGConnection.Model.Conexao.Parametros,
+  System.Generics.Collections, uRESTDWPoolerDB,
+  TBGConnection.Model.DataSet.Interfaces;
+
+Type
+  TBGRestDWDriverConexao = class(TComponent, iDriver)
+  private
+    FFConnection: TRestDWDataBase;
+    FFQuery: TRESTDWClientSQL;
+    FiConexao : iConexao;
+    FiQuery : TList<iQuery>;
+    FLimitCacheRegister : Integer;
+    FProxy : iDriverProxy;
+    procedure SetFConnection(const Value: TRestDWDataBase);
+    procedure SetFQuery(const Value: TRESTDWClientSQL);
+    function GetLimitCache: Integer;
+    procedure SetLimitCache(const Value: Integer);
+    protected
+      FParametros : iConexaoParametros;
+      function Conexao : iConexao;
+      function Query : iQuery;
+      function LimitCacheRegister(Value : Integer) : iDriver;
+      function Cache : iDriverProxy;
+      function DataSet : iDataSet;
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New : iDriver;
+      function Conectar : iConexao;
+      function &End: TComponent;
+      function Parametros: iConexaoParametros;
+    published
+      property FConnection : TRestDWDataBase read FFConnection write SetFConnection;
+      property LimitCache : Integer read GetLimitCache write SetLimitCache;
+    end;
+
+procedure Register;
+
+implementation
+
+
+uses
+  System.SysUtils, TBGRestDWDriver.Model.Conexao, TBGRestDWDriver.Model.Query,
+  TBGConnection.Model.DataSet.Proxy, TBGRestDWDriver.Model.DataSet;
+
+{ TBGRestDWDriverConexao }
+
+function TBGRestDWDriverConexao.Cache: iDriverProxy;
+begin
+  if not Assigned(FProxy) then
+    FProxy := TTBGConnectionModelProxy.New(FLimitCacheRegister, Self);
+
+  Result := FProxy;
+end;
+
+function TBGRestDWDriverConexao.Conectar: iConexao;
+begin
+
+end;
+
+function TBGRestDWDriverConexao.&End: TComponent;
+begin
+
+end;
+
+function TBGRestDWDriverConexao.GetLimitCache: Integer;
+begin
+  Result := FLimitCacheRegister;
+end;
+
+function TBGRestDWDriverConexao.LimitCacheRegister(Value: Integer): iDriver;
+begin
+  Result := Self;
+  FLimitCacheRegister := Value;
+end;
+
+function TBGRestDWDriverConexao.Conexao: iConexao;
+begin
+  if not Assigned(FiConexao) then
+    FiConexao := TRestDWDriverModelConexao.New(FFConnection, FLimitCacheRegister, Self);
+
+  Result := FiConexao;
+end;
+
+constructor TBGRestDWDriverConexao.Create;
+begin
+  FiQuery := TList<iQuery>.Create;
+end;
+
+function TBGRestDWDriverConexao.DataSet: iDataSet;
+begin
+  if not Assigned(FProxy) then
+    FProxy := TTBGConnectionModelProxy.New(FLimitCacheRegister, Self);
+
+  Result := TConnectionModelRestDWDataSet.New(FProxy.ObserverList);
+end;
+
+destructor TBGRestDWDriverConexao.Destroy;
+begin
+  FreeAndNil(FiQuery);
+  inherited;
+end;
+
+class function TBGRestDWDriverConexao.New: iDriver;
+begin
+  Result := Self.Create;
+end;
+
+function TBGRestDWDriverConexao.Parametros: iConexaoParametros;
+begin
+  Result := FParametros;
+end;
+
+
+function TBGRestDWDriverConexao.Query: iQuery;
+begin
+  if Not Assigned(FiQuery) then
+    FiQuery := TList<iQuery>.Create;
+
+  if Not Assigned(FiConexao) then
+    FiConexao := TRestDWDriverModelConexao.New(FFConnection, FLimitCacheRegister, Self);
+
+  FiQuery.Add(TRestDWModelQuery.New(FFConnection, FiConexao));
+  Result := FiQuery[FiQuery.Count-1];
+end;
+
+procedure TBGRestDWDriverConexao.SetFConnection(const Value: TRestDWDataBase);
+begin
+  FFConnection := Value;
+end;
+
+procedure TBGRestDWDriverConexao.SetFQuery(const Value: TRESTDWClientSQL);
+begin
+  FFQuery := Value;
+end;
+
+procedure TBGRestDWDriverConexao.SetLimitCache(const Value: Integer);
+begin
+  FLimitCacheRegister := Value;
+end;
+
+procedure Register;
+begin
+  RegisterComponents('TBGAbstractConnection', [TBGRestDWDriverConexao]);
+end;
+
+
+end.

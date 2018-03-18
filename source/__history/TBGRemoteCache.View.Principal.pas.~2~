@@ -1,0 +1,34 @@
+unit TBGRemoteCache.View.Principal;
+
+interface
+
+Type
+  TTBGRemoteCache = class(TInterfacedObject, iRemoteCache)
+    private
+    public
+      constructor Create;
+      destructor Destroy; override;
+      class function New : iRemoteCache;
+  end;
+
+implementation
+
+{ TTBGRemoteCache }
+
+constructor TTBGRemoteCache.Create;
+begin
+
+end;
+
+destructor TTBGRemoteCache.Destroy;
+begin
+
+  inherited;
+end;
+
+class function TTBGRemoteCache.New: iRemoteCache;
+begin
+  Result := Self.Create;
+end;
+
+end.
