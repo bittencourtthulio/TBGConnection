@@ -16,8 +16,12 @@ type
     DBGrid1: TDBGrid;
     DataSource1: TDataSource;
     Button2: TButton;
+    Button3: TButton;
+    Button4: TButton;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -58,6 +62,33 @@ begin
     .Resource('teste')
   .&End
   .Exec;
+end;
+
+procedure TForm3.Button3Click(Sender: TObject);
+begin
+  TBGFirebaseConnection1
+  .Connect
+    .BaseURL('https://meuapp-e4931.firebaseio.com/')
+    .Auth('Anonymous')
+    .uId('76c7f3c2-f35a-4ea3-ac33-7dc3860465e1')
+  .&End
+  .Patch
+    .Resource('teste')
+    .Json('{ "cpf" : "teste222" }')
+  .&End;
+end;
+
+procedure TForm3.Button4Click(Sender: TObject);
+begin
+  TBGFirebaseConnection1
+  .Connect
+    .BaseURL('https://meuapp-e4931.firebaseio.com/')
+    .Auth('Anonymous')
+    .uId('76c7f3c2-f35a-4ea3-ac33-7dc3860465e1')
+  .&End
+  .Delete
+    .Resource('teste')
+  .&End;
 end;
 
 end.

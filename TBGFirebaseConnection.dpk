@@ -42,11 +42,12 @@ requires
   IndyIPClient;
 
 contains
-  TBGFirebaseConnection.View.Connection,
-  TBGFirebaseConnection.Interfaces,
-  TBGFirebaseConnection.Model.Connect,
-  TBGFirebaseConnection.Model.Put,
-  TBGFirebaseConnection.Model.Get,
-  TBGFirebaseConnection.Model.Patch;
+  TBGFirebaseConnection.View.Connection in 'source\TBGFirebaseConnection.View.Connection.pas',
+  TBGFirebaseConnection.Interfaces in 'source\TBGFirebaseConnection.Interfaces.pas',
+  TBGFirebaseConnection.Model.Connect in 'source\TBGFirebaseConnection.Model.Connect.pas',
+  TBGFirebaseConnection.Model.Put in 'source\TBGFirebaseConnection.Model.Put.pas',
+  TBGFirebaseConnection.Model.Get in 'source\TBGFirebaseConnection.Model.Get.pas',
+  TBGFirebaseConnection.Model.Patch in 'source\TBGFirebaseConnection.Model.Patch.pas',
+  TBGFirebaseConnection.Model.Delete in 'source\TBGFirebaseConnection.Model.Delete.pas';
 
 end.
