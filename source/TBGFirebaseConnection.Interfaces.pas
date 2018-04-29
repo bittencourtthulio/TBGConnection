@@ -9,6 +9,7 @@ type
   iFirebasePut = interface;
   iFirebaseGet = interface;
   iFirebasePatch = interface;
+  iFirebaseDelete = interface;
 
   iFirebaseConnection = interface
     ['{D24B1AB1-2AA9-46E3-8DB8-5CB550A2BD17}']
@@ -16,6 +17,7 @@ type
     function Put : iFirebasePut;
     function Get : iFirebaseGet;
     function Patch : iFirebasePatch;
+    function Delete : iFirebaseDelete;
     procedure &Exec;
   end;
 
@@ -46,6 +48,16 @@ type
     function Resource : String; overload;
     function Json ( Value : String) : iFirebasePatch; overload;
     function Json ( Value : TJsonObject) : iFirebasePatch; overload;
+    function Json : String; overload;
+    function &End : iFirebaseConnection;
+  end;
+
+  iFirebaseDelete = interface
+    ['{15826039-2077-4FA3-A952-5F6EE716664E}']
+    function Resource ( Value : String) : iFirebaseDelete; overload;
+    function Resource : String; overload;
+    function Json ( Value : String) : iFirebaseDelete; overload;
+    function Json ( Value : TJsonObject) : iFirebaseDelete; overload;
     function Json : String; overload;
     function &End : iFirebaseConnection;
   end;

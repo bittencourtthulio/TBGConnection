@@ -12,6 +12,7 @@ Type
       FPut : iFirebasePut;
       FGet : iFirebaseGet;
       FPatch : iFirebasePatch;
+      FDelete : iFirebaseDelete;
     public
       constructor Create; reintroduce;
       destructor Destroy; override;
@@ -20,6 +21,7 @@ Type
       function Put : iFirebasePut;
       function Get : iFirebaseGet;
       function Patch : iFirebasePatch;
+      function Delete : iFirebaseDelete;
       procedure &Exec;
   end;
 
@@ -29,7 +31,8 @@ implementation
 
 uses
   TBGFirebaseConnection.Model.Connect, TBGFirebaseConnection.Model.Put,
-  TBGFirebaseConnection.Model.Get, TBGFirebaseConnection.Model.Patch;
+  TBGFirebaseConnection.Model.Get, TBGFirebaseConnection.Model.Patch,
+  TBGFirebaseConnection.Model.Delete;
 
 { TTBGFirebaseConnection }
 
@@ -44,6 +47,14 @@ end;
 constructor TTBGFirebaseConnection.Create;
 begin
 
+end;
+
+function TTBGFirebaseConnection.Delete: iFirebaseDelete;
+begin
+   if not Assigned(FDelete) then
+    FDelete := TFirebaseConnectionModelDelete.New(Self);
+
+  Result := FDelete;
 end;
 
 destructor TTBGFirebaseConnection.Destroy;
