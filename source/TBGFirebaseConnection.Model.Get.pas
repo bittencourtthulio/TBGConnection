@@ -10,7 +10,8 @@ uses
   REST.Types,
   REST.JSON,
   REST.Response.Adapter,
-  IpPeerClient;
+  IpPeerClient,
+  System.JSON;
 
 Type
   TFirebaseConnectionModelGet = class(TInterfacedObject, iFirebaseGet)
@@ -23,6 +24,8 @@ Type
     FRESTClient : TRESTClient;
     FRESTResponseDataSetAdapter : TRESTResponseDataSetAdapter;
     FResponseJson: string;
+    FResponseJsonArray : ^TJSONArray;
+    FResponseJsonObject : ^TJSONObject;
   public
     constructor Create(Parent : iFirebaseConnection);
     destructor Destroy; override;
@@ -31,6 +34,9 @@ Type
     function DataSet: TDataSet; overload;
     function Resource(Value: String): iFirebaseGet; overload;
     function Resource: String; overload;
+    function ResponseContent(var aResponse : String ) : iFirebaseGet; overload;
+    function ResponseContent(var aJsonArray : TJsonArray) : iFirebaseGet; overload;
+    function ResponseContent(var aJsonObject : TJsonObject) : iFirebaseGet; overload;
     function &End: iFirebaseConnection;
   end;
 
@@ -51,8 +57,24 @@ begin
     FRESTRequest.resource := FResource;
     FRESTRequest.Execute;
     FResponseJson := FRESTResponse.Content;
-    FRESTResponseDataSetAdapter.Active := true;
-    FDataSet.Active := True;
+
+    try
+      if FResponseJson <> 'null' then
+        if Copy(FResponseJson, 0, 1) = '[' then
+          FResponseJsonArray^ := TJSONObject.ParseJSONValue(TEncoding.ASCII.GetBytes(FResponseJson),0) as TJSONArray
+        else
+          FResponseJsonObject^ := TJSONObject.ParseJSONValue(FResponseJson) as TJSONObject;
+    except
+      //not result
+    end;
+
+
+    if Assigned(FDataSet) then
+    begin
+      FRESTResponseDataSetAdapter.Active := true;
+      FDataSet.Active := True;
+    end;
+
   except
     raise Exception.Create('Erro ao Consultar a Base de Dados');
   end;
@@ -60,6 +82,7 @@ end;
 
 constructor TFirebaseConnectionModelGet.Create(Parent : iFirebaseConnection);
 begin
+  FResponseJsonArray := nil;
   FParent := Parent;
   FRESTRequest := TRESTRequest.Create(nil);
   FRESTResponse := TRESTResponse.Create(FRESTRequest);
@@ -109,6 +132,27 @@ end;
 function TFirebaseConnectionModelGet.Resource: String;
 begin
   Result := FResource;
+end;
+
+function TFirebaseConnectionModelGet.ResponseContent(
+  var aJsonObject: TJsonObject): iFirebaseGet;
+begin
+  Result := Self;
+  FResponseJsonObject := @aJsonObject;
+end;
+
+function TFirebaseConnectionModelGet.ResponseContent(var
+  aJsonArray: TJsonArray): iFirebaseGet;
+begin
+  Result := Self;
+  FResponseJsonArray := @aJsonArray;
+end;
+
+function TFirebaseConnectionModelGet.ResponseContent(var
+  aResponse: String): iFirebaseGet;
+begin
+  Result := Self;
+  FResponseJson := aResponse;
 end;
 
 end.

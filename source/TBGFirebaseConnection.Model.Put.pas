@@ -18,6 +18,7 @@ Type
     FParent : iFirebaseConnection;
     FResource : String;
     FJson : TJsonObject;
+    FJsonArray : TJsonArray;
     FJson2 : String;
   public
     constructor Create(Parent : iFirebaseConnection);
@@ -27,6 +28,7 @@ Type
     function Resource: String; overload;
     function Json(Value: String): iFirebasePut; overload;
     function Json(Value: TJsonObject): iFirebasePut; overload;
+    function Json ( Value : TJsonArray ) : iFirebasePut; overload;
     function Json: String; overload;
     function &End: iFirebaseConnection;
   end;
@@ -47,7 +49,12 @@ var
 begin
   Result := FParent;
   try
-    lJsonStream := TStringStream.Create(Utf8Encode(FJson.ToJSON));
+    if Assigned(FJson) then
+      lJsonStream := TStringStream.Create(Utf8Encode(FJson.ToJSON));
+
+    if Assigned(FJsonArray) then
+      lJsonStream := TStringStream.Create(Utf8Encode(FJsonArray.ToJSON));
+
     lIdHTTP := THTTPClient.Create;
     lIdHTTP.CustomHeaders['auth'] := FParent.Connect.Auth;
     lIdHTTP.CustomHeaders['uid'] := FParent.Connect.uId;
@@ -75,6 +82,12 @@ end;
 function TFirebaseConnectionModelPut.Json: String;
 begin
   Result := FJson.ToString;
+end;
+
+function TFirebaseConnectionModelPut.Json(Value: TJsonArray): iFirebasePut;
+begin
+  Result := Self;
+  FJsonArray := Value;
 end;
 
 function TFirebaseConnectionModelPut.Json(Value: TJsonObject): iFirebasePut;

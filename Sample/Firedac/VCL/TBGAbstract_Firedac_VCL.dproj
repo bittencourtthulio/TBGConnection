@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{8CF05FD5-53DF-41A6-A830-1A933B51F73E}</ProjectGuid>
-        <ProjectVersion>18.2</ProjectVersion>
+        <ProjectVersion>18.3</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <MainSource>TBGAbstract_Firedac_VCL.dpr</MainSource>
         <Base>True</Base>

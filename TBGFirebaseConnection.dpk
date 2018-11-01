@@ -39,7 +39,8 @@ requires
   bindcomp,
   RESTComponents,
   IndyIPCommon,
-  IndyIPClient;
+  IndyIPClient,
+  dsnap;
 
 contains
   TBGFirebaseConnection.View.Connection in 'source\TBGFirebaseConnection.View.Connection.pas',
@@ -48,6 +49,8 @@ contains
   TBGFirebaseConnection.Model.Put in 'source\TBGFirebaseConnection.Model.Put.pas',
   TBGFirebaseConnection.Model.Get in 'source\TBGFirebaseConnection.Model.Get.pas',
   TBGFirebaseConnection.Model.Patch in 'source\TBGFirebaseConnection.Model.Patch.pas',
-  TBGFirebaseConnection.Model.Delete in 'source\TBGFirebaseConnection.Model.Delete.pas';
+  TBGFirebaseConnection.Model.Delete in 'source\TBGFirebaseConnection.Model.Delete.pas',
+  TBGFirebaseConnection.Model.CM.Send in 'source\TBGFirebaseConnection.Model.CM.Send.pas',
+  TBGFirebaseConnection.Model.CM.Register in 'source\TBGFirebaseConnection.Model.CM.Register.pas';
 
 end.

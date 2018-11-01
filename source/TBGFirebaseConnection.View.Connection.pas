@@ -6,6 +6,7 @@ uses
   TBGFirebaseConnection.Interfaces, System.Classes;
 
 Type
+  [ComponentPlatformsAttribute(pidWin32 or pidWin64 or pidAndroid)]
   TTBGFirebaseConnection = class(TComponent, iFirebaseConnection)
     private
       FConnect : iFirebaseConnect;
@@ -13,6 +14,7 @@ Type
       FGet : iFirebaseGet;
       FPatch : iFirebasePatch;
       FDelete : iFirebaseDelete;
+      FCloudMessage : iFirebaseCloudMessage;
     public
       constructor Create; reintroduce;
       destructor Destroy; override;
@@ -22,6 +24,7 @@ Type
       function Get : iFirebaseGet;
       function Patch : iFirebasePatch;
       function Delete : iFirebaseDelete;
+      function CloudMessage : iFirebaseCloudMessage;
       procedure &Exec;
   end;
 
@@ -29,12 +32,21 @@ procedure Register;
 
 implementation
 
+{$R .\img\firebase.dcr}
+
 uses
   TBGFirebaseConnection.Model.Connect, TBGFirebaseConnection.Model.Put,
   TBGFirebaseConnection.Model.Get, TBGFirebaseConnection.Model.Patch,
-  TBGFirebaseConnection.Model.Delete;
+  TBGFirebaseConnection.Model.Delete, TBGFirebaseConnection.Model.CM.Send;
 
 { TTBGFirebaseConnection }
+
+function TTBGFirebaseConnection.CloudMessage: iFirebaseCloudMessage;
+begin
+  if not Assigned(FCloudMessage) then
+    FCloudMessage := TFirebaseCloudMessage.New;
+  Result := FCloudMessage;
+end;
 
 function TTBGFirebaseConnection.Connect: iFirebaseConnect;
 begin

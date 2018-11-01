@@ -1250,7 +1250,7 @@ object Form3: TForm3
     Width = 704
     Height = 21
     TabOrder = 0
-    Text = 'SELECT * FROM CLIENTE'
+    Text = 'SELECT * FROM PRODUTO'
   end
   object DBGrid1: TDBGrid
     Left = 390
@@ -1373,7 +1373,7 @@ object Form3: TForm3
     Top = 125
     Width = 78
     Height = 21
-    DataField = 'ID'
+    DataField = 'GUUID'
     DataSource = DataSource1
     TabOrder = 13
   end
@@ -1382,7 +1382,7 @@ object Form3: TForm3
     Top = 125
     Width = 274
     Height = 21
-    DataField = 'NOME'
+    DataField = 'DESCRICAO'
     DataSource = DataSource1
     TabOrder = 14
   end
@@ -1391,7 +1391,7 @@ object Form3: TForm3
     Top = 125
     Width = 78
     Height = 21
-    DataField = 'ID'
+    DataField = 'GUUID'
     DataSource = DataSource2
     TabOrder = 15
   end
@@ -1400,7 +1400,7 @@ object Form3: TForm3
     Top = 125
     Width = 274
     Height = 21
-    DataField = 'NOME'
+    DataField = 'DESCRICAO'
     DataSource = DataSource2
     TabOrder = 16
   end
@@ -1567,7 +1567,7 @@ object Form3: TForm3
   end
   object FDConnection1: TFDConnection
     Params.Strings = (
-      'Database=D:\Bancos\Firebird\BANCO1.FDB'
+      'Database=D:\Bancos\Firebird\PDVUPDATES.FDB'
       'User_Name=SYSDBA'
       'Password=masterkey'
       'DriverID=FB')

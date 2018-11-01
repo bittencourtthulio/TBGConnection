@@ -1689,50 +1689,10 @@ object Form3: TForm3
     StrsTrim = False
     StrsEmpty2Null = False
     StrsTrim2Len = True
-    DateSeparator = '/'
-    TimeSeparator = ':'
-    DecimalSeparator = ','
+    ParamCreate = True
+    ClientConnectionDefs.Active = False
     Left = 672
     Top = 299
-  end
-  object BGRestDWDriverConexao1: TBGRestDWDriverConexao
-    FConnection = RESTDWDataBase1
-    LimitCache = 10
-    Left = 550
-    Top = 296
-  end
-  object TBGConnection1: TTBGConnection
-    Driver = BGFiredacDriverConexao1
-    Left = 430
-    Top = 304
-  end
-  object TBGQuery1: TTBGQuery
-    Connection = TBGConnection1
-    DataSource = DataSource1
-    Left = 184
-    Top = 216
-  end
-  object TBGQuery2: TTBGQuery
-    Connection = TBGConnection1
-    DataSource = DataSource2
-    Left = 536
-    Top = 216
-  end
-  object TBGQuery3: TTBGQuery
-    Connection = TBGConnection1
-    Left = 42
-    Top = 536
-  end
-  object TBGQuery4: TTBGQuery
-    Connection = TBGConnection1
-    Left = 494
-    Top = 536
-  end
-  object BGFiredacDriverConexao1: TBGFiredacDriverConexao
-    FConnection = FDConnection1
-    LimitCache = 10
-    Left = 552
-    Top = 352
   end
   object FDConnection1: TFDConnection
     Params.Strings = (

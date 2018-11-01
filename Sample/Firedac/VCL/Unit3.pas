@@ -11,7 +11,8 @@ uses
   FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
   FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
   FireDAC.Phys.FB, FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait, FireDAC.Comp.Client,
-  TBGFiredacDriver.View.Driver;
+  TBGFiredacDriver.View.Driver, Data.DBXFirebird,
+  TBGDBExpressDriver.View.Driver, Data.SqlExpr;
 
 type
   TForm3 = class(TForm)
@@ -98,9 +99,9 @@ end;
 
 procedure TForm3.Button11Click(Sender: TObject);
 begin
-  TBGQuery3.Query.SQL.Text := 'INSERT INTO CLIENTE (ID, NOME) VALUES (:ID, :NOME)';
-  TBGQuery3.Query.Params.ParamByName('ID').AsInteger := StrToInt(Edit2.Text);
-  TBGQuery3.Query.Params.ParamByName('NOME').AsString := Edit3.Text;
+  TBGQuery3.Query.SQL.Text := 'INSERT INTO PRODUTO (GUUID, DESCRICAO) VALUES (:GUUID, :DESCRICAO)';
+  TBGQuery3.Query.Params.ParamByName('GUUID').AsInteger := StrToInt(Edit2.Text);
+  TBGQuery3.Query.Params.ParamByName('DESCRICAO').AsString := Edit3.Text;
   TBGQuery3.Query.ExecSQL;
 end;
 
@@ -108,9 +109,9 @@ procedure TForm3.Button12Click(Sender: TObject);
 begin
   TBGConnection1.Driver.Conexao.StartTransaction;
   try
-    TBGQuery4.Query.SQL.Text := 'INSERT INTO CLIENTE (ID, NOME) VALUES (:ID, :NOME)';
-    TBGQuery4.Query.Params.ParamByName('ID').AsInteger := StrToInt(Edit4.Text);
-    TBGQuery4.Query.Params.ParamByName('NOME').AsString := Edit5.Text;
+    TBGQuery4.Query.SQL.Text := 'INSERT INTO PRODUTO (GUUID, DESCRICAO) VALUES (:GUUID, :DESCRICAO)';
+    TBGQuery4.Query.Params.ParamByName('GUUID').AsInteger := StrToInt(Edit4.Text);
+    TBGQuery4.Query.Params.ParamByName('DESCRICAO').AsString := Edit5.Text;
     TBGQuery4.Query.ExecSQL;
     TBGConnection1.Driver.Conexao.Commit;
   except
@@ -125,13 +126,13 @@ end;
 
 procedure TForm3.Button14Click(Sender: TObject);
 begin
-  TBGQuery1.Query.Fields.FieldByName('NOME').DisplayWidth := 40;
+  TBGQuery1.Query.Fields.FieldByName('DESCRICAO').DisplayWidth := 40;
 end;
 
 procedure TForm3.Button15Click(Sender: TObject);
 begin
-  ShowMessage(TBGQuery1.Query.Fields.FieldByName('NOME').AsString);
-  ShowMessage(TBGQuery2.Query.Fields.FieldByName('ID').AsString);
+  ShowMessage(TBGQuery1.Query.Fields.FieldByName('DESCRICAO').AsString);
+  ShowMessage(TBGQuery2.Query.Fields.FieldByName('GUUID').AsString);
 end;
 
 procedure TForm3.Button1Click(Sender: TObject);

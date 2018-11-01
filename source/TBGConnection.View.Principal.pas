@@ -8,6 +8,7 @@ uses
   TBGConnection.Model.DataSet.Observer;
 
 Type
+  [ComponentPlatformsAttribute(pidWin32 or pidWin64 or pidAndroid)]
   TTBGConnection = class(TComponent, iTBGConnection)
     private
     FObserver : TConnectionModelDataSetObserver;
